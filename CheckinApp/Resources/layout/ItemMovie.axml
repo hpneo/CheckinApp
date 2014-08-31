@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <ImageView
+        android:layout_width="100px"
+        android:layout_height="100px"
+        android:id="@+id/imageViewItemMoviePicture"
+        android:src="@drawable/Icon" />
+    <TextView
+        android:id="@+id/textViewItemMovieTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="100px"
+        android:text="Test"
+        android:layout_gravity="center"
+        android:padding="25px"
+        android:gravity="left|center" />
+</LinearLayout>
