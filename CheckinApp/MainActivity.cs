@@ -11,12 +11,14 @@ using Android.OS;
 
 using SQLite;
 
+using CheckinShared.Models;
+
 namespace CheckinApp
 {
 	[Activity (Label = "CheckinApp", MainLauncher = true, Icon = "@drawable/icon", Theme="@android:style/Theme.Holo.Light")]
 	public class MainActivity : Activity
 	{
-		private SQLiteConnection db;
+		private CheckinShared.MovieDB movies;
 		private MoviesAdapter adapter;
 		protected override void OnCreate (Bundle bundle)
 		{
@@ -24,45 +26,23 @@ namespace CheckinApp
 
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
-
-			string dbPath = Path.Combine (System.Environment.GetFolderPath (System.Environment.SpecialFolder.Personal), "checkindb.db3");
-			db = new SQLiteConnection (dbPath);
-			db.CreateTable<Movie> ();
-
 			ListView listView1 = FindViewById<ListView> (Resource.Id.listView1);
 			adapter = new MoviesAdapter (this, new ArrayList ());
 
 			listView1.Adapter = adapter;
 
-			var table = db.Table<Movie> ();
+			movies = new CheckinShared.MovieDB ();
+			Toast.MakeText(this, movies.Count() + " movies in db (shared)", ToastLength.Long).Show();
 
-			foreach (Movie movie in table) {
+			foreach (Movie movie in movies.All()) {
 				adapter.Add (movie);
 			}
-
-			Toast.MakeText(this, db.Table<Movie>().Count() + " movies in db", ToastLength.Long).Show();
-
-			/*this.ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
-
-			var tabMovies = this.ActionBar.NewTab ().SetText ("Movies");
-			var tabSeries = this.ActionBar.NewTab ().SetText ("Series");
-
-			tabMovies.TabSelected += delegate (object sender, ActionBar.TabEventArgs e) {
-				//
-			};
-
-			tabSeries.TabSelected += delegate (object sender, ActionBar.TabEventArgs e) {
-				//
-			};
-
-			this.ActionBar.AddTab (tabMovies);
-			this.ActionBar.AddTab (tabSeries);*/
 		}
 
 		protected override void OnActivityResult(int requestCode, Result resultCode, Intent intent) {
 			if (resultCode == Result.Ok) {
 				int movieId = intent.GetIntExtra ("movieId", 0);
-				var movie = db.Get<Movie> (movieId);
+				var movie = movies.Get (movieId);
 
 				adapter.Add (movie);
 				adapter.NotifyDataSetChanged ();

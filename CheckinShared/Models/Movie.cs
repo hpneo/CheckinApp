@@ -2,9 +2,7 @@
 
 using SQLite;
 
-using Android.Graphics;
-
-namespace CheckinApp
+namespace CheckinShared.Models
 {
 	[Table("Movies")]
 	public class Movie
@@ -16,11 +14,10 @@ namespace CheckinApp
 		[Column("PosterPath")] 
 		public string PosterPath { get; set; }
 		[Ignore]
-		public Bitmap Poster { get; set; }
+		public object Poster { get; set; }
 
 		public Movie ()
 		{
 		}
 	}
 }
-

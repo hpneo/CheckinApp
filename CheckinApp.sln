@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheckinApp", "CheckinApp\CheckinApp.csproj", "{16A0289F-C7D1-452F-B00F-68948461339B}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CheckinShared", "CheckinShared\CheckinShared.shproj", "{BE8BC0BE-DA42-4725-9238-7098F12CE90C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

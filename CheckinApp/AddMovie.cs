@@ -19,19 +19,21 @@ using System.Threading.Tasks;
 
 using Newtonsoft.Json.Linq;
 
+using CheckinShared.Models;
+
 namespace CheckinApp
 {
 	[Activity (Label = "Add Movie", Icon = "@drawable/icon", Theme="@android:style/Theme.Holo.Light")]			
 	public class AddMovie : Activity
 	{
+		private CheckinShared.MovieDB movies;
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
 
-			SetContentView (Resource.Layout.AddMovie);
+			movies = new CheckinShared.MovieDB ();
 
-			string dbPath = Path.Combine (System.Environment.GetFolderPath (System.Environment.SpecialFolder.Personal), "checkindb.db3");
-			var db = new SQLiteConnection (dbPath);
+			SetContentView (Resource.Layout.AddMovie);
 
 			this.SetProgressBarIndeterminateVisibility (false);
 			this.SetProgressBarVisibility (false);
@@ -48,7 +50,7 @@ namespace CheckinApp
 			listView2.Adapter = adapter;
 			listView2.ItemClick += delegate(object sender, AdapterView.ItemClickEventArgs e) {
 				Movie movie = adapter.GetMovie(e.Position);
-				db.Insert(movie);
+				movies.Insert(movie);
 
 				Intent intent = new Intent();
 				intent.PutExtra("movieId", movie.Id);
@@ -65,12 +67,12 @@ namespace CheckinApp
 
 				JObject results = await resultsTask;
 
-				JArray movies = (JArray)results["results"];
+				JArray moviesArray = (JArray)results["results"];
 
-				Console.WriteLine(movies.Count + " movies count");
+				Console.WriteLine(moviesArray.Count + " movies count");
 				adapter.Clear();
 
-				foreach (var movieJSON in movies) {
+				foreach (var movieJSON in moviesArray) {
 					Movie movie = new Movie();
 					movie.Title = movieJSON["title"].ToString();
 					movie.PosterPath = "http://image.tmdb.org/t/p/w154" + movieJSON["poster_path"].ToString();

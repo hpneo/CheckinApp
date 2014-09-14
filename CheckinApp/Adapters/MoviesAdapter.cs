@@ -4,11 +4,12 @@ using System.Collections;
 using Android.App;
 using Android.Views;
 using Android.Widget;
-using Android.Graphics;
 
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+
+using CheckinShared.Models;
 
 namespace CheckinApp
 {
@@ -59,7 +60,7 @@ namespace CheckinApp
 			movieTitle.Text = movie.Title;
 
 			if (movie.Poster != null) {
-				movieImage.SetImageBitmap (movie.Poster);
+				movieImage.SetImageBitmap ((Android.Graphics.Bitmap) movie.Poster);
 			} else {
 				GetImageBitmapFromUrl (movie, movieImage);
 			}
@@ -76,9 +77,9 @@ namespace CheckinApp
 						var imageBytes = e.Result;
 
 						if (imageBytes != null && imageBytes.Length > 0) {
-							movie.Poster = BitmapFactory.DecodeByteArray (imageBytes, 0, imageBytes.Length);
+							movie.Poster = Android.Graphics.BitmapFactory.DecodeByteArray (imageBytes, 0, imageBytes.Length);
 
-							imageView.SetImageBitmap (movie.Poster);
+							imageView.SetImageBitmap ((Android.Graphics.Bitmap) movie.Poster);
 						}
 					};
 				}
