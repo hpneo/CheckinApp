@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 using CheckinShared.Models;
+using CheckinShared.Services;
 
 namespace CheckinApp
 {
@@ -63,9 +64,10 @@ namespace CheckinApp
 				Console.WriteLine(searchView1.Query);
 				progressbar1.Visibility = ViewStates.Visible;
 
-				Task<JObject> resultsTask = searchMovies(searchView1.Query);
+				TMDB api = new TMDB();
+				Task<object> resultsTask = api.searchMovies(searchView1.Query);
 
-				JObject results = await resultsTask;
+				JObject results = await resultsTask as JObject;
 
 				JArray moviesArray = (JArray)results["results"];
 
@@ -86,16 +88,6 @@ namespace CheckinApp
 			searchView1.Close += delegate(object sender, SearchView.CloseEventArgs e) {
 				progressbar1.Visibility = ViewStates.Gone;
 			};
-		}
-
-		public async Task<JObject> searchMovies(string query) {
-			var httpClient = new WebClient ();
-			Task<string> contentTask = httpClient.DownloadStringTaskAsync (new Uri ("https://api.themoviedb.org/3/search/movie?api_key=fdf3c94669f3cc0906fddc99e5cd8208&query=" + query));
-
-			string contentJSON = await contentTask;
-			var content = JObject.Parse (contentJSON);
-
-			return content;
 		}
 	}
 }
