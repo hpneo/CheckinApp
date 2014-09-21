@@ -44,6 +44,18 @@ namespace CheckinShared
 			}
 		}
 
+		public bool Delete(Movie movie) {
+			lock (locker) {
+				int flag = database.Delete<Movie> (movie.Id);
+
+				if (flag == 1) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
+
 		public Movie Get(int id) {
 			lock (locker) {
 				return database.Get<Movie> (id);

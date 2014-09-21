@@ -20,14 +20,19 @@ namespace CheckinApp
 	{
 		private CheckinShared.MovieDB movies;
 		private MoviesAdapter adapter;
+		private ListView listViewMovies;
+
+		public MoviesAdapter Adapter { get { return adapter; } }
+		public ListView ListView { get { return listViewMovies; } }
+
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
 
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
-			ListView listViewMovies = FindViewById<ListView> (Resource.Id.listViewMovies);
-			adapter = new MoviesAdapter (this, new ArrayList ());
+			listViewMovies = FindViewById<ListView> (Resource.Id.listViewMovies);
+			adapter = new MoviesAdapter (this);
 
 			listViewMovies.Adapter = adapter;
 
@@ -60,6 +65,7 @@ namespace CheckinApp
 
 				adapter.Add (movie);
 				adapter.NotifyDataSetChanged ();
+				listViewMovies.ForceLayout ();
 			}
 		}
 

@@ -15,8 +15,13 @@ namespace CheckinApp
 {
 	public class MoviesAdapter : BaseAdapter
 	{
-		ArrayList moviesList;
-		Activity activity;
+		private ArrayList moviesList;
+		private Activity activity;
+
+		public MoviesAdapter (Activity activity) {
+			this.activity = activity;
+			this.moviesList = new ArrayList ();
+		}
 
 		public MoviesAdapter (Activity activity, ArrayList moviesList)
 		{
@@ -30,10 +35,23 @@ namespace CheckinApp
 
 		public void Clear() {
 			moviesList.Clear ();
+			lock (this) {
+				NotifyDataSetChanged ();
+			}
 		}
 
 		public void Add(Movie movie) {
 			moviesList.Add (movie);
+			lock (this) {
+				NotifyDataSetChanged ();
+			}
+		}
+
+		public void Remove(Movie movie) {
+			moviesList.Remove (movie);
+			lock (this) {
+				NotifyDataSetChanged ();
+			}
 		}
 
 		public override Java.Lang.Object GetItem (int position) {
@@ -60,9 +78,11 @@ namespace CheckinApp
 			if (movie != null) {
 				movieTitle.Text = movie.Title;
 
-				if (Movie.Year != null) {
-					movieTitle.Text += " (" + Movie.Year + ")";
+				if (movie.Year != null) {
+					movieTitle.Text += " (" + movie.Year + ")";
 				}
+
+				Console.WriteLine ("movie.Poster" + movie.Poster);
 
 				if (movie.Poster != null) {
 					movieImage.SetImageBitmap ((Android.Graphics.Bitmap)movie.Poster);

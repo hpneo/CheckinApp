@@ -39,10 +39,10 @@ namespace CheckinApp
 			this.SetProgressBarIndeterminateVisibility (false);
 			this.SetProgressBarVisibility (false);
 
-			ProgressBar progressbar1 = FindViewById<ProgressBar> (Resource.Id.progressBar1);
-			progressbar1.Visibility = ViewStates.Gone;
+			ProgressBar progressbarSearch = FindViewById<ProgressBar> (Resource.Id.progressBar1);
+			progressbarSearch.Visibility = ViewStates.Gone;
 
-			SearchView searchView1 = FindViewById<SearchView> (Resource.Id.searchView1);
+			SearchView searchViewMovie = FindViewById<SearchView> (Resource.Id.searchView1);
 
 			ListView listView2 = FindViewById<ListView> (Resource.Id.listView2);
 
@@ -60,12 +60,12 @@ namespace CheckinApp
 				Finish();
 			};
 
-			searchView1.QueryTextSubmit += async delegate(object sender, SearchView.QueryTextSubmitEventArgs e) {
-				Console.WriteLine(searchView1.Query);
-				progressbar1.Visibility = ViewStates.Visible;
+			searchViewMovie.QueryTextSubmit += async delegate(object sender, SearchView.QueryTextSubmitEventArgs e) {
+				Console.WriteLine(searchViewMovie.Query);
+				progressbarSearch.Visibility = ViewStates.Visible;
 
 				TMDB api = new TMDB();
-				Task<object> resultsTask = api.searchMovies(searchView1.Query);
+				Task<object> resultsTask = api.searchMovies(searchViewMovie.Query);
 
 				JObject results = await resultsTask as JObject;
 
@@ -83,11 +83,11 @@ namespace CheckinApp
 					adapter.Add(movie);
 				}
 
-				progressbar1.Visibility = ViewStates.Gone;
+				progressbarSearch.Visibility = ViewStates.Gone;
 			};
 
-			searchView1.Close += delegate(object sender, SearchView.CloseEventArgs e) {
-				progressbar1.Visibility = ViewStates.Gone;
+			searchViewMovie.Close += delegate(object sender, SearchView.CloseEventArgs e) {
+				progressbarSearch.Visibility = ViewStates.Gone;
 			};
 		}
 	}

@@ -45,6 +45,14 @@ namespace CheckinApp
 			builder.SetView (view);
 			builder.SetPositiveButton ("Sí", delegate (object sender, DialogClickEventArgs e) {
 				Console.WriteLine ("Sí");
+				CheckinShared.MovieDB movies = new CheckinShared.MovieDB ();
+
+				if (movies.Delete(Movie)) {
+					((MainActivity) Activity).Adapter.Remove(Movie);
+					((MainActivity) Activity).Adapter.NotifyDataSetChanged();
+
+					Toast.MakeText(Activity, "Película eliminada", ToastLength.Long).Show();
+				}
 			});
 			builder.SetNegativeButton ("No", delegate (object sender, DialogClickEventArgs e) {
 				Console.WriteLine ("No");
