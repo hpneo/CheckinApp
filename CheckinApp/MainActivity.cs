@@ -26,13 +26,27 @@ namespace CheckinApp
 
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
-			ListView listView1 = FindViewById<ListView> (Resource.Id.listView1);
+			ListView listViewMovies = FindViewById<ListView> (Resource.Id.listViewMovies);
 			adapter = new MoviesAdapter (this, new ArrayList ());
 
-			listView1.Adapter = adapter;
+			listViewMovies.Adapter = adapter;
+
+			//var context = this;
+
+			listViewMovies.ItemLongClick += delegate(object sender, AdapterView.ItemLongClickEventArgs e) {
+				DeleteMovieDialogFragment dialog = new DeleteMovieDialogFragment();
+				dialog.Movie = adapter.GetMovie(e.Position);
+				dialog.Show(FragmentManager, "DeleteMovieDialogFragment");
+//				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//
+//				AlertDialog alertDialog = builder.Create();
+//				alertDialog.SetView(new TextView(context));
+//
+//				alertDialog.Show();
+			};
 
 			movies = new CheckinShared.MovieDB ();
-			Toast.MakeText(this, movies.Count() + " movies in db (shared)", ToastLength.Long).Show();
+			Toast.MakeText(this, movies.Count() + " películas en tu colección", ToastLength.Long).Show();
 
 			foreach (Movie movie in movies.All()) {
 				adapter.Add (movie);

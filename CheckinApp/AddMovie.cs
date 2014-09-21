@@ -77,6 +77,7 @@ namespace CheckinApp
 				foreach (var movieJSON in moviesArray) {
 					Movie movie = new Movie();
 					movie.Title = movieJSON["title"].ToString();
+					movie.Year = movieJSON["release_date"].ToString().Split(new char[]{ '-' })[0];
 					movie.PosterPath = "http://image.tmdb.org/t/p/w154" + movieJSON["poster_path"].ToString();
 
 					adapter.Add(movie);

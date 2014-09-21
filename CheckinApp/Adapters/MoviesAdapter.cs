@@ -57,12 +57,18 @@ namespace CheckinApp
 
 			Movie movie = ((Movie)moviesList [position]);
 
-			movieTitle.Text = movie.Title;
+			if (movie != null) {
+				movieTitle.Text = movie.Title;
 
-			if (movie.Poster != null) {
-				movieImage.SetImageBitmap ((Android.Graphics.Bitmap) movie.Poster);
-			} else {
-				GetImageBitmapFromUrl (movie, movieImage);
+				if (Movie.Year != null) {
+					movieTitle.Text += " (" + Movie.Year + ")";
+				}
+
+				if (movie.Poster != null) {
+					movieImage.SetImageBitmap ((Android.Graphics.Bitmap)movie.Poster);
+				} else {
+					GetImageBitmapFromUrl (movie, movieImage);
+				}
 			}
 
 			return view;

@@ -13,6 +13,8 @@ namespace CheckinShared.Models
 		public string Title { get; set; }
 		[Column("PosterPath")] 
 		public string PosterPath { get; set; }
+		[Column("Year")] 
+		public string Year { get; set; }
 		[Ignore]
 		public object Poster { get; set; }
 
