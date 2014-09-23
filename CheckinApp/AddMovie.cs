@@ -22,7 +22,7 @@ using Newtonsoft.Json.Linq;
 using CheckinShared.Models;
 using CheckinShared.Services;
 
-namespace CheckinApp
+namespace CheckinAppAndroid
 {
 	[Activity (Label = "Add Movie", Icon = "@drawable/icon", Theme="@android:style/Theme.Holo.Light")]			
 	public class AddMovie : Activity
@@ -46,7 +46,7 @@ namespace CheckinApp
 
 			ListView listView2 = FindViewById<ListView> (Resource.Id.listView2);
 
-			MoviesAdapter adapter = new MoviesAdapter (this, new ArrayList ());
+			MoviesAdapter adapter = new MoviesAdapter (this);
 
 			listView2.Adapter = adapter;
 			listView2.ItemClick += delegate(object sender, AdapterView.ItemClickEventArgs e) {

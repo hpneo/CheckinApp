@@ -12,7 +12,7 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 
-namespace CheckinApp
+namespace CheckinAppAndroid
 {
 	public class DeleteMovieDialogFragment : DialogFragment
 	{

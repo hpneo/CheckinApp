@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 using Android.App;
 using Android.Views;
@@ -11,22 +14,22 @@ using System.Threading.Tasks;
 
 using CheckinShared.Models;
 
-namespace CheckinApp
+namespace CheckinAppAndroid
 {
 	public class MoviesAdapter : BaseAdapter
 	{
-		private ArrayList moviesList;
+		private ObservableCollection<Movie> moviesList;
 		private Activity activity;
+
+		// private readonly object locker = new object();
 
 		public MoviesAdapter (Activity activity) {
 			this.activity = activity;
-			this.moviesList = new ArrayList ();
-		}
-
-		public MoviesAdapter (Activity activity, ArrayList moviesList)
-		{
-			this.activity = activity;
-			this.moviesList = moviesList;
+			this.moviesList = new ObservableCollection<Movie> ();
+			this.moviesList.CollectionChanged += delegate(object sender, NotifyCollectionChangedEventArgs e) {
+				base.NotifyDataSetChanged();
+				// NotifyDataSetChanged();
+			};
 		}
 
 		public override int Count {
@@ -35,27 +38,22 @@ namespace CheckinApp
 
 		public void Clear() {
 			moviesList.Clear ();
-			lock (this) {
-				NotifyDataSetChanged ();
-			}
 		}
 
 		public void Add(Movie movie) {
 			moviesList.Add (movie);
-			lock (this) {
-				NotifyDataSetChanged ();
-			}
+		}
+
+		public void Insert(Movie movie, int position) {
+			moviesList.Insert (position, movie);
 		}
 
 		public void Remove(Movie movie) {
 			moviesList.Remove (movie);
-			lock (this) {
-				NotifyDataSetChanged ();
-			}
 		}
 
 		public override Java.Lang.Object GetItem (int position) {
-			return (Java.Lang.Object) moviesList [position];
+			return new CheckinShared.JavaObject<CheckinShared.Models.Movie> (moviesList [position]);
 		}
 
 		public Movie GetMovie (int position) {
@@ -63,55 +61,48 @@ namespace CheckinApp
 		}
 
 		public override long GetItemId (int position) {
-			return ((Movie) moviesList [position]).Id;
+			return (moviesList [position]).Id;
 		}
 
 		public override View GetView (int position, View convertView, ViewGroup parent)
 		{
-			var view = convertView ?? activity.LayoutInflater.Inflate (Resource.Layout.ItemMovie, parent, false);
+			var view = convertView;
+			ViewHolder holder;
 
-			var movieTitle = view.FindViewById<TextView> (Resource.Id.textViewItemMovieTitle);
-			var movieImage = view.FindViewById<ImageView> (Resource.Id.imageViewItemMoviePicture);
+			if (view != null) {
+				holder = view.Tag as ViewHolder;
+			} else {
+				holder = new ViewHolder ();
+				view = activity.LayoutInflater.Inflate (Resource.Layout.ItemMovie, parent, false);
+				holder.Title = view.FindViewById<TextView> (Resource.Id.textViewItemMovieTitle);
+				holder.Image = view.FindViewById<ImageView> (Resource.Id.imageViewItemMoviePicture);
+				view.Tag = holder;
+			}
 
 			Movie movie = ((Movie)moviesList [position]);
 
 			if (movie != null) {
-				movieTitle.Text = movie.Title;
+				holder.Title.Text = movie.Title;
 
 				if (movie.Year != null) {
-					movieTitle.Text += " (" + movie.Year + ")";
+					holder.Title.Text += " (" + movie.Year + ")";
 				}
 
-				Console.WriteLine ("movie.Poster" + movie.Poster);
-
 				if (movie.Poster != null) {
-					movieImage.SetImageBitmap ((Android.Graphics.Bitmap)movie.Poster);
+					holder.Image.SetImageBitmap ((Android.Graphics.Bitmap)movie.Poster);
 				} else {
-					GetImageBitmapFromUrl (movie, movieImage);
+					Koush.UrlImageViewHelper.SetUrlDrawable (holder.Image, movie.PosterPath);
+					movie.Poster = Koush.UrlImageViewHelper.GetCachedBitmap (movie.PosterPath);
 				}
 			}
 
 			return view;
 		}
 
-		private void GetImageBitmapFromUrl(Movie movie, ImageView imageView)
-		{
-			if (movie.Poster == null) {
-				using (var webClient = new WebClient ()) {
-					webClient.DownloadDataAsync (new Uri (movie.PosterPath));
-					webClient.DownloadDataCompleted += delegate(object sender, DownloadDataCompletedEventArgs e) {
-						var imageBytes = e.Result;
-
-						if (imageBytes != null && imageBytes.Length > 0) {
-							movie.Poster = Android.Graphics.BitmapFactory.DecodeByteArray (imageBytes, 0, imageBytes.Length);
-
-							imageView.SetImageBitmap ((Android.Graphics.Bitmap) movie.Poster);
-						}
-					};
-				}
-			}
+		private class ViewHolder : Java.Lang.Object {
+			public TextView Title { get; set; }
+			public ImageView Image { get; set; }
 		}
-
 	}
 }
 

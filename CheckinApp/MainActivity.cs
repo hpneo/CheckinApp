@@ -13,7 +13,7 @@ using SQLite;
 
 using CheckinShared.Models;
 
-namespace CheckinApp
+namespace CheckinAppAndroid
 {
 	[Activity (Label = "CheckinApp", MainLauncher = true, Icon = "@drawable/icon", Theme="@android:style/Theme.Holo.Light")]
 	public class MainActivity : Activity
@@ -65,7 +65,7 @@ namespace CheckinApp
 
 				adapter.Add (movie);
 				adapter.NotifyDataSetChanged ();
-				listViewMovies.ForceLayout ();
+				//listViewMovies.InvalidateViews ();
 			}
 		}
 
