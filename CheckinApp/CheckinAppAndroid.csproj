@@ -85,6 +85,12 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable-xxxhdpi\Icon.png" />
     <AndroidResource Include="Resources\layout\DeleteMovie.axml" />
+    <AndroidResource Include="Resources\drawable-hdpi\Refresh.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\Refresh.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\Refresh.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\Refresh.png" />
+    <AndroidResource Include="Resources\anim\Rotate.xml" />
+    <AndroidResource Include="Resources\layout\RefreshImageView.xml" />
   </ItemGroup>
   <Import Project="..\CheckinShared\CheckinShared.projitems" Label="Shared" Condition="Exists('..\CheckinShared\CheckinShared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
@@ -97,6 +103,7 @@
     <Folder Include="Resources\drawable-xxhdpi\" />
     <Folder Include="Resources\drawable-xxxhdpi\" />
     <Folder Include="Nueva carpeta\" />
+    <Folder Include="Resources\anim\" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="json.net">

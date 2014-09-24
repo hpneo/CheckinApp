@@ -6,6 +6,7 @@ using Android.App;
 using Android.Content;
 using Android.Runtime;
 using Android.Views;
+using Android.Views.Animations;
 using Android.Widget;
 using Android.OS;
 
@@ -64,8 +65,7 @@ namespace CheckinAppAndroid
 				var movie = movies.Get (movieId);
 
 				adapter.Add (movie);
-				adapter.NotifyDataSetChanged ();
-				//listViewMovies.InvalidateViews ();
+				// adapter.NotifyDataSetChanged ();
 			}
 		}
 
@@ -81,6 +81,10 @@ namespace CheckinAppAndroid
 			addMenu.SetIcon (Resource.Drawable.Add);
 			addMenu.SetShowAsAction (ShowAsAction.IfRoom);
 
+			var refreshMenu = menu.Add (0, 2, 2, "Refresh");
+			refreshMenu.SetIcon (Resource.Drawable.Refresh);
+			refreshMenu.SetShowAsAction (ShowAsAction.IfRoom);
+
 			return base.OnCreateOptionsMenu (menu);
 		}
 
@@ -88,6 +92,26 @@ namespace CheckinAppAndroid
 			if (item.ItemId == 1) {
 				Intent intent = new Intent (this, typeof(AddMovie));
 				StartActivityForResult (intent, 1);
+			} else if (item.ItemId == 2) {
+				Animation rotation = AnimationUtils.LoadAnimation (this, Resource.Animation.Rotate);
+				adapter.Clear ();
+
+				rotation.RepeatCount = Animation.Infinite;
+
+				ImageView imageView = (ImageView) LayoutInflater.Inflate (Resource.Layout.RefreshImageView, null);
+				imageView.StartAnimation (rotation);
+
+				item.SetActionView (imageView);
+
+				foreach (Movie movie in movies.All()) {
+					adapter.Add (movie);
+				}
+
+				Handler handler = new Handler ();
+				handler.PostDelayed (() => {
+					imageView.ClearAnimation ();
+					item.SetActionView (null);
+				}, 1000);
 			}
 			return base.OnOptionsItemSelected (item);
 		}

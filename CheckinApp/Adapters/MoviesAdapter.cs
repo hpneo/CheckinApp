@@ -44,6 +44,13 @@ namespace CheckinAppAndroid
 			moviesList.Add (movie);
 		}
 
+		public void AddAll(IList<Movie> movies) {
+			moviesList.Clear ();
+			foreach (Movie movie in movies) {
+				moviesList.Add (movie);
+			}
+		}
+
 		public void Insert(Movie movie, int position) {
 			moviesList.Insert (position, movie);
 		}
