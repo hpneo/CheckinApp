@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CheckinShared
+namespace CheckinAppAndroid
 {
 	public class JavaObject<T> : Java.Lang.Object {
 		public readonly T Value;

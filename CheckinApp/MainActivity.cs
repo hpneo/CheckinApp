@@ -10,6 +10,8 @@ using Android.Views.Animations;
 using Android.Widget;
 using Android.OS;
 
+using Android.Webkit;
+
 using SQLite;
 
 using CheckinShared.Models;
@@ -85,6 +87,14 @@ namespace CheckinAppAndroid
 			refreshMenu.SetIcon (Resource.Drawable.Refresh);
 			refreshMenu.SetShowAsAction (ShowAsAction.IfRoom);
 
+			var facebookMenu = menu.Add (1, 3, 3, "Authorize Facebook");
+			facebookMenu.SetIcon (Resource.Drawable.Facebook);
+			facebookMenu.SetShowAsAction (ShowAsAction.IfRoom);
+
+			var twitterMenu = menu.Add (1, 4, 4, "Authorize Twitter");
+			twitterMenu.SetIcon (Resource.Drawable.Twitter);
+			twitterMenu.SetShowAsAction (ShowAsAction.IfRoom);
+
 			return base.OnCreateOptionsMenu (menu);
 		}
 
@@ -98,7 +108,7 @@ namespace CheckinAppAndroid
 
 				rotation.RepeatCount = Animation.Infinite;
 
-				ImageView imageView = (ImageView) LayoutInflater.Inflate (Resource.Layout.RefreshImageView, null);
+				ImageView imageView = (ImageView)LayoutInflater.Inflate (Resource.Layout.RefreshImageView, null);
 				imageView.StartAnimation (rotation);
 
 				item.SetActionView (imageView);
@@ -112,6 +122,11 @@ namespace CheckinAppAndroid
 					imageView.ClearAnimation ();
 					item.SetActionView (null);
 				}, 1000);
+			} else if (item.ItemId == 3) {
+				Intent intent = new Intent (this, typeof(AuthActivity));
+				StartActivityForResult (intent, 1);
+				// AuthFragment dialog = new AuthFragment();
+				// dialog.Show(FragmentManager, "AuthFragment");
 			}
 			return base.OnOptionsItemSelected (item);
 		}

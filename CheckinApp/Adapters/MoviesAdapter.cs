@@ -60,7 +60,7 @@ namespace CheckinAppAndroid
 		}
 
 		public override Java.Lang.Object GetItem (int position) {
-			return new CheckinShared.JavaObject<CheckinShared.Models.Movie> (moviesList [position]);
+			return new JavaObject<CheckinShared.Models.Movie> (moviesList [position]);
 		}
 
 		public Movie GetMovie (int position) {

@@ -59,6 +59,11 @@
     <Compile Include="AddMovie.cs" />
     <Compile Include="Adapters\MoviesAdapter.cs" />
     <Compile Include="DeleteMovieDialogFragment.cs" />
+    <Compile Include="Utils\JavaObject.cs" />
+    <Compile Include="Utils\AuthWebViewClient.cs" />
+    <Compile Include="AuthFragment.cs" />
+    <Compile Include="AuthDialog.cs" />
+    <Compile Include="AuthActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -91,6 +96,15 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\Refresh.png" />
     <AndroidResource Include="Resources\anim\Rotate.xml" />
     <AndroidResource Include="Resources\layout\RefreshImageView.xml" />
+    <AndroidResource Include="Resources\drawable-hdpi\Facebook.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\Facebook.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\Facebook.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\Facebook.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\Twitter.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\Twitter.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\Twitter.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\Twitter.png" />
+    <AndroidResource Include="Resources\layout\AuthDialog.axml" />
   </ItemGroup>
   <Import Project="..\CheckinShared\CheckinShared.projitems" Label="Shared" Condition="Exists('..\CheckinShared\CheckinShared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

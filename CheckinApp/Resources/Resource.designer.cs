@@ -24,10 +24,6 @@ namespace CheckinAppAndroid
 			global::Android.Runtime.ResourceIdManager.UpdateIdValues();
 		}
 		
-		public static void UpdateIdValues()
-		{
-		}
-		
 		public partial class Animation
 		{
 			
@@ -64,13 +60,19 @@ namespace CheckinAppAndroid
 			public const int Add = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int Icon = 2130837505;
+			public const int Facebook = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public const int Refresh = 2130837506;
+			public const int Icon = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public const int Search = 2130837507;
+			public const int Refresh = 2130837507;
+			
+			// aapt resource value: 0x7f020004
+			public const int Search = 2130837508;
+			
+			// aapt resource value: 0x7f020005
+			public const int Twitter = 2130837509;
 			
 			static Drawable()
 			{
@@ -85,17 +87,17 @@ namespace CheckinAppAndroid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f070004
-			public const int imageViewDeleteMoviePicture = 2131165188;
-			
 			// aapt resource value: 0x7f070005
-			public const int imageViewItemMoviePicture = 2131165189;
+			public const int imageViewDeleteMoviePicture = 2131165189;
+			
+			// aapt resource value: 0x7f070006
+			public const int imageViewItemMoviePicture = 2131165190;
 			
 			// aapt resource value: 0x7f070002
 			public const int listView2 = 2131165186;
 			
-			// aapt resource value: 0x7f070007
-			public const int listViewMovies = 2131165191;
+			// aapt resource value: 0x7f070008
+			public const int listViewMovies = 2131165192;
 			
 			// aapt resource value: 0x7f070000
 			public const int progressBar1 = 2131165184;
@@ -103,11 +105,14 @@ namespace CheckinAppAndroid
 			// aapt resource value: 0x7f070001
 			public const int searchView1 = 2131165185;
 			
-			// aapt resource value: 0x7f070003
-			public const int textViewDeleteMovieTitle = 2131165187;
+			// aapt resource value: 0x7f070004
+			public const int textViewDeleteMovieTitle = 2131165188;
 			
-			// aapt resource value: 0x7f070006
-			public const int textViewItemMovieTitle = 2131165190;
+			// aapt resource value: 0x7f070007
+			public const int textViewItemMovieTitle = 2131165191;
+			
+			// aapt resource value: 0x7f070003
+			public const int webviewDialog = 2131165187;
 			
 			static Id()
 			{
@@ -126,16 +131,19 @@ namespace CheckinAppAndroid
 			public const int AddMovie = 2130903040;
 			
 			// aapt resource value: 0x7f030001
-			public const int DeleteMovie = 2130903041;
+			public const int AuthDialog = 2130903041;
 			
 			// aapt resource value: 0x7f030002
-			public const int ItemMovie = 2130903042;
+			public const int DeleteMovie = 2130903042;
 			
 			// aapt resource value: 0x7f030003
-			public const int Main = 2130903043;
+			public const int ItemMovie = 2130903043;
 			
 			// aapt resource value: 0x7f030004
-			public const int RefreshImageView = 2130903044;
+			public const int Main = 2130903044;
+			
+			// aapt resource value: 0x7f030005
+			public const int RefreshImageView = 2130903045;
 			
 			static Layout()
 			{

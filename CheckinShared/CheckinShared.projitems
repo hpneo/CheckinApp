@@ -13,11 +13,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)MovieDB.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Movie.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\TMDB.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utils\JavaObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />
     <Folder Include="$(MSBuildThisFileDirectory)Services\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Utils\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)README.md" />
   </ItemGroup>
 </Project>
