@@ -62,12 +62,18 @@ namespace CheckinAppAndroid
 		}
 
 		protected override void OnActivityResult(int requestCode, Result resultCode, Intent intent) {
-			if (resultCode == Result.Ok) {
-				int movieId = intent.GetIntExtra ("movieId", 0);
-				var movie = movies.Get (movieId);
+			if (requestCode == 11) {
+				if (resultCode == Result.Ok) {
+					int movieId = intent.GetIntExtra ("movieId", 0);
+					var movie = movies.Get (movieId);
 
-				adapter.Add (movie);
-				// adapter.NotifyDataSetChanged ();
+					adapter.Add (movie);
+					// adapter.NotifyDataSetChanged ();
+				}
+			}
+
+			if (requestCode == 13) {
+				var token = intent.GetStringExtra ("token");
 			}
 		}
 
@@ -101,7 +107,7 @@ namespace CheckinAppAndroid
 		public override bool OnOptionsItemSelected(IMenuItem item) {
 			if (item.ItemId == 1) {
 				Intent intent = new Intent (this, typeof(AddMovie));
-				StartActivityForResult (intent, 1);
+				StartActivityForResult (intent, 11);
 			} else if (item.ItemId == 2) {
 				Animation rotation = AnimationUtils.LoadAnimation (this, Resource.Animation.Rotate);
 				adapter.Clear ();
@@ -124,9 +130,7 @@ namespace CheckinAppAndroid
 				}, 1000);
 			} else if (item.ItemId == 3) {
 				Intent intent = new Intent (this, typeof(AuthActivity));
-				StartActivityForResult (intent, 1);
-				// AuthFragment dialog = new AuthFragment();
-				// dialog.Show(FragmentManager, "AuthFragment");
+				StartActivityForResult (intent, 13);
 			}
 			return base.OnOptionsItemSelected (item);
 		}

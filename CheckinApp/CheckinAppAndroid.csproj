@@ -27,6 +27,7 @@
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>None</AndroidLinkMode>
     <ConsolePause>false</ConsolePause>
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -61,8 +62,6 @@
     <Compile Include="DeleteMovieDialogFragment.cs" />
     <Compile Include="Utils\JavaObject.cs" />
     <Compile Include="Utils\AuthWebViewClient.cs" />
-    <Compile Include="AuthFragment.cs" />
-    <Compile Include="AuthDialog.cs" />
     <Compile Include="AuthActivity.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -116,7 +115,6 @@
     <Folder Include="Resources\drawable-xhdpi\" />
     <Folder Include="Resources\drawable-xxhdpi\" />
     <Folder Include="Resources\drawable-xxxhdpi\" />
-    <Folder Include="Nueva carpeta\" />
     <Folder Include="Resources\anim\" />
   </ItemGroup>
   <ItemGroup>

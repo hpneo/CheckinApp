@@ -32,24 +32,10 @@ namespace CheckinAppAndroid
 			webView.Settings.SaveFormData = false;
 
 			webView.RequestFocus (FocusSearchDirection.Down);
-			/*webView.Touch += (object sender, View.TouchEventArgs e) => {
-				switch (e.Event.Action) {
-				case MotionEventActions.Up:
-					if (!webView.HasFocus) {
-						webView.RequestFocus();
-					}
-					break;
-				case MotionEventActions.Down:
-					if (!webView.HasFocus) {
-						webView.RequestFocus();
-					}
-					break;
-				}
-			};*/
 
-			webView.LoadUrl ("http://checkinapp-auth.herokuapp.com/auth/twitter");
+			webView.LoadUrl ("http://checkinapp-auth.herokuapp.com/auth/facebook");
 
-			webView.SetWebViewClient (new AuthWebViewClient ());
+			webView.SetWebViewClient (new AuthWebViewClient (this));
 		}
 
 		public override bool OnKeyDown (Android.Views.Keycode keyCode, Android.Views.KeyEvent e)

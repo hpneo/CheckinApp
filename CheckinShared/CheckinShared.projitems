@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)MovieDB.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Movie.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\TMDB.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\Facebook.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />
