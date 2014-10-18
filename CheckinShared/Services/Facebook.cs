@@ -20,7 +20,33 @@ namespace CheckinShared
 			AppSecret = appSecret;
 		}
 
-		async public Task<string> publishFeed(object parameters) {
+		async public Task<string> Me() {
+			string url = "https://graph.facebook.com/v2.1/me?access_token=" + UserToken;
+
+			WebRequest request = WebRequest.Create (url);
+			request.UseDefaultCredentials = true;
+
+			request.Method = "GET";
+
+			Task<string> response = null;
+
+			try {
+				WebResponse webResponse = await request.GetResponseAsync ();
+				System.IO.StreamReader requestHeader = new System.IO.StreamReader (webResponse.GetResponseStream ());
+				response = requestHeader.ReadToEndAsync ();
+				webResponse.Close ();
+			} catch (WebException ex) {
+				HttpWebResponse httpResponse = (HttpWebResponse)ex.Response;
+				Console.WriteLine (WebExceptionStatus.ProtocolError);
+				Console.WriteLine (httpResponse.StatusCode);
+				Console.WriteLine (ex.Status);
+				Console.WriteLine (ex.Message);
+			}
+
+			return response.Result;
+		}
+
+		async public Task<string> PublishFeed(object parameters) {
 			var parametersDictionary = parameters as IDictionary<string, string>;
 
 			if (parametersDictionary == null) {
@@ -43,13 +69,13 @@ namespace CheckinShared
 				stringBuilder.Length--;
 			}
 
-			content = "message=" + parametersDictionary["message"];
-			content += "&link=https://www.themoviedb.org/movie/10658-howard-the-duck";
-			content += "&picture=https://image.tmdb.org/t/p/original/gEaC5qL3Q6LDb9XS0Rp27hwoglm.jpg";
-			content += "&name=Howard the Duck";
-			content += "&caption=1986";
-			content += "&description=A scientific experiment unknowingly brings extraterrestrial life forms to the Earth through a laser beam. First is the cigar smoking drake Howard from the duck's planet. A few kids try to keep him from the greedy scientists and help him back to his planet. But then a much less friendly being arrives through the beam...";
-			content += "&privacy[value]=SELF";
+//			content = "message=" + parametersDictionary["message"];
+//			content += "&link=https://www.themoviedb.org/movie/10658-howard-the-duck";
+//			content += "&picture=https://image.tmdb.org/t/p/original/gEaC5qL3Q6LDb9XS0Rp27hwoglm.jpg";
+//			content += "&name=Howard the Duck";
+//			content += "&caption=1986";
+//			content += "&description=A scientific experiment unknowingly brings extraterrestrial life forms to the Earth through a laser beam. First is the cigar smoking drake Howard from the duck's planet. A few kids try to keep him from the greedy scientists and help him back to his planet. But then a much less friendly being arrives through the beam...";
+//			content += "&privacy[value]=SELF";
 
 			content = stringBuilder.ToString ();
 
@@ -76,7 +102,11 @@ namespace CheckinShared
 				System.IO.StreamReader requestHeader = new System.IO.StreamReader (webResponse.GetResponseStream ());
 				response = requestHeader.ReadToEndAsync ();
 				webResponse.Close ();
-			} catch (Exception ex) {
+			} catch (WebException ex) {
+				HttpWebResponse httpResponse = (HttpWebResponse)ex.Response;
+				Console.WriteLine (WebExceptionStatus.ProtocolError);
+				Console.WriteLine (httpResponse.StatusCode);
+				Console.WriteLine (ex.Status);
 				Console.WriteLine (ex.Message);
 			}
 
