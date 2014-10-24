@@ -57,12 +57,13 @@
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AddMovie.cs" />
     <Compile Include="Adapters\MoviesAdapter.cs" />
     <Compile Include="DeleteMovieDialogFragment.cs" />
     <Compile Include="Utils\JavaObject.cs" />
     <Compile Include="Utils\AuthWebViewClient.cs" />
     <Compile Include="AuthActivity.cs" />
+    <Compile Include="MovieActivity.cs" />
+    <Compile Include="AddMovieActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -104,6 +105,8 @@
     <AndroidResource Include="Resources\drawable-xhdpi\Twitter.png" />
     <AndroidResource Include="Resources\drawable-xxhdpi\Twitter.png" />
     <AndroidResource Include="Resources\layout\AuthDialog.axml" />
+    <AndroidResource Include="Resources\layout\Movie.axml" />
+    <AndroidResource Include="Resources\drawable\the_dark_knight_poster.jpg" />
   </ItemGroup>
   <Import Project="..\CheckinShared\CheckinShared.projitems" Label="Shared" Condition="Exists('..\CheckinShared\CheckinShared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

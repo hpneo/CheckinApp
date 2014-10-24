@@ -1,4 +1,4 @@
-﻿using System;
+﻿	using System;
 using System.IO;
 using System.Collections;
 
@@ -93,20 +93,20 @@ namespace CheckinAppAndroid
 			refreshMenu.SetIcon (Resource.Drawable.Refresh);
 			refreshMenu.SetShowAsAction (ShowAsAction.IfRoom);
 
-			var facebookMenu = menu.Add (1, 3, 3, "Authorize Facebook");
+			/*var facebookMenu = menu.Add (1, 3, 3, "Authorize Facebook");
 			facebookMenu.SetIcon (Resource.Drawable.Facebook);
 			facebookMenu.SetShowAsAction (ShowAsAction.IfRoom);
 
 			var twitterMenu = menu.Add (1, 4, 4, "Authorize Twitter");
 			twitterMenu.SetIcon (Resource.Drawable.Twitter);
-			twitterMenu.SetShowAsAction (ShowAsAction.IfRoom);
+			twitterMenu.SetShowAsAction (ShowAsAction.IfRoom);*/
 
 			return base.OnCreateOptionsMenu (menu);
 		}
 
 		public override bool OnOptionsItemSelected(IMenuItem item) {
 			if (item.ItemId == 1) {
-				Intent intent = new Intent (this, typeof(AddMovie));
+				Intent intent = new Intent (this, typeof(AddMovieActivity));
 				StartActivityForResult (intent, 11);
 			} else if (item.ItemId == 2) {
 				Animation rotation = AnimationUtils.LoadAnimation (this, Resource.Animation.Rotate);

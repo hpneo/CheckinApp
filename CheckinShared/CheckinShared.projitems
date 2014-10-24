@@ -14,6 +14,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Movie.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\TMDB.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Facebook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Checkin.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CheckinDB.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />

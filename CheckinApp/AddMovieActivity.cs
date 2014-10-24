@@ -25,7 +25,7 @@ using CheckinShared.Services;
 namespace CheckinAppAndroid
 {
 	[Activity (Label = "Add Movie", Icon = "@drawable/icon", Theme="@android:style/Theme.Holo.Light")]			
-	public class AddMovie : Activity
+	public class AddMovieActivity : Activity
 	{
 		private CheckinShared.MovieDB movies;
 		protected override void OnCreate (Bundle bundle)
@@ -53,11 +53,17 @@ namespace CheckinAppAndroid
 				Movie movie = adapter.GetMovie(e.Position);
 				movies.Insert(movie);
 
+				Intent intent = new Intent (this, typeof(MovieActivity));
+				intent.PutExtra("movieId", movie.Id);
+				StartActivityForResult (intent, 101);
+				/*Movie movie = adapter.GetMovie(e.Position);
+				movies.Insert(movie);
+
 				Intent intent = new Intent();
 				intent.PutExtra("movieId", movie.Id);
 
 				SetResult(Result.Ok, intent);
-				Finish();
+				Finish();*/
 			};
 
 			searchViewMovie.QueryTextSubmit += async delegate(object sender, SearchView.QueryTextSubmitEventArgs e) {
@@ -65,7 +71,7 @@ namespace CheckinAppAndroid
 				progressbarSearch.Visibility = ViewStates.Visible;
 
 				TMDB api = new TMDB();
-				Task<object> resultsTask = api.searchMovies(searchViewMovie.Query);
+				Task<object> resultsTask = api.SearchMovies(searchViewMovie.Query);
 
 				JObject results = await resultsTask as JObject;
 
@@ -79,6 +85,7 @@ namespace CheckinAppAndroid
 					movie.Title = movieJSON["title"].ToString();
 					movie.Year = movieJSON["release_date"].ToString().Split(new char[]{ '-' })[0];
 					movie.PosterPath = "http://image.tmdb.org/t/p/w154" + movieJSON["poster_path"].ToString();
+					movie.ApiId = movieJSON["id"].ToString();
 
 					adapter.Add(movie);
 				}
@@ -89,6 +96,15 @@ namespace CheckinAppAndroid
 			searchViewMovie.Close += delegate(object sender, SearchView.CloseEventArgs e) {
 				progressbarSearch.Visibility = ViewStates.Gone;
 			};
+		}
+
+		protected override void OnActivityResult(int requestCode, Result resultCode, Intent intent) {
+			if (requestCode == 101) {
+				if (resultCode == Result.Ok) {
+					SetResult(Result.Ok, intent);
+					Finish();
+				}
+			}
 		}
 	}
 }

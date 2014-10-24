@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/relativeLayout1"
+    android:orientation="vertical">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:id="@+id/scrollView1">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:padding="10dp">
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="210dp"
+                android:id="@+id/linearLayout1">
+                <ImageView
+                    android:src="@drawable/the_dark_knight_poster"
+                    android:layout_width="140dp"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/imageViewMoviePoster"
+                    android:scaleType="centerInside" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/linearLayout2"
+                    android:layout_toRightOf="@id/imageViewMoviePoster"
+                    android:paddingLeft="10dp">
+                    <TextView
+                        android:text="The Dark Knight"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textViewMovieTitle" />
+                    <TextView
+                        android:text="Batman raises the stakes in his war on crime. With the help of Lt. Jim Gordon and District Attorney Harvey Dent, Batman sets out to dismantle the remaining criminal organizations that plague the streets. The partnership proves to be effective, but they soon find themselves prey to a reign of chaos unleashed by a rising criminal mastermind known to the terrified citizens of Gotham as the Joker."
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/textViewMovieDescription"
+                        android:layout_marginTop="10dp"
+                        android:ellipsize="end"
+                        android:capitalize="none"
+                        android:enabled="false" />
+                </LinearLayout>
+            </RelativeLayout>
+            <TextView
+                android:text="Info"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+            <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/tableLayout1"
+                android:layout_gravity="top"
+                android:layout_marginTop="10dp"
+                android:shrinkColumns="*"
+                android:stretchColumns="*">
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tableRow1">
+                    <TextView
+                        android:text="Director"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:layout_column="0"
+                        android:id="@+id/textView10"
+                        android:layout_gravity="right|center"
+                        android:paddingRight="5dp"
+                        android:layout_width="110dp" />
+                    <TextView
+                        android:text="Christopher Nolan"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:layout_column="1"
+                        android:id="@+id/textViewMovieDirector"
+                        android:paddingLeft="5dp" />
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:text="Año"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:layout_column="0"
+                        android:id="@+id/textView10"
+                        android:layout_gravity="right|center"
+                        android:paddingRight="5dp"
+                        android:layout_width="110dp" />
+                    <TextView
+                        android:text="2008"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:layout_column="1"
+                        android:id="@+id/textViewMovieYear"
+                        android:paddingLeft="5dp" />
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:text="Actores"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:layout_column="0"
+                        android:id="@+id/textView10"
+                        android:layout_gravity="right|top"
+                        android:paddingRight="5dp"
+                        android:layout_width="110dp" />
+                    <TextView
+                        android:text="@string/movie_cast"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:layout_column="1"
+                        android:id="@+id/textViewMovieCast"
+                        android:paddingLeft="5dp" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+    </ScrollView>
+    <Button
+        android:text="Checkin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonCheckin" />
+</LinearLayout>

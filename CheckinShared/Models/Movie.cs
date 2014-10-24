@@ -15,6 +15,12 @@ namespace CheckinShared.Models
 		public string PosterPath { get; set; }
 		[Column("Year")] 
 		public string Year { get; set; }
+		[Column("ApiId")] 
+		public string ApiId { get; set; }
+		[Column("Overview")] 
+		public string Overview { get; set; }
+		[Column("Director")] 
+		public string Director { get; set; }
 		[Ignore]
 		public object Poster { get; set; }
 
