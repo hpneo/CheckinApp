@@ -51,7 +51,17 @@ namespace CheckinAppAndroid
 			listView2.Adapter = adapter;
 			listView2.ItemClick += delegate(object sender, AdapterView.ItemClickEventArgs e) {
 				Movie movie = adapter.GetMovie(e.Position);
-				movies.Insert(movie);
+
+				int count = movies.All().Where(m => m.ApiId.Equals(movie.ApiId)).Count();
+
+				if (count == 0) {
+					movies.Insert(movie);
+				}
+				else {
+					movie = movies.All().Where(m => m.ApiId.Equals(movie.ApiId)).First();
+				}
+
+				Console.WriteLine("Movie count: " + count);
 
 				Intent intent = new Intent (this, typeof(MovieActivity));
 				intent.PutExtra("movieId", movie.Id);

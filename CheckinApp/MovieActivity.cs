@@ -89,6 +89,7 @@ namespace CheckinAppAndroid
 			buttonCheckin.Click += (object sender, EventArgs e) => {
 				Checkin checkin = new Checkin();
 				checkin.MovieId = movie.Id;
+				checkin.CreatedAt = DateTime.UtcNow;
 
 				checkins.Insert(checkin);
 

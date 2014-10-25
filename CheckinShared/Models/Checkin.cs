@@ -11,6 +11,8 @@ namespace CheckinShared.Models
 		public int Id { get; set; }
 		[Column("MovieId")] 
 		public int MovieId { get; set; }
+		[Column("CreatedAt")] 
+		public DateTime CreatedAt { get; set; }
 
 		public Checkin ()
 		{

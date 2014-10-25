@@ -77,6 +77,8 @@ namespace CheckinAppAndroid
 				adapter.Add (movie);
 			}*/
 
+			Console.WriteLine("Movies count in Main: " + movies.All().Count());
+
 			if (bundle != null) {
 				category = bundle.GetInt ("Películas");
 				ActionBar.SelectTab (ActionBar.GetTabAt (category));
@@ -90,6 +92,7 @@ namespace CheckinAppAndroid
 					var movie = movies.Get (movieId);
 
 					adapter.Add (movie);
+					Console.WriteLine("Movies count in Main: " + movies.All().Count());
 					// adapter.NotifyDataSetChanged ();
 				}
 			}
@@ -172,6 +175,8 @@ namespace CheckinAppAndroid
 						adapter.Add (checkin.Movie);
 					}
 				}
+
+				Console.WriteLine("Movies count in Main: " + movies.All().Count());
 
 				Handler handler = new Handler ();
 				handler.PostDelayed (() => {
