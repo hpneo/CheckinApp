@@ -6,16 +6,10 @@
     p1:layout_width="match_parent"
     p1:layout_height="match_parent"
     p1:id="@+id/linearLayout1">
-    <TextView
-        p1:text="Nombre del Catálogo"
-        p1:textAppearance="?android:attr/textAppearanceMedium"
-        p1:layout_width="match_parent"
-        p1:layout_height="wrap_content"
-        p1:id="@+id/tvAgregarCatalogo"
-        p1:gravity="center"
-        p1:layout_marginTop="20dp" />
     <EditText
         p1:layout_width="match_parent"
         p1:layout_height="wrap_content"
-        p1:id="@+id/txtAgregarCatalogo" />
+        p1:id="@+id/txtAgregarCatalogo"
+        p1:hint="Nombre del Catálogo"
+        p1:inputType="textCapWords" />
 </LinearLayout>

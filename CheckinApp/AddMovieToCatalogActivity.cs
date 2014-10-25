@@ -123,7 +123,9 @@ namespace CheckinAppAndroid
 				progressbarSearch.Visibility = ViewStates.Gone;
 			};
 
-
+			ActionBar.SetDisplayHomeAsUpEnabled (true);
+			ActionBar.SetDisplayShowTitleEnabled (true);
+			ActionBar.SetDisplayShowHomeEnabled (true);
 		}
 	}
 }

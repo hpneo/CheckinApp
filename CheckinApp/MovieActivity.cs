@@ -37,12 +37,16 @@ namespace CheckinAppAndroid
 			var movie = movies.Get (movieId);
 
 			TMDB api = new TMDB();
-			JObject movieJSON = await api.Find(movie.ApiId) as JObject;
-
 			if (movie.Overview == null) {
+				JObject movieJSON = await api.Find(movie.ApiId) as JObject;
+				movie.Overview = movieJSON ["overview"].ToString ();
+
+				movies.Update (movie);
+			}
+
+			if (movie.Director == null) {
 				JObject movieCreditsJSON = await api.GetCredits (movie.ApiId) as JObject;
 
-				movie.Overview = movieJSON ["overview"].ToString ();
 				movie.Director = movieCreditsJSON ["crew"] [0] ["name"].ToString ();
 				movie.Cast = movieCreditsJSON ["cast"] [0] ["name"].ToString () + "\n" +
 					movieCreditsJSON ["cast"] [1] ["name"].ToString () + "\n" +
@@ -95,6 +99,11 @@ namespace CheckinAppAndroid
 				SetResult(Result.Ok, intent);
 				Finish();
 			};
+
+			ActionBar.SetDisplayHomeAsUpEnabled (true);
+			ActionBar.SetDisplayShowTitleEnabled (true);
+			ActionBar.SetDisplayShowHomeEnabled (true);
+			Window.SetTitle (movie.Title);
 		}
 	}
 }

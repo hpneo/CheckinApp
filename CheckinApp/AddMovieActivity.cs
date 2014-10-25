@@ -96,6 +96,10 @@ namespace CheckinAppAndroid
 			searchViewMovie.Close += delegate(object sender, SearchView.CloseEventArgs e) {
 				progressbarSearch.Visibility = ViewStates.Gone;
 			};
+
+			ActionBar.SetDisplayHomeAsUpEnabled (true);
+			ActionBar.SetDisplayShowTitleEnabled (true);
+			ActionBar.SetDisplayShowHomeEnabled (true);
 		}
 
 		protected override void OnActivityResult(int requestCode, Result resultCode, Intent intent) {

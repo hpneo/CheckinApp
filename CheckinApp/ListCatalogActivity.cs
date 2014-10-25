@@ -78,7 +78,7 @@ namespace CheckinAppAndroid
 				StartActivityForResult (intent, 18);
 			};
 
-			searchViewCatalog.QueryTextSubmit += async delegate(object sender, SearchView.QueryTextSubmitEventArgs e) {
+			searchViewCatalog.QueryTextSubmit += delegate(object sender, SearchView.QueryTextSubmitEventArgs e) {
 				Console.WriteLine(searchViewCatalog.Query);
 				progressbarSearch.Visibility = ViewStates.Visible;
 				adapter.Clear();
@@ -94,6 +94,10 @@ namespace CheckinAppAndroid
 			searchViewCatalog.Close += delegate(object sender, SearchView.CloseEventArgs e) {
 				progressbarSearch.Visibility = ViewStates.Gone;
 			};
+
+			ActionBar.SetDisplayHomeAsUpEnabled (true);
+			ActionBar.SetDisplayShowTitleEnabled (true);
+			ActionBar.SetDisplayShowHomeEnabled (true);
 		}
 
 		public override bool OnCreateOptionsMenu(IMenu menu) {
@@ -150,10 +154,6 @@ namespace CheckinAppAndroid
 				adapter.Add (catalog);
 			}
 		}
-
-
-
-
 
 	}
 }

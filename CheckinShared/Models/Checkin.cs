@@ -18,7 +18,7 @@ namespace CheckinShared.Models
 
 		public Movie Movie {
 			get {
-				if (this.MovieId == null) {
+				if (((int) this.MovieId) == 0) {
 					return null;
 				} else {
 					MovieDB movieDB = new MovieDB ();

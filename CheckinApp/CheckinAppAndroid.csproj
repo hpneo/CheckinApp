@@ -58,7 +58,6 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Adapters\MoviesAdapter.cs" />
-    <Compile Include="DeleteMovieDialogFragment.cs" />
     <Compile Include="Utils\JavaObject.cs" />
     <Compile Include="Utils\AuthWebViewClient.cs" />
     <Compile Include="AuthActivity.cs" />
@@ -66,10 +65,11 @@
     <Compile Include="AddMovieActivity.cs" />
     <Compile Include="ListCatalogActivity.cs" />
     <Compile Include="Adapters\CatalogAdapter.cs" />
-    <Compile Include="AddCatalogDialogFragment.cs" />
-    <Compile Include="DeleteCatalogDialogFragment.cs" />
     <Compile Include="MoviexCatalogActivity.cs" />
     <Compile Include="AddMovieToCatalogActivity.cs" />
+    <Compile Include="Fragments\AddCatalogDialogFragment.cs" />
+    <Compile Include="Fragments\DeleteCatalogDialogFragment.cs" />
+    <Compile Include="Fragments\DeleteMovieDialogFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -129,6 +129,7 @@
     <Folder Include="Resources\drawable-xxhdpi\" />
     <Folder Include="Resources\drawable-xxxhdpi\" />
     <Folder Include="Resources\anim\" />
+    <Folder Include="Fragments\" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="json.net">

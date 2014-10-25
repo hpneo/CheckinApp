@@ -56,6 +56,9 @@ namespace CheckinAppAndroid
 
 			ActualizarLista ();
 
+			ActionBar.SetDisplayHomeAsUpEnabled (true);
+			ActionBar.SetDisplayShowTitleEnabled (true);
+			ActionBar.SetDisplayShowHomeEnabled (true);
 		}
 
 		public override void OnAttachedToWindow() { 
