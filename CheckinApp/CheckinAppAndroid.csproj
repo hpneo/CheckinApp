@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -64,6 +64,12 @@
     <Compile Include="AuthActivity.cs" />
     <Compile Include="MovieActivity.cs" />
     <Compile Include="AddMovieActivity.cs" />
+    <Compile Include="ListCatalogActivity.cs" />
+    <Compile Include="Adapters\CatalogAdapter.cs" />
+    <Compile Include="AddCatalogDialogFragment.cs" />
+    <Compile Include="DeleteCatalogDialogFragment.cs" />
+    <Compile Include="MoviexCatalogActivity.cs" />
+    <Compile Include="AddMovieToCatalogActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -107,6 +113,10 @@
     <AndroidResource Include="Resources\layout\AuthDialog.axml" />
     <AndroidResource Include="Resources\layout\Movie.axml" />
     <AndroidResource Include="Resources\drawable\the_dark_knight_poster.jpg" />
+    <AndroidResource Include="Resources\layout\ItemCatalog.axml" />
+    <AndroidResource Include="Resources\layout\ListCatalog.axml" />
+    <AndroidResource Include="Resources\layout\AddCatalog.axml" />
+    <AndroidResource Include="Resources\layout\DeleteCatalog.axml" />
   </ItemGroup>
   <Import Project="..\CheckinShared\CheckinShared.projitems" Label="Shared" Condition="Exists('..\CheckinShared\CheckinShared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

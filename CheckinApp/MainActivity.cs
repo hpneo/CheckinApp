@@ -28,28 +28,27 @@ namespace CheckinAppAndroid
 		public MoviesAdapter Adapter { get { return adapter; } }
 		public ListView ListView { get { return listViewMovies; } }
 
+		int category;
+
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
 
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
+
 			listViewMovies = FindViewById<ListView> (Resource.Id.listViewMovies);
 			adapter = new MoviesAdapter (this);
-
 			listViewMovies.Adapter = adapter;
-
 			//var context = this;
 
 			listViewMovies.ItemLongClick += delegate(object sender, AdapterView.ItemLongClickEventArgs e) {
 				DeleteMovieDialogFragment dialog = new DeleteMovieDialogFragment();
 				dialog.Movie = adapter.GetMovie(e.Position);
 				dialog.Show(FragmentManager, "DeleteMovieDialogFragment");
-//				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//
+//				AlertDialog.Builder builder = new AlertDialog.Builder(this);//
 //				AlertDialog alertDialog = builder.Create();
-//				alertDialog.SetView(new TextView(context));
-//
+//				alertDialog.SetView(new TextView(context));//
 //				alertDialog.Show();
 			};
 
@@ -58,6 +57,11 @@ namespace CheckinAppAndroid
 
 			foreach (Movie movie in movies.All()) {
 				adapter.Add (movie);
+			}
+
+			if (bundle != null) {
+				category = bundle.GetInt ("Películas");
+				ActionBar.SelectTab (ActionBar.GetTabAt (category));
 			}
 		}
 
@@ -75,10 +79,36 @@ namespace CheckinAppAndroid
 			if (requestCode == 13) {
 				var token = intent.GetStringExtra ("token");
 			}
+
+			if (requestCode == 14) {
+
+				ActionBar.SelectTab (ActionBar.GetTabAt(category));
+			}
 		}
+			
 
 		public override bool OnCreateOptionsMenu(IMenu menu) {
 			MenuInflater.Inflate (Resource.Menu.Main, menu);
+			ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
+
+			// "Creación de Tabs"
+
+			ActionBar.Tab tab = ActionBar.NewTab();
+			tab.SetText("Peliculas");
+			tab.TabSelected += (sender, args) => {
+			};
+			ActionBar.AddTab(tab);
+
+			tab = ActionBar.NewTab();
+			tab.SetText("Catálogo");
+			tab.TabSelected += (sender, args) => {
+				Intent intent = new Intent (this, typeof(ListCatalogActivity));
+				StartActivityForResult (intent, 14);
+			};
+			ActionBar.AddTab(tab);
+
+
+			// Finaliza "Creación de Tabs"
 
 			/*var searchMenu = menu.Add ("Search");
 			searchMenu.SetVisible (true);
