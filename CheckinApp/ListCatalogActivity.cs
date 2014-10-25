@@ -102,7 +102,7 @@ namespace CheckinAppAndroid
 
 		public override bool OnCreateOptionsMenu(IMenu menu) {
 			MenuInflater.Inflate (Resource.Menu.Main, menu);
-			ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
+			// ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
 
 			// "Creación de Tabs"
 
@@ -119,11 +119,9 @@ namespace CheckinAppAndroid
 
 		public override bool OnOptionsItemSelected(IMenuItem item) {
 			if (item.ItemId == 1) {
-				AddCatalogDialogFragment dialog = new AddCatalogDialogFragment();
-				dialog.Show(FragmentManager, "AddCatalog");
-			} 
-
-			else if (item.ItemId == 2) {
+				AddCatalogDialogFragment dialog = new AddCatalogDialogFragment ();
+				dialog.Show (FragmentManager, "AddCatalog");
+			} else if (item.ItemId == 2) {
 				Animation rotation = AnimationUtils.LoadAnimation (this, Resource.Animation.Rotate);
 
 				rotation.RepeatCount = Animation.Infinite;
@@ -143,6 +141,8 @@ namespace CheckinAppAndroid
 			} else if (item.ItemId == 3) {
 				Intent intent = new Intent (this, typeof(AuthActivity));
 				StartActivityForResult (intent, 13);
+			} else if (item.ItemId == Android.Resource.Id.Home) {
+				OnBackPressed ();
 			}
 			return base.OnOptionsItemSelected (item);
 		}

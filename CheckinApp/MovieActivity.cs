@@ -103,7 +103,16 @@ namespace CheckinAppAndroid
 			ActionBar.SetDisplayHomeAsUpEnabled (true);
 			ActionBar.SetDisplayShowTitleEnabled (true);
 			ActionBar.SetDisplayShowHomeEnabled (true);
+			ActionBar.SetDisplayUseLogoEnabled (false);
 			Window.SetTitle (movie.Title);
+		}
+
+		public override bool OnOptionsItemSelected(IMenuItem item) {
+			if (item.ItemId == Android.Resource.Id.Home) {
+				OnBackPressed ();
+			}
+
+			return base.OnOptionsItemSelected (item);
 		}
 	}
 }

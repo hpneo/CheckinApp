@@ -127,6 +127,14 @@ namespace CheckinAppAndroid
 			ActionBar.SetDisplayShowTitleEnabled (true);
 			ActionBar.SetDisplayShowHomeEnabled (true);
 		}
+
+		public override bool OnOptionsItemSelected(IMenuItem item) {
+			if (item.ItemId == Android.Resource.Id.Home) {
+				OnBackPressed ();
+			}
+
+			return base.OnOptionsItemSelected (item);
+		}
 	}
 }
 

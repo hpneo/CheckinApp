@@ -107,6 +107,8 @@ namespace CheckinAppAndroid
 			} else if (item.ItemId == 3) {
 				Intent intent = new Intent (this, typeof(AuthActivity));
 				StartActivityForResult (intent, 13);
+			} else if (item.ItemId == Android.Resource.Id.Home) {
+				OnBackPressed ();
 			}
 			return base.OnOptionsItemSelected (item);
 		}
