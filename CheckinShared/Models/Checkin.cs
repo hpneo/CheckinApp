@@ -15,5 +15,16 @@ namespace CheckinShared.Models
 		public Checkin ()
 		{
 		}
+
+		public Movie Movie {
+			get {
+				if (this.MovieId == null) {
+					return null;
+				} else {
+					MovieDB movieDB = new MovieDB ();
+					return movieDB.Get (this.MovieId);
+				}
+			}
+		}
 	}
 }

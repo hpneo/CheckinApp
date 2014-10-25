@@ -33,16 +33,26 @@ namespace CheckinAppAndroid
 			checkins = new CheckinShared.CheckinDB ();
 
 			int movieId = this.Intent.GetIntExtra ("movieId", 0);
+			string mode = this.Intent.GetStringExtra ("mode");
 			var movie = movies.Get (movieId);
 
 			TMDB api = new TMDB();
 			JObject movieJSON = await api.Find(movie.ApiId) as JObject;
-			JObject movieCreditsJSON = await api.GetCredits(movie.ApiId) as JObject;
 
-			movie.Overview = movieJSON["overview"].ToString();
-			movie.Director = movieCreditsJSON ["crew"] [0] ["name"].ToString ();
+			if (movie.Overview == null) {
+				JObject movieCreditsJSON = await api.GetCredits (movie.ApiId) as JObject;
 
-			movies.Update (movie);
+				movie.Overview = movieJSON ["overview"].ToString ();
+				movie.Director = movieCreditsJSON ["crew"] [0] ["name"].ToString ();
+				movie.Cast = movieCreditsJSON ["cast"] [0] ["name"].ToString () + "\n" +
+					movieCreditsJSON ["cast"] [1] ["name"].ToString () + "\n" +
+					movieCreditsJSON ["cast"] [2] ["name"].ToString () + "\n" +
+					movieCreditsJSON ["cast"] [3] ["name"].ToString () + "\n" +
+					movieCreditsJSON ["cast"] [4] ["name"].ToString () + "\n" +
+					movieCreditsJSON ["cast"] [5] ["name"].ToString ();
+
+				movies.Update (movie);
+			}
 
 			SetContentView (Resource.Layout.Movie);
 
@@ -55,16 +65,15 @@ namespace CheckinAppAndroid
 
 			Button buttonCheckin = FindViewById<Button> (Resource.Id.buttonCheckin);
 
+			if (mode == "info") {
+				buttonCheckin.Visibility = ViewStates.Gone;
+			}
+
 			textViewMovieTitle.Text = movie.Title;
 			textViewMovieYear.Text = movie.Year;
 			textViewMovieDescription.Text = movie.Overview;
 			textViewMovieDirector.Text = movie.Director;
-			textViewMovieCast.Text = movieCreditsJSON ["cast"] [0] ["name"].ToString () + "\n" +
-			movieCreditsJSON ["cast"] [1] ["name"].ToString () + "\n" +
-			movieCreditsJSON ["cast"] [2] ["name"].ToString () + "\n" +
-			movieCreditsJSON ["cast"] [3] ["name"].ToString () + "\n" +
-			movieCreditsJSON ["cast"] [4] ["name"].ToString () + "\n" +
-			movieCreditsJSON ["cast"] [5] ["name"].ToString ();
+			textViewMovieCast.Text = movie.Cast;
 
 			if (movie.Poster != null) {
 				imageViewMoviePoster.SetImageBitmap ((Android.Graphics.Bitmap)movie.Poster);

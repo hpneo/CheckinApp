@@ -21,6 +21,8 @@ namespace CheckinShared.Models
 		public string Overview { get; set; }
 		[Column("Director")] 
 		public string Director { get; set; }
+		[Column("Cast")] 
+		public string Cast { get; set; }
 		[Ignore]
 		public object Poster { get; set; }
 

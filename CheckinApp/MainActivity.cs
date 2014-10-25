@@ -22,6 +22,7 @@ namespace CheckinAppAndroid
 	public class MainActivity : Activity
 	{
 		private CheckinShared.MovieDB movies;
+		private CheckinShared.CheckinDB checkins;
 		private MoviesAdapter adapter;
 		private ListView listViewMovies;
 
@@ -42,6 +43,16 @@ namespace CheckinAppAndroid
 			listViewMovies.Adapter = adapter;
 			//var context = this;
 
+			listViewMovies.ItemClick += (object sender, AdapterView.ItemClickEventArgs e) => {
+				Movie movie = adapter.GetMovie(e.Position);
+
+				Intent intent = new Intent (this, typeof(MovieActivity));
+				intent.PutExtra("movieId", movie.Id);
+				intent.PutExtra("mode", "info");
+
+				StartActivity(intent);
+			};
+
 			listViewMovies.ItemLongClick += delegate(object sender, AdapterView.ItemLongClickEventArgs e) {
 				DeleteMovieDialogFragment dialog = new DeleteMovieDialogFragment();
 				dialog.Movie = adapter.GetMovie(e.Position);
@@ -53,11 +64,18 @@ namespace CheckinAppAndroid
 			};
 
 			movies = new CheckinShared.MovieDB ();
+			checkins = new CheckinShared.CheckinDB ();
 			Toast.MakeText(this, movies.Count() + " películas en tu colección", ToastLength.Long).Show();
 
-			foreach (Movie movie in movies.All()) {
-				adapter.Add (movie);
+			foreach (Checkin checkin in checkins.All()) {
+				if (checkin.Movie != null) {
+					adapter.Add (checkin.Movie);
+				}
 			}
+
+			/*foreach (Movie movie in movies.All()) {
+				adapter.Add (movie);
+			}*/
 
 			if (bundle != null) {
 				category = bundle.GetInt ("Películas");
@@ -77,7 +95,7 @@ namespace CheckinAppAndroid
 			}
 
 			if (requestCode == 13) {
-				var token = intent.GetStringExtra ("token");
+				// var token = intent.GetStringExtra ("token");
 			}
 
 			if (requestCode == 14) {
@@ -149,8 +167,10 @@ namespace CheckinAppAndroid
 
 				item.SetActionView (imageView);
 
-				foreach (Movie movie in movies.All()) {
-					adapter.Add (movie);
+				foreach (Checkin checkin in checkins.All()) {
+					if (checkin.Movie != null) {
+						adapter.Add (checkin.Movie);
+					}
 				}
 
 				Handler handler = new Handler ();

@@ -14,6 +14,6 @@
         android:layout_height="100px"
         android:text="Test"
         android:layout_gravity="center"
-        android:padding="25px"
+        android:padding="20px"
         android:gravity="left|center" />
 </LinearLayout>

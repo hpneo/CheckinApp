@@ -63,7 +63,10 @@ namespace CheckinAppAndroid
 				moviexcatalogs = new CheckinShared.MoviexCatalogDB();
 				catalogs = new CheckinShared.CatalogDB();
 
-				Intent intent = new Intent (this, typeof(MoviexCatalogActivity));
+				// Intent intent = new Intent (this, typeof(MoviexCatalogActivity));
+
+				Intent intent = new Intent();
+
 				Movie movie = adapter.GetMovie(e.Position);
 				movie = movies.Insert(movie);
 				moviexcatalog.IdMovie = movie.Id;
@@ -76,6 +79,8 @@ namespace CheckinAppAndroid
 					catalog = catalogs.Get(idCatalog);
 					catalog.Quantity += 1;
 					catalogs.Update(catalog);
+
+					intent.PutExtra("movieId", movie.Id);
 
 					SetResult(Result.Ok, intent);
 					Finish();

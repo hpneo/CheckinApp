@@ -37,11 +37,19 @@ namespace CheckinAppAndroid
 
 			SetContentView (Resource.Layout.Main);
 
-
-
 			listViewMovies = FindViewById<ListView> (Resource.Id.listViewMovies);
 			adapter = new MoviesAdapter (this);
 			listViewMovies.Adapter = adapter;
+
+			listViewMovies.ItemClick += (object sender, AdapterView.ItemClickEventArgs e) => {
+				Movie movie = adapter.GetMovie(e.Position);
+
+				Intent intent = new Intent (this, typeof(MovieActivity));
+				intent.PutExtra("movieId", movie.Id);
+				intent.PutExtra("mode", "info");
+
+				StartActivity(intent);
+			};
 
 			movies = new CheckinShared.MovieDB ();
 			moviexcatalog = new CheckinShared.MoviexCatalogDB ();
@@ -107,6 +115,18 @@ namespace CheckinAppAndroid
 				if(moviexcatalogtemp.IdCatalog == catalog.Id)
 				{
 					adapter.Add (movies.Get(moviexcatalogtemp.IdMovie));
+				}
+			}
+		}
+
+		protected override void OnActivityResult(int requestCode, Result resultCode, Intent intent) {
+			if (requestCode == 16) {
+				if (resultCode == Result.Ok) {
+					int movieId = intent.GetIntExtra ("movieId", 0);
+					var movie = movies.Get (movieId);
+
+					adapter.Add (movie);
+					// adapter.NotifyDataSetChanged ();
 				}
 			}
 		}
