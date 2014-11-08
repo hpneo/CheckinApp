@@ -13,7 +13,7 @@ using Android.Widget;
 
 namespace CheckinAppAndroid
 {
-	public class DeleteMovieDialogFragment : DialogFragment
+	public class DeleteMovieDialogFragment : Android.Support.V4.App.DialogFragment
 	{
 		public CheckinShared.Models.Movie Movie { get; set; }
 
@@ -47,8 +47,9 @@ namespace CheckinAppAndroid
 				CheckinShared.MovieDB movies = new CheckinShared.MovieDB ();
 
 				if (movies.Delete(Movie)) {
-					((MainActivity) Activity).Adapter.Remove(Movie);
-					((MainActivity) Activity).Adapter.NotifyDataSetChanged();
+					((CheckinsFragment) ParentFragment).RemoveMovie(Movie);
+					// ((MainActivity) Activity).Adapter.Remove(Movie);
+					// ((MainActivity) Activity).Adapter.NotifyDataSetChanged();
 
 					Toast.MakeText(Activity, "Película eliminada", ToastLength.Long).Show();
 				}

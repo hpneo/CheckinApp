@@ -24,7 +24,7 @@ using CheckinShared.Services;
 
 namespace CheckinAppAndroid
 {
-	[Activity (Label = "Add Movie", Icon = "@drawable/icon", Theme="@android:style/Theme.Holo.Light")]			
+	[Activity (Label = "Agregar película", Icon = "@drawable/icon", Theme="@android:style/Theme.Holo.Light")]			
 	public class AddMovieActivity : Activity
 	{
 		private CheckinShared.MovieDB movies;
@@ -65,7 +65,7 @@ namespace CheckinAppAndroid
 
 				Intent intent = new Intent (this, typeof(MovieActivity));
 				intent.PutExtra("movieId", movie.Id);
-				StartActivityForResult (intent, 101);
+				StartActivityForResult (intent, (int) RequestsConstants.MovieInfoRequest);
 				/*Movie movie = adapter.GetMovie(e.Position);
 				movies.Insert(movie);
 
@@ -113,7 +113,7 @@ namespace CheckinAppAndroid
 		}
 
 		protected override void OnActivityResult(int requestCode, Result resultCode, Intent intent) {
-			if (requestCode == 101) {
+			if (requestCode == (int) RequestsConstants.MovieInfoRequest) {
 				if (resultCode == Result.Ok) {
 					SetResult(Result.Ok, intent);
 					Finish();

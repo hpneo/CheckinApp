@@ -24,7 +24,7 @@ using CheckinShared.Services;
 
 namespace CheckinAppAndroid
 {
-	[Activity (Label = "Add Movie", Icon = "@drawable/icon", Theme="@android:style/Theme.Holo.Light")]		
+	[Activity (Label = "Agregar película", Icon = "@drawable/icon", Theme="@android:style/Theme.Holo.Light")]		
 	public class AddMovieToCatalogActivity : Activity
 	{
 		private CheckinShared.MoviexCatalogDB moviexcatalogs;
@@ -34,7 +34,7 @@ namespace CheckinAppAndroid
 
 		public override void OnAttachedToWindow() { 
 			base.OnAttachedToWindow();
-			this.Window.SetTitle ("Add Movie to " + Intent.GetStringExtra ("Name"));
+			this.Window.SetTitle ("Agregar película a " + Intent.GetStringExtra ("Name"));
 		}
 
 		protected override void OnCreate (Bundle bundle)

@@ -21,7 +21,7 @@ using CheckinShared.Models;
 namespace CheckinAppAndroid
 {
 	[Activity (Label = "AddCatalogDialogFragment")]			
-	public class AddCatalogDialogFragment : DialogFragment
+	public class AddCatalogDialogFragment : Android.Support.V4.App.DialogFragment
 	{
 		private CheckinShared.CatalogDB catalogs;
 
@@ -36,23 +36,23 @@ namespace CheckinAppAndroid
 			EditText textName = view.FindViewById<EditText> (Resource.Id.txtAgregarCatalogo);
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(Activity);
-			builder.SetTitle ("Agregar Nuevo Catalogo");
+			builder.SetTitle ("Crear catálogo");
 			builder.SetView (view);
-			builder.SetPositiveButton ("Salir", delegate (object sender, DialogClickEventArgs e) {
-			});
-			builder.SetNegativeButton ("Agregar", delegate (object sender, DialogClickEventArgs e) {
+			builder.SetPositiveButton ("Crear", delegate (object sender, DialogClickEventArgs e) {
 				Catalog catalog = new Catalog ();
+
 				if (textName.Text.Length != 0)
 				{
 					catalog.Name = textName.Text;
 					catalog.Quantity = 0;
 					catalogs.Insert(catalog);
 
-					( (ListCatalogActivity) Activity).ActualizarLista();
+					Console.WriteLine("ParentFragment: " + ParentFragment);
+
+					((CatalogsFragment) ((MainActivity) Activity).CurrentFragment()).AddCatalog(catalog);
 				}
-
-
 			});
+			builder.SetNegativeButton ("Salir", delegate (object sender, DialogClickEventArgs e) { });
 
 
 			return builder.Create ();

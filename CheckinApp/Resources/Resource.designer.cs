@@ -94,98 +94,101 @@ namespace CheckinAppAndroid
 		public partial class Id
 		{
 			
+			// aapt resource value: 0x7f070008
+			public const int CatalogListView = 2131165192;
+			
+			// aapt resource value: 0x7f070006
+			public const int CatalogListprogressBar = 2131165190;
+			
+			// aapt resource value: 0x7f070007
+			public const int CatalogListsearchView1 = 2131165191;
+			
+			// aapt resource value: 0x7f070012
+			public const int appViewPager = 2131165202;
+			
+			// aapt resource value: 0x7f070021
+			public const int buttonCheckin = 2131165217;
+			
+			// aapt resource value: 0x7f07000d
+			public const int imageViewDeleteMoviePicture = 2131165197;
+			
 			// aapt resource value: 0x7f070010
-			public const int CatalogListView = 2131165200;
+			public const int imageViewItemMoviePicture = 2131165200;
 			
-			// aapt resource value: 0x7f07000e
-			public const int CatalogListprogressBar = 2131165198;
-			
-			// aapt resource value: 0x7f07000f
-			public const int CatalogListsearchView1 = 2131165199;
-			
-			// aapt resource value: 0x7f070020
-			public const int buttonCheckin = 2131165216;
-			
-			// aapt resource value: 0x7f070009
-			public const int imageViewDeleteMoviePicture = 2131165193;
-			
-			// aapt resource value: 0x7f07000c
-			public const int imageViewItemMoviePicture = 2131165196;
-			
-			// aapt resource value: 0x7f070014
-			public const int imageViewMoviePoster = 2131165204;
+			// aapt resource value: 0x7f070015
+			public const int imageViewMoviePoster = 2131165205;
 			
 			// aapt resource value: 0x7f070000
 			public const int linearLayout1 = 2131165184;
 			
-			// aapt resource value: 0x7f070015
-			public const int linearLayout2 = 2131165205;
+			// aapt resource value: 0x7f070016
+			public const int linearLayout2 = 2131165206;
 			
 			// aapt resource value: 0x7f070004
 			public const int listView2 = 2131165188;
 			
-			// aapt resource value: 0x7f070011
-			public const int listViewMovies = 2131165201;
+			// aapt resource value: 0x7f070009
+			public const int listViewMovies = 2131165193;
 			
 			// aapt resource value: 0x7f070002
 			public const int progressBar1 = 2131165186;
 			
-			// aapt resource value: 0x7f070012
-			public const int relativeLayout1 = 2131165202;
-			
 			// aapt resource value: 0x7f070013
-			public const int scrollView1 = 2131165203;
+			public const int relativeLayout1 = 2131165203;
+			
+			// aapt resource value: 0x7f070014
+			public const int scrollView1 = 2131165204;
 			
 			// aapt resource value: 0x7f070003
 			public const int searchView1 = 2131165187;
 			
-			// aapt resource value: 0x7f070018
-			public const int tableLayout1 = 2131165208;
-			
 			// aapt resource value: 0x7f070019
-			public const int tableRow1 = 2131165209;
-			
-			// aapt resource value: 0x7f07001c
-			public const int tableRow2 = 2131165212;
-			
-			// aapt resource value: 0x7f07001e
-			public const int tableRow3 = 2131165214;
+			public const int tableLayout1 = 2131165209;
 			
 			// aapt resource value: 0x7f07001a
-			public const int textView10 = 2131165210;
-			
-			// aapt resource value: 0x7f070006
-			public const int textViewDeleteCatalogName = 2131165190;
-			
-			// aapt resource value: 0x7f070007
-			public const int textViewDeleteCatalogQuantity = 2131165191;
-			
-			// aapt resource value: 0x7f070008
-			public const int textViewDeleteMovieTitle = 2131165192;
-			
-			// aapt resource value: 0x7f07000a
-			public const int textViewItemCatalog = 2131165194;
-			
-			// aapt resource value: 0x7f07000d
-			public const int textViewItemMovieTitle = 2131165197;
-			
-			// aapt resource value: 0x7f07000b
-			public const int textViewItemNumber = 2131165195;
-			
-			// aapt resource value: 0x7f07001f
-			public const int textViewMovieCast = 2131165215;
-			
-			// aapt resource value: 0x7f070017
-			public const int textViewMovieDescription = 2131165207;
-			
-			// aapt resource value: 0x7f07001b
-			public const int textViewMovieDirector = 2131165211;
-			
-			// aapt resource value: 0x7f070016
-			public const int textViewMovieTitle = 2131165206;
+			public const int tableRow1 = 2131165210;
 			
 			// aapt resource value: 0x7f07001d
-			public const int textViewMovieYear = 2131165213;
+			public const int tableRow2 = 2131165213;
+			
+			// aapt resource value: 0x7f07001f
+			public const int tableRow3 = 2131165215;
+			
+			// aapt resource value: 0x7f07001b
+			public const int textView10 = 2131165211;
+			
+			// aapt resource value: 0x7f07000a
+			public const int textViewDeleteCatalogName = 2131165194;
+			
+			// aapt resource value: 0x7f07000b
+			public const int textViewDeleteCatalogQuantity = 2131165195;
+			
+			// aapt resource value: 0x7f07000c
+			public const int textViewDeleteMovieTitle = 2131165196;
+			
+			// aapt resource value: 0x7f07000e
+			public const int textViewItemCatalog = 2131165198;
+			
+			// aapt resource value: 0x7f070011
+			public const int textViewItemMovieTitle = 2131165201;
+			
+			// aapt resource value: 0x7f07000f
+			public const int textViewItemNumber = 2131165199;
+			
+			// aapt resource value: 0x7f070020
+			public const int textViewMovieCast = 2131165216;
+			
+			// aapt resource value: 0x7f070018
+			public const int textViewMovieDescription = 2131165208;
+			
+			// aapt resource value: 0x7f07001c
+			public const int textViewMovieDirector = 2131165212;
+			
+			// aapt resource value: 0x7f070017
+			public const int textViewMovieTitle = 2131165207;
+			
+			// aapt resource value: 0x7f07001e
+			public const int textViewMovieYear = 2131165214;
 			
 			// aapt resource value: 0x7f070001
 			public const int txtAgregarCatalogo = 2131165185;
@@ -216,28 +219,31 @@ namespace CheckinAppAndroid
 			public const int AuthDialog = 2130903042;
 			
 			// aapt resource value: 0x7f030003
-			public const int DeleteCatalog = 2130903043;
+			public const int CatalogsFragment = 2130903043;
 			
 			// aapt resource value: 0x7f030004
-			public const int DeleteMovie = 2130903044;
+			public const int CheckinsFragment = 2130903044;
 			
 			// aapt resource value: 0x7f030005
-			public const int ItemCatalog = 2130903045;
+			public const int DeleteCatalog = 2130903045;
 			
 			// aapt resource value: 0x7f030006
-			public const int ItemMovie = 2130903046;
+			public const int DeleteMovie = 2130903046;
 			
 			// aapt resource value: 0x7f030007
-			public const int ListCatalog = 2130903047;
+			public const int ItemCatalog = 2130903047;
 			
 			// aapt resource value: 0x7f030008
-			public const int Main = 2130903048;
+			public const int ItemMovie = 2130903048;
 			
 			// aapt resource value: 0x7f030009
-			public const int Movie = 2130903049;
+			public const int Main = 2130903049;
 			
 			// aapt resource value: 0x7f03000a
-			public const int RefreshImageView = 2130903050;
+			public const int Movie = 2130903050;
+			
+			// aapt resource value: 0x7f03000b
+			public const int RefreshImageView = 2130903051;
 			
 			static Layout()
 			{

@@ -16,8 +16,8 @@ using Android.Views.Animations;
 
 namespace CheckinAppAndroid
 {
-	[Activity (Label = "Catalogo Predeterminado", Icon = "@drawable/icon", Theme="@android:style/Theme.Holo.Light")]			
-	public class MoviexCatalogActivity : Activity
+	[Activity (Label = "Catálogo", Icon = "@drawable/icon", Theme="@android:style/Theme.Holo.Light")]			
+	public class CatalogActivity : Activity
 	{
 		private CheckinShared.MovieDB movies;
 		private CheckinShared.MoviexCatalogDB moviexcatalog;
@@ -35,7 +35,7 @@ namespace CheckinAppAndroid
 			catalog.Name = Intent.GetStringExtra ("Name");
 			catalog.Id = Intent.GetIntExtra ("Id", -1);
 
-			SetContentView (Resource.Layout.Main);
+			SetContentView (Resource.Layout.CheckinsFragment);
 
 			listViewMovies = FindViewById<ListView> (Resource.Id.listViewMovies);
 			adapter = new MoviesAdapter (this);

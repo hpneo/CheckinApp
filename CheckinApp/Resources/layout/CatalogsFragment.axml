@@ -18,12 +18,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/CatalogListsearchView1"
         android:iconifiedByDefault="false"
-        android:inputType="textCapWords" />
+        android:inputType="textCapWords"
+        android:queryHint="Mis catálogos" />
     <ListView
-        android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/CatalogListView"
-        android:queryHint="Search a movie" />
+        android:id="@+id/CatalogListView" />
 </LinearLayout>
