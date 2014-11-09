@@ -109,6 +109,9 @@ namespace CheckinAppAndroid
 			// aapt resource value: 0x7f070021
 			public const int buttonCheckin = 2131165217;
 			
+			// aapt resource value: 0x7f070022
+			public const int buttonShareFacebook = 2131165218;
+			
 			// aapt resource value: 0x7f07000d
 			public const int imageViewDeleteMoviePicture = 2131165197;
 			

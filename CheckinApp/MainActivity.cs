@@ -33,7 +33,6 @@ namespace CheckinAppAndroid
 		{
 			base.OnCreate (bundle);
 
-			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
 
 			appViewPager = FindViewById<ViewPager> (Resource.Id.appViewPager);
@@ -57,8 +56,6 @@ namespace CheckinAppAndroid
 			tabPopular.SetText ("Catálogo");
 			tabPopular.TabSelected += (object sender, ActionBar.TabEventArgs e) => {
 				appViewPager.CurrentItem = ActionBar.SelectedNavigationIndex;
-				// Intent intent = new Intent (this, typeof(ListCatalogActivity));
-				// StartActivityForResult (intent, 14);
 			};
 
 			ActionBar.AddTab (tabPopular);
@@ -67,62 +64,36 @@ namespace CheckinAppAndroid
 				category = bundle.GetInt ("Películas");
 				ActionBar.SelectTab (ActionBar.GetTabAt (category));
 			}
-
-			// borrar de aquí hacia abajo
-			// borrar de aquí hacia abajo
-			// borrar de aquí hacia abajo
-			// borrar de aquí hacia abajo
-			// borrar de aquí hacia abajo
-			// borrar de aquí hacia abajo
-			// borrar de aquí hacia abajo
-			// borrar de aquí hacia abajo
-			// borrar de aquí hacia abajo
-
-			// listViewMovies = FindViewById<ListView> (Resource.Id.listViewMovies);
-			// adapter = new MoviesAdapter (this);
-			// listViewMovies.Adapter = adapter;
-			//var context = this;
-
-			//			listViewMovies.ItemClick += (object sender, AdapterView.ItemClickEventArgs e) => {
-			//				Movie movie = adapter.GetMovie(e.Position);
-			//
-			//				Intent intent = new Intent (this, typeof(MovieActivity));
-			//				intent.PutExtra("movieId", movie.Id);
-			//				intent.PutExtra("mode", "info");
-			//
-			//				StartActivity(intent);
-			//			};
-
-			//			listViewMovies.ItemLongClick += delegate(object sender, AdapterView.ItemLongClickEventArgs e) {
-			//				DeleteMovieDialogFragment dialog = new DeleteMovieDialogFragment();
-			//				dialog.Movie = adapter.GetMovie(e.Position);
-			//				dialog.Show(FragmentManager, "DeleteMovieDialogFragment");
-			////				AlertDialog.Builder builder = new AlertDialog.Builder(this);//
-			////				AlertDialog alertDialog = builder.Create();
-			////				alertDialog.SetView(new TextView(context));//
-			////				alertDialog.Show();
-			//			};
-
-			//			movies = new CheckinShared.MovieDB ();
-			//			checkins = new CheckinShared.CheckinDB ();
-			//			Toast.MakeText(this, movies.Count() + " películas en tu colección", ToastLength.Long).Show();
-			//
-			//			foreach (Checkin checkin in checkins.All()) {
-			//				if (checkin.Movie != null) {
-			//					adapter.Add (checkin.Movie);
-			//				}
-			//			}
-
-			/*foreach (Movie movie in movies.All()) {
-				adapter.Add (movie);
-			}*/
 		}
 
-		protected override void OnActivityResult(int requestCode, Result resultCode, Intent intent) {
-			if (appViewPager.CurrentItem == 0) {
+		async protected override void OnActivityResult(int requestCode, Result resultCode, Intent intent) {
+			if (requestCode == (int)RequestsConstants.AuthRequest) {
 				if (resultCode == Result.Ok) {
-					int movieId = intent.GetIntExtra ("movieId", 0);
-					((CheckinsFragment)appPagerAdapter.GetItem (0)).AddMovie (movieId);
+					string result;
+					if (intent.GetStringExtra ("authService") == "Facebook") {
+						var facebookClient = new CheckinShared.Facebook ("1492339931014967", "7ae094df0f071a1972ed7c7354943f9a");
+
+						facebookClient.UserToken = intent.GetStringExtra ("token");
+						result = await facebookClient.PublishFeed (new {
+							message = "En CanchitApp!"
+						}) as string;
+					} else {
+						var twitterClient = new CheckinShared.Twitter ("IO0mSObd1KnbSOkZXBvGchomD", "JiCrmSCOp0AR2m0zIjoY8Cq1STTbcjEPupMdpOkEihmHViQ5Lh");
+						twitterClient.UserToken = intent.GetStringExtra ("token");
+						twitterClient.UserSecret = intent.GetStringExtra ("secret");
+
+						result = await twitterClient.UpdateStatus (new {
+							status = "En CanchitApp!"
+						}) as string;
+					}
+					Console.WriteLine (result);
+				}
+			} else {
+				if (appViewPager.CurrentItem == 0) {
+					if (resultCode == Result.Ok) {
+						int movieId = intent.GetIntExtra ("movieId", 0);
+						((CheckinsFragment)appPagerAdapter.GetItem (0)).AddMovie (movieId);
+					}
 				}
 			}
 		}
@@ -136,26 +107,27 @@ namespace CheckinAppAndroid
 			searchMenu.SetShowAsAction (ShowAsAction.IfRoom);
 			searchMenu.SetActionView(new SearchView(this));*/
 
-			var addMenu = menu.Add (0, (int) MenuConstants.MainAdd, 1, "Add");
+			var addMenu = menu.Add (1, (int) MenuConstants.MainAdd, 1, "Add");
 			addMenu.SetIcon (Resource.Drawable.Add);
 			addMenu.SetShowAsAction (ShowAsAction.IfRoom);
 
-			var refreshMenu = menu.Add (0, (int) MenuConstants.MainRefresh, 2, "Refresh");
+			var refreshMenu = menu.Add (1, (int) MenuConstants.MainRefresh, 2, "Refresh");
 			refreshMenu.SetIcon (Resource.Drawable.Refresh);
 			refreshMenu.SetShowAsAction (ShowAsAction.IfRoom);
 
-			/*var facebookMenu = menu.Add (1, (int) MenuConstants.MainFacebook, 3, "Authorize Facebook");
+			var facebookMenu = menu.Add (2, (int) MenuConstants.MainFacebook, 3, "Authorize Facebook");
 			facebookMenu.SetIcon (Resource.Drawable.Facebook);
 			facebookMenu.SetShowAsAction (ShowAsAction.IfRoom);
 
-			var twitterMenu = menu.Add (1, (int) MenuConstants.MainTwitter, 4, "Authorize Twitter");
+			var twitterMenu = menu.Add (2, (int) MenuConstants.MainTwitter, 4, "Authorize Twitter");
 			twitterMenu.SetIcon (Resource.Drawable.Twitter);
-			twitterMenu.SetShowAsAction (ShowAsAction.IfRoom);*/
+			twitterMenu.SetShowAsAction (ShowAsAction.IfRoom);
 
 			return base.OnCreateOptionsMenu (menu);
 		}
 
 		public override bool OnOptionsItemSelected(IMenuItem item) {
+			Intent intent;
 			switch (item.ItemId) {
 			case (int) MenuConstants.MainAdd:
 				AddItem (item);
@@ -164,7 +136,13 @@ namespace CheckinAppAndroid
 				RefreshItems (item);
 				break;
 			case (int) MenuConstants.MainFacebook:
-				Intent intent = new Intent (this, typeof(AuthActivity));
+				intent = new Intent (this, typeof(AuthActivity));
+				intent.PutExtra ("authService", "Facebook");
+				StartActivityForResult (intent, (int) RequestsConstants.AuthRequest);
+				break;
+			case (int) MenuConstants.MainTwitter:
+				intent = new Intent (this, typeof(AuthActivity));
+				intent.PutExtra ("authService", "Twitter");
 				StartActivityForResult (intent, (int) RequestsConstants.AuthRequest);
 				break;
 			}

@@ -123,8 +123,13 @@
         </LinearLayout>
     </ScrollView>
     <Button
-        android:text="He visto"
+        android:text="La he visto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/buttonCheckin" />
+    <Button
+        android:text="Compartir en Facebook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonShareFacebook" />
 </LinearLayout>

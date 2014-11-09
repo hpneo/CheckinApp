@@ -20,8 +20,86 @@ namespace CheckinShared
 			AppSecret = appSecret;
 		}
 
+		async private Task<string> Request(string url, string method, object parameters) {
+			Console.WriteLine ("Request to: " + "https://graph.facebook.com/v2.1" + url + "?access_token=" + UserToken);
+			WebRequest request = WebRequest.Create ("https://graph.facebook.com/v2.1" + url + "?access_token=" + UserToken);
+			request.UseDefaultCredentials = true;
+
+			request.Method = method;
+
+			Task<string> response = null;
+
+			if (request.Method == "POST") {
+				Dictionary<string, string> parametersDictionary = new Dictionary<string, string> ();
+
+				Console.WriteLine ("parameters: " + parameters);
+
+				if (parameters != null) {
+					var properties = parameters.GetType ().GetProperties ();
+
+					for (int i = 0; i < properties.Length; i++) {
+						Console.WriteLine (properties [i].Name);
+						parametersDictionary.Add (properties [i].Name, properties [i].GetValue (parameters, null).ToString ());
+					}
+				}
+
+				Console.WriteLine ("parameters: " + parameters);
+				Console.WriteLine ("parametersDictionary: " + parametersDictionary);
+
+				Console.WriteLine (parametersDictionary.Keys.Count + " keys");
+				Console.WriteLine (parametersDictionary.Values.Count + " values");
+
+				string content = "";
+
+				var stringBuilder = new StringBuilder ();
+				// stringBuilder.AppendFormat ("?{0}={1}&", "access_token", UserToken);
+
+				foreach (var parameter in parametersDictionary) {
+					stringBuilder.AppendFormat ("&{0}={1}", parameter.Key, parameter.Value);
+				}
+
+				if (stringBuilder.Length > 0) {
+					stringBuilder.Length--;
+				}
+
+				content = stringBuilder.ToString ();
+
+				Console.WriteLine (url);
+				Console.WriteLine (content);
+
+				byte[] byteContent = Encoding.UTF8.GetBytes(content);
+
+				request.ContentType = "application/x-www-form-urlencoded";
+				request.ContentLength = byteContent.Length;
+
+				System.IO.Stream stream = await request.GetRequestStreamAsync ().ConfigureAwait (false);
+				stream.Write (byteContent, 0, byteContent.Length);
+				stream.Close ();
+			}
+
+			try {
+				WebResponse webResponse = await request.GetResponseAsync ();
+				System.IO.StreamReader requestHeader = new System.IO.StreamReader (webResponse.GetResponseStream ());
+				response = requestHeader.ReadToEndAsync ();
+				webResponse.Close ();
+			} catch (WebException ex) {
+				HttpWebResponse httpResponse = (HttpWebResponse)ex.Response;
+				Console.WriteLine (WebExceptionStatus.ProtocolError);
+				Console.WriteLine ("StatusCode: " + httpResponse.StatusCode);
+				Console.WriteLine ("Status: " + ex.Status);
+				Console.WriteLine ("Message: " + ex.Message);
+			}
+
+			return response.Result;
+		}
+
+		async private Task<string> Request(string url, string method) {
+			return await Request (url, method, null);
+		}
+
 		async public Task<string> Me() {
-			string url = "https://graph.facebook.com/v2.1/me?access_token=" + UserToken;
+			return await Request ("/me", "GET");
+			/*string url = "https://graph.facebook.com/v2.1/me?access_token=" + UserToken;
 
 			WebRequest request = WebRequest.Create (url);
 			request.UseDefaultCredentials = true;
@@ -43,10 +121,12 @@ namespace CheckinShared
 				Console.WriteLine (ex.Message);
 			}
 
-			return response.Result;
+			return response.Result;*/
 		}
 
 		async public Task<string> PublishFeed(object parameters) {
+			return await Request ("/me/feed", "POST", parameters);
+			/*
 			var parametersDictionary = parameters as IDictionary<string, string>;
 
 			if (parametersDictionary == null) {
@@ -111,6 +191,7 @@ namespace CheckinShared
 			}
 
 			return response.Result;
+			*/
 		}
 	}
 }

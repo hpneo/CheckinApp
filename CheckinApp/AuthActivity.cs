@@ -19,9 +19,13 @@ namespace CheckinAppAndroid
 	{
 		private WebView webView;
 
+		public string AuthService;
+
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
+
+			AuthService = this.Intent.GetStringExtra ("authService");
 
 			SetContentView (Resource.Layout.AuthDialog);
 
@@ -33,7 +37,7 @@ namespace CheckinAppAndroid
 
 			webView.RequestFocus (FocusSearchDirection.Down);
 
-			webView.LoadUrl ("http://checkinapp-auth.herokuapp.com/auth/facebook");
+			webView.LoadUrl ("http://checkinapp-auth.herokuapp.com/auth/" + AuthService.ToLower());
 
 			webView.SetWebViewClient (new AuthWebViewClient (this));
 		}

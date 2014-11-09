@@ -47,13 +47,15 @@ namespace CheckinAppAndroid
 			if (movie.Director == null) {
 				JObject movieCreditsJSON = await api.GetCredits (movie.ApiId) as JObject;
 
-				movie.Director = movieCreditsJSON ["crew"] [0] ["name"].ToString ();
-				movie.Cast = movieCreditsJSON ["cast"] [0] ["name"].ToString () + "\n" +
-					movieCreditsJSON ["cast"] [1] ["name"].ToString () + "\n" +
-					movieCreditsJSON ["cast"] [2] ["name"].ToString () + "\n" +
-					movieCreditsJSON ["cast"] [3] ["name"].ToString () + "\n" +
-					movieCreditsJSON ["cast"] [4] ["name"].ToString () + "\n" +
-					movieCreditsJSON ["cast"] [5] ["name"].ToString ();
+				if (movieCreditsJSON ["crew"].Count() > 0) {
+					movie.Director = movieCreditsJSON ["crew"] [0] ["name"].ToString ();
+				}
+
+				movie.Cast = "";
+
+				for (var i = 0; i < movieCreditsJSON ["cast"].Count (); i++) {
+					movie.Cast += movieCreditsJSON ["cast"] [i] ["name"].ToString () + "\n";
+				}
 
 				movies.Update (movie);
 			}
@@ -68,6 +70,7 @@ namespace CheckinAppAndroid
 			ImageView imageViewMoviePoster = FindViewById<ImageView> (Resource.Id.imageViewMoviePoster);
 
 			Button buttonCheckin = FindViewById<Button> (Resource.Id.buttonCheckin);
+			Button buttonShareFacebook = FindViewById<Button> (Resource.Id.buttonShareFacebook);
 
 			if (mode == "info") {
 				buttonCheckin.Visibility = ViewStates.Gone;
@@ -76,8 +79,17 @@ namespace CheckinAppAndroid
 			textViewMovieTitle.Text = movie.Title;
 			textViewMovieYear.Text = movie.Year;
 			textViewMovieDescription.Text = movie.Overview;
-			textViewMovieDirector.Text = movie.Director;
-			textViewMovieCast.Text = movie.Cast;
+			if (movie.Director != null) {
+				textViewMovieDirector.Text = movie.Director;
+			} else {
+				textViewMovieDirector.Visibility = ViewStates.Gone;
+			}
+
+			if (movie.Cast != null) {
+				textViewMovieCast.Text = movie.Cast;
+			} else {
+				textViewMovieCast.Visibility = ViewStates.Gone;
+			}
 
 			if (movie.Poster != null) {
 				imageViewMoviePoster.SetImageBitmap ((Android.Graphics.Bitmap)movie.Poster);
@@ -99,6 +111,25 @@ namespace CheckinAppAndroid
 
 				SetResult(Result.Ok, intent);
 				Finish();
+			};
+
+			buttonShareFacebook.Click += async (object sender, EventArgs e) => {
+				var sharedPreferences = GetSharedPreferences ("CheckinAppPreferences", FileCreationMode.WorldWriteable);
+				var facebookClient = new CheckinShared.Facebook ("1492339931014967", "7ae094df0f071a1972ed7c7354943f9a");
+
+				facebookClient.UserToken = sharedPreferences.GetString("Facebook:token", "");
+				string result = await facebookClient.PublishFeed (new {
+					message = "Viendo " + movie.Title,
+					link = "https://www.themoviedb.org/movie/" + movie.ApiId,
+					picture = movie.PosterPath,
+					name = movie.Title,
+					caption = movie.Year,
+					description = movie.Overview
+				}) as string;
+
+				if (result != null) {
+					Toast.MakeText(Parent, "Película compartida", ToastLength.Short).Show();
+				}
 			};
 
 			ActionBar.SetDisplayHomeAsUpEnabled (true);
