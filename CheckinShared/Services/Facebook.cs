@@ -27,7 +27,7 @@ namespace CheckinShared
 
 			request.Method = method;
 
-			Task<string> response = null;
+			string response = "";
 
 			if (request.Method == "POST") {
 				Dictionary<string, string> parametersDictionary = new Dictionary<string, string> ();
@@ -58,10 +58,6 @@ namespace CheckinShared
 					stringBuilder.AppendFormat ("&{0}={1}", parameter.Key, parameter.Value);
 				}
 
-				if (stringBuilder.Length > 0) {
-					stringBuilder.Length--;
-				}
-
 				content = stringBuilder.ToString ();
 
 				Console.WriteLine (url);
@@ -80,7 +76,7 @@ namespace CheckinShared
 			try {
 				WebResponse webResponse = await request.GetResponseAsync ();
 				System.IO.StreamReader requestHeader = new System.IO.StreamReader (webResponse.GetResponseStream ());
-				response = requestHeader.ReadToEndAsync ();
+				response = await requestHeader.ReadToEndAsync ();
 				webResponse.Close ();
 			} catch (WebException ex) {
 				HttpWebResponse httpResponse = (HttpWebResponse)ex.Response;
@@ -90,42 +86,19 @@ namespace CheckinShared
 				Console.WriteLine ("Message: " + ex.Message);
 			}
 
-			return response.Result;
+			return response;
 		}
 
-		async private Task<string> Request(string url, string method) {
-			return await Request (url, method, null);
+		private Task<string> Request(string url, string method) {
+			return Request (url, method, null);
 		}
 
-		async public Task<string> Me() {
-			return await Request ("/me", "GET");
-			/*string url = "https://graph.facebook.com/v2.1/me?access_token=" + UserToken;
-
-			WebRequest request = WebRequest.Create (url);
-			request.UseDefaultCredentials = true;
-
-			request.Method = "GET";
-
-			Task<string> response = null;
-
-			try {
-				WebResponse webResponse = await request.GetResponseAsync ();
-				System.IO.StreamReader requestHeader = new System.IO.StreamReader (webResponse.GetResponseStream ());
-				response = requestHeader.ReadToEndAsync ();
-				webResponse.Close ();
-			} catch (WebException ex) {
-				HttpWebResponse httpResponse = (HttpWebResponse)ex.Response;
-				Console.WriteLine (WebExceptionStatus.ProtocolError);
-				Console.WriteLine (httpResponse.StatusCode);
-				Console.WriteLine (ex.Status);
-				Console.WriteLine (ex.Message);
-			}
-
-			return response.Result;*/
+		public Task<string> Me() {
+			return Request ("/me", "GET");
 		}
 
-		async public Task<string> PublishFeed(object parameters) {
-			return await Request ("/me/feed", "POST", parameters);
+		public Task<string> PublishFeed(object parameters) {
+			return Request ("/me/feed", "POST", parameters);
 			/*
 			var parametersDictionary = parameters as IDictionary<string, string>;
 

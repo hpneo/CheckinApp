@@ -70,7 +70,7 @@ namespace CheckinAppAndroid
 			if (requestCode == (int)RequestsConstants.AuthRequest) {
 				if (resultCode == Result.Ok) {
 					string result;
-					if (intent.GetStringExtra ("authService") == "Facebook") {
+					/*if (intent.GetStringExtra ("authService") == "Facebook") {
 						var facebookClient = new CheckinShared.Facebook ("1492339931014967", "7ae094df0f071a1972ed7c7354943f9a");
 
 						facebookClient.UserToken = intent.GetStringExtra ("token");
@@ -82,11 +82,14 @@ namespace CheckinAppAndroid
 						twitterClient.UserToken = intent.GetStringExtra ("token");
 						twitterClient.UserSecret = intent.GetStringExtra ("secret");
 
+						Console.WriteLine ("Token: " + twitterClient.UserToken);
+						Console.WriteLine ("Secret: " + twitterClient.UserSecret);
+
 						result = await twitterClient.UpdateStatus (new {
 							status = "En CanchitApp!"
 						}) as string;
 					}
-					Console.WriteLine (result);
+					Console.WriteLine (result);*/
 				}
 			} else {
 				if (appViewPager.CurrentItem == 0) {

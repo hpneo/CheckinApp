@@ -44,7 +44,7 @@ namespace CheckinAppAndroid
 
 		public override bool OnKeyDown (Android.Views.Keycode keyCode, Android.Views.KeyEvent e)
 		{
-			if (keyCode == Keycode.Back && webView.CanGoBack ()) {
+			if (keyCode == Keycode.Back && webView != null && webView.CanGoBack ()) {
 				webView.GoBack ();
 				return true;
 			}

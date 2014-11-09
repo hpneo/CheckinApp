@@ -20,7 +20,7 @@ using CheckinShared.Services;
 
 namespace CheckinAppAndroid
 {
-	[Activity (Label = "CheckinApp", Icon = "@drawable/icon", Theme="@android:style/Theme.Holo.Light")]			
+	[Activity (Label = "CheckinApp", Icon = "@drawable/icon", Theme = "@android:style/Theme.Holo.Light")]			
 	public class MovieActivity : Activity
 	{
 		private CheckinShared.MovieDB movies;
@@ -36,9 +36,9 @@ namespace CheckinAppAndroid
 			string mode = this.Intent.GetStringExtra ("mode");
 			var movie = movies.Get (movieId);
 
-			TMDB api = new TMDB();
+			TMDB api = new TMDB ();
 			if (movie.Overview == null) {
-				JObject movieJSON = await api.Find(movie.ApiId) as JObject;
+				JObject movieJSON = await api.Find (movie.ApiId) as JObject;
 				movie.Overview = movieJSON ["overview"].ToString ();
 
 				movies.Update (movie);
@@ -47,7 +47,7 @@ namespace CheckinAppAndroid
 			if (movie.Director == null) {
 				JObject movieCreditsJSON = await api.GetCredits (movie.ApiId) as JObject;
 
-				if (movieCreditsJSON ["crew"].Count() > 0) {
+				if (movieCreditsJSON ["crew"].Count () > 0) {
 					movie.Director = movieCreditsJSON ["crew"] [0] ["name"].ToString ();
 				}
 
@@ -71,6 +71,7 @@ namespace CheckinAppAndroid
 
 			Button buttonCheckin = FindViewById<Button> (Resource.Id.buttonCheckin);
 			Button buttonShareFacebook = FindViewById<Button> (Resource.Id.buttonShareFacebook);
+			Button buttonShareTwitter = FindViewById<Button> (Resource.Id.buttonShareTwitter);
 
 			if (mode == "info") {
 				buttonCheckin.Visibility = ViewStates.Gone;
@@ -98,37 +99,81 @@ namespace CheckinAppAndroid
 				movie.Poster = Koush.UrlImageViewHelper.GetCachedBitmap (movie.PosterPath);
 			}
 
+			var self = this;
+
 			buttonCheckin.Click += (object sender, EventArgs e) => {
-				Checkin checkin = new Checkin();
+				Checkin checkin = new Checkin ();
 				checkin.MovieId = movie.Id;
 				checkin.CreatedAt = DateTime.UtcNow;
 
-				checkins.Insert(checkin);
+				checkins.Insert (checkin);
 
-				Intent intent = new Intent();
-				intent.PutExtra("checkinId", checkin.Id);
-				intent.PutExtra("movieId", movie.Id);
+				Intent intent = new Intent ();
+				intent.PutExtra ("checkinId", checkin.Id);
+				intent.PutExtra ("movieId", movie.Id);
 
-				SetResult(Result.Ok, intent);
-				Finish();
+				SetResult (Result.Ok, intent);
+				Finish ();
 			};
 
+			var sharedPreferences = GetSharedPreferences ("CheckinAppPreferences", FileCreationMode.WorldWriteable);
+
+
 			buttonShareFacebook.Click += async (object sender, EventArgs e) => {
-				var sharedPreferences = GetSharedPreferences ("CheckinAppPreferences", FileCreationMode.WorldWriteable);
 				var facebookClient = new CheckinShared.Facebook ("1492339931014967", "7ae094df0f071a1972ed7c7354943f9a");
+				facebookClient.UserToken = sharedPreferences.GetString ("Facebook:token", "");
 
-				facebookClient.UserToken = sharedPreferences.GetString("Facebook:token", "");
-				string result = await facebookClient.PublishFeed (new {
-					message = "Viendo " + movie.Title,
-					link = "https://www.themoviedb.org/movie/" + movie.ApiId,
-					picture = movie.PosterPath,
-					name = movie.Title,
-					caption = movie.Year,
-					description = movie.Overview
-				}) as string;
+				if (facebookClient.UserToken != "") {
+					try {
+						string result = await facebookClient.PublishFeed (new {
+							message = "Estoy viendo " + movie.Title,
+							link = "https://www.themoviedb.org/movie/" + movie.ApiId,
+							picture = movie.PosterPath,
+							name = movie.Title,
+							caption = movie.Year,
+							description = movie.Overview
+						}) as string;
 
-				if (result != null) {
-					Toast.MakeText(Parent, "Película compartida", ToastLength.Short).Show();
+						Console.WriteLine("result: " + result);
+
+						Toast.MakeText (self, "Película compartida en Facebook", ToastLength.Short).Show ();
+					} catch (Exception ex) {
+						Console.WriteLine("ex.StackTrace");
+						Console.WriteLine(ex.StackTrace);
+						Console.WriteLine("ex.StackTrace");
+						Toast.MakeText (self, "Hubo un error al compartir la película: " + ex.Source, ToastLength.Long).Show ();
+					}
+				} else {
+					Intent intent = new Intent (this, typeof(AuthActivity));
+					intent.PutExtra ("authService", "Facebook");
+					StartActivityForResult (intent, (int)RequestsConstants.AuthRequest);
+				}
+			};
+
+			buttonShareTwitter.Click += async (object sender, EventArgs e) => {
+				var twitterClient = new CheckinShared.Twitter ("IO0mSObd1KnbSOkZXBvGchomD", "JiCrmSCOp0AR2m0zIjoY8Cq1STTbcjEPupMdpOkEihmHViQ5Lh");
+				twitterClient.UserToken = sharedPreferences.GetString ("Twitter:token", "");
+				twitterClient.UserSecret = sharedPreferences.GetString ("Twitter:secret", "");
+
+				if (twitterClient.UserToken != "" && twitterClient.UserSecret != "") {
+					try {
+						string result = await twitterClient.UpdateStatus (new {
+							status = "Estoy viendo " + movie.Title + " (" + "https://www.themoviedb.org/movie/" + movie.ApiId + ")"
+						}) as string;
+
+						Console.WriteLine("result: " + result);
+
+						Toast.MakeText (self, "Película compartida en Twitter", ToastLength.Short).Show ();
+					} catch (Exception ex) {
+						Console.WriteLine("ex.Message");
+						Console.WriteLine(ex.Message);
+						Console.WriteLine("ex.Message");
+						Toast.MakeText (self, "Hubo un error al compartir la película: " + ex.Source, ToastLength.Long).Show ();
+					}
+				} else {
+					Intent intent = new Intent (this, typeof(AuthActivity));
+					intent.PutExtra ("authService", "Twitter");
+					StartActivityForResult (intent, (int)RequestsConstants.AuthRequest);
 				}
 			};
 
@@ -139,12 +184,41 @@ namespace CheckinAppAndroid
 			Window.SetTitle (movie.Title);
 		}
 
-		public override bool OnOptionsItemSelected(IMenuItem item) {
+		public override bool OnOptionsItemSelected (IMenuItem item)
+		{
 			if (item.ItemId == Android.Resource.Id.Home) {
 				OnBackPressed ();
 			}
 
 			return base.OnOptionsItemSelected (item);
+		}
+
+		async protected override void OnActivityResult(int requestCode, Result resultCode, Intent intent) {
+			if (requestCode == (int)RequestsConstants.AuthRequest) {
+				if (resultCode == Result.Ok) {
+					string result;
+					/*if (intent.GetStringExtra ("authService") == "Facebook") {
+						var facebookClient = new CheckinShared.Facebook ("1492339931014967", "7ae094df0f071a1972ed7c7354943f9a");
+
+						facebookClient.UserToken = intent.GetStringExtra ("token");
+						result = await facebookClient.PublishFeed (new {
+							message = "En CanchitApp!"
+						}) as string;
+					} else {
+						var twitterClient = new CheckinShared.Twitter ("IO0mSObd1KnbSOkZXBvGchomD", "JiCrmSCOp0AR2m0zIjoY8Cq1STTbcjEPupMdpOkEihmHViQ5Lh");
+						twitterClient.UserToken = intent.GetStringExtra ("token");
+						twitterClient.UserSecret = intent.GetStringExtra ("secret");
+
+						Console.WriteLine ("Token: " + twitterClient.UserToken);
+						Console.WriteLine ("Secret: " + twitterClient.UserSecret);
+
+						result = await twitterClient.UpdateStatus (new {
+							status = "En CanchitApp!"
+						}) as string;
+					}
+					Console.WriteLine (result);*/
+				}
+			}
 		}
 	}
 }

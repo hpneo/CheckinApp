@@ -132,4 +132,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/buttonShareFacebook" />
+    <Button
+        android:text="Compartir en Twitter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonShareTwitter" />
 </LinearLayout>
