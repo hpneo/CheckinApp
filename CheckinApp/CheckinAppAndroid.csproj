@@ -77,6 +77,8 @@
     <Compile Include="Utils\AppConstants.cs" />
     <Compile Include="Dialogs\CatalogActivity.cs" />
     <Compile Include="App.cs" />
+    <Compile Include="Utils\BitmapHelpers.cs" />
+    <Compile Include="Dialogs\AddMovieToCatalogDetailActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -125,6 +127,7 @@
     <AndroidResource Include="Resources\layout\DeleteCatalog.axml" />
     <AndroidResource Include="Resources\layout\CheckinsFragment.axml" />
     <AndroidResource Include="Resources\layout\CatalogsFragment.axml" />
+    <AndroidResource Include="Resources\layout\AddMovieToCatalog.axml" />
   </ItemGroup>
   <Import Project="..\CheckinShared\CheckinShared.projitems" Label="Shared" Condition="Exists('..\CheckinShared\CheckinShared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
