@@ -1,4 +1,4 @@
-﻿	using System;
+﻿using System;
 using System.IO;
 using System.Collections;
 
@@ -18,6 +18,9 @@ using Android.Webkit;
 using SQLite;
 
 using CheckinShared.Models;
+using Android.Provider;
+using Android.Content.PM;
+using System.Collections.Generic;
 
 namespace CheckinAppAndroid
 {
