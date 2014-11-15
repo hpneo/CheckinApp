@@ -51,12 +51,12 @@ namespace CheckinAppAndroid
 
 			SearchView searchViewMovie = FindViewById<SearchView> (Resource.Id.searchView1);
 
-			ListView listView2 = FindViewById<ListView> (Resource.Id.listView2);
+			ListView listViewMovies = FindViewById<ListView> (Resource.Id.listView2);
 
 			MoviesAdapter adapter = new MoviesAdapter (this);
 
-			listView2.Adapter = adapter;
-			listView2.ItemClick += delegate(object sender, AdapterView.ItemClickEventArgs e) {
+			listViewMovies.Adapter = adapter;
+			listViewMovies.ItemClick += delegate(object sender, AdapterView.ItemClickEventArgs e) {
 				MoviexCatalog moviexcatalog = new MoviexCatalog();
 
 				movies = new CheckinShared.MovieDB();
