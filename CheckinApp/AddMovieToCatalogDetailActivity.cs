@@ -65,6 +65,12 @@ namespace CheckinAppAndroid
 
 			movie = movies.Get (movieId);
 
+			EditText textNombre = FindViewById<EditText> (Resource.Id.txtNombrePelicula);
+			textNombre.Text += movie.Title;
+
+			EditText textDirector = FindViewById<EditText> (Resource.Id.txtDirectorPelicula);
+			textDirector.Text += movie.Director;
+
 			TMDB api = new TMDB ();
 			if (movie.Overview == null) {
 				JObject movieJSON = await api.Find (movie.ApiId) as JObject;
@@ -89,16 +95,10 @@ namespace CheckinAppAndroid
 				movies.Update (movie);
 			}
 
-			EditText textNombre = FindViewById<EditText> (Resource.Id.txtNombrePelicula);
-			textNombre.Text += movie.Title;
-
 			EditText textFecha = FindViewById<EditText> (Resource.Id.txtAñoEstrenoPelicula);
 			if (movie.Year != null) {
 				textFecha.Text +=  movie.Year;
 			}
-
-			EditText textDirector = FindViewById<EditText> (Resource.Id.txtDirectorPelicula);
-			textDirector.Text += movie.Director;
 
 			EditText textDescripcion = FindViewById<EditText> (Resource.Id.txtDescripcion);
 			textDescripcion.Text += movie.Overview;
@@ -112,29 +112,28 @@ namespace CheckinAppAndroid
 			Button btnCancelar = FindViewById<Button> (Resource.Id.btnCancelarPelicula);
 
 			btnGuardar.Click += (object sender, EventArgs e) => {
-				MoviexCatalog moviexcatalog = new MoviexCatalog();
-				movies = new CheckinShared.MovieDB();
-				moviexcatalogs = new CheckinShared.MoviexCatalogDB();
-				catalogs = new CheckinShared.CatalogDB();
+				MoviexCatalog moviexcatalog = new MoviexCatalog ();
+				movies = new CheckinShared.MovieDB ();
+				moviexcatalogs = new CheckinShared.MoviexCatalogDB ();
+				catalogs = new CheckinShared.CatalogDB ();
 
-				Intent intent = new Intent();
+				Intent intent = new Intent ();
 
-				movie = movies.Insert(movie);
+				movie = movies.Insert (movie);
 				moviexcatalog.IdMovie = movie.Id;
 
-				if(idCatalog != -1)
-				{
-					Catalog catalog = new Catalog();
+				if (idCatalog != -1) {
+					Catalog catalog = new Catalog ();
 					moviexcatalog.IdCatalog = idCatalog;
-					moviexcatalogs.Insert(moviexcatalog);
-					catalog = catalogs.Get(idCatalog);
+					moviexcatalogs.Insert (moviexcatalog);
+					catalog = catalogs.Get (idCatalog);
 					catalog.Quantity += 1;
-					catalogs.Update(catalog);
+					catalogs.Update (catalog);
 
-					intent.PutExtra("movieId", movie.Id);
+					intent.PutExtra ("movieId", movie.Id);
 				}
-				SetResult(Result.Ok, intent);
-				Finish();
+				SetResult (Result.Ok, intent);
+				Finish ();
 			};
 
 			btnCancelar.Click += (object sender, EventArgs e) => {
@@ -166,17 +165,18 @@ namespace CheckinAppAndroid
 		{
 			base.OnActivityResult(requestCode, resultCode, data);
 
-			Intent mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
-			Uri contentUri = Uri.FromFile(Camera._file);
-			mediaScanIntent.SetData(contentUri);
-			SendBroadcast(mediaScanIntent);
+			if (resultCode == Result.Ok) {
+				Intent mediaScanIntent = new Intent (Intent.ActionMediaScannerScanFile);
+				Uri contentUri = Uri.FromFile (Camera._file);
+				mediaScanIntent.SetData (contentUri);
+				SendBroadcast (mediaScanIntent);
 
-			int height = imgFoto.Height;
-			int width = imgFoto.Width ;
-			Camera.bitmap = Camera._file.Path.LoadAndResizeBitmap (width, height);
+				int height = imgFoto.Height;
+				int width = imgFoto.Width;
+				Camera.bitmap = Camera._file.Path.LoadAndResizeBitmap (width, height);
 
-			imgFoto.SetImageBitmap (Camera.bitmap);
-
+				imgFoto.SetImageBitmap (Camera.bitmap);
+			}
 		}
 
 		private void CreateDirectoryForPictures()
