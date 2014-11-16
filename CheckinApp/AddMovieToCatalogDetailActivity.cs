@@ -45,6 +45,8 @@ namespace CheckinAppAndroid
 		private CheckinShared.Models.Movie movie;
 		private int idCatalog;
 
+		private MoviexCatalog moviexcatalog;
+
 		ImageView imgFoto;
 
 		public override void OnAttachedToWindow() { 
@@ -112,7 +114,7 @@ namespace CheckinAppAndroid
 			Button btnCancelar = FindViewById<Button> (Resource.Id.btnCancelarPelicula);
 
 			btnGuardar.Click += (object sender, EventArgs e) => {
-				MoviexCatalog moviexcatalog = new MoviexCatalog ();
+				moviexcatalog = new MoviexCatalog ();
 				movies = new CheckinShared.MovieDB ();
 				moviexcatalogs = new CheckinShared.MoviexCatalogDB ();
 				catalogs = new CheckinShared.CatalogDB ();
@@ -170,6 +172,11 @@ namespace CheckinAppAndroid
 				Uri contentUri = Uri.FromFile (Camera._file);
 				mediaScanIntent.SetData (contentUri);
 				SendBroadcast (mediaScanIntent);
+
+				moviexcatalog.PhotoPath = Camera._file.Path;
+				moviexcatalogs.Update (moviexcatalog);
+
+				Console.WriteLine (moviexcatalog.PhotoPath);
 
 				int height = imgFoto.Height;
 				int width = imgFoto.Width;

@@ -2,112 +2,110 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:minWidth="100px"
-    android:minHeight="100px"
-    android:scrollbars="vertical"
-    android:scrollbarStyle="insideOverlay"
-    android:verticalScrollbarPosition="defaultPosition">
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="Nombre:"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView1"
-            android:textSize="20dp"
-            android:textColor="#ff05a9ec"
-            android:layout_marginLeft="5dp" />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nombre de la Película"
-            android:id="@+id/txtNombrePelicula"
-            android:layout_marginLeft="30dp" />
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="Año:"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView1"
-            android:textSize="20dp"
-            android:textColor="#ff05a9ec"
-            android:layout_marginLeft="5dp" />
-        <EditText
-            android:inputType="date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Fecha de Estreno"
-            android:layout_marginLeft="65dp"
-            android:id="@+id/txtAñoEstrenoPelicula" />
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="Director:"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView1"
-            android:textSize="20dp"
-            android:textColor="#ff05a9ec"
-            android:layout_marginLeft="5dp" />
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Director de la Película"
-            android:layout_marginLeft="30dp"
-            android:id="@+id/txtDirectorPelicula" />
-    </LinearLayout>
-    <TextView
-        android:text="Descripción:"
+    android:layout_height="fill_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:id="@+id/scrollView1">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:padding="10dp">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Nombre:"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView1"
+                    android:textSize="20dp"
+                    android:textColor="#ff05a9ec"
+                    android:layout_marginLeft="5dp" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nombre de la Película"
+                    android:id="@+id/txtNombrePelicula"
+                    android:layout_marginLeft="30dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Año:"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView1"
+                    android:textSize="20dp"
+                    android:textColor="#ff05a9ec"
+                    android:layout_marginLeft="5dp" />
+                <EditText
+                    android:inputType="date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Fecha de Estreno"
+                    android:layout_marginLeft="65dp"
+                    android:id="@+id/txtAñoEstrenoPelicula" />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Director:"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView1"
+                    android:textSize="20dp"
+                    android:textColor="#ff05a9ec"
+                    android:layout_marginLeft="5dp" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Director de la Película"
+                    android:layout_marginLeft="30dp"
+                    android:id="@+id/txtDirectorPelicula" />
+            </LinearLayout>
+            <TextView
+                android:text="Descripción:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView1"
+                android:textSize="20dp"
+                android:textColor="#ff05a9ec"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" />
+            <EditText
+                android:inputType="textMultiLine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Descripción general"
+                android:id="@+id/txtDescripcion"
+                android:layout_margin="5dp"
+                android:maxWidth="150dp"
+                android:height="80dp" />
+            <ImageView
+                android:src="@android:drawable/ic_menu_gallery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/imgFoto"
+                android:layout_margin="10dp" />
+        </LinearLayout>
+    </ScrollView>
+    <Button
+        android:text="Guardar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView1"
-        android:textSize="20dp"
-        android:textColor="#ff05a9ec"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp" />
-    <EditText
-        android:inputType="textMultiLine"
+        android:id="@+id/btnGuardarPelicula" />
+    <Button
+        android:text="Cancelar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Descripción general"
-        android:id="@+id/txtDescripcion"
-        android:layout_margin="5dp"
-        android:maxWidth="150dp"
-        android:height="80dp" />
-    <ImageView
-        android:src="@android:drawable/ic_menu_gallery"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/imgFoto"
-        android:layout_margin="10dp" />
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_margin="20dp"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <Button
-            android:text="Guardar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnGuardarPelicula"
-            android:layout_marginRight="20dp" />
-        <Button
-            android:text="Cancelar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnCancelarPelicula"
-            android:layout_marginLeft="20dp" />
-    </LinearLayout>
+        android:id="@+id/btnCancelarPelicula" />
 </LinearLayout>
