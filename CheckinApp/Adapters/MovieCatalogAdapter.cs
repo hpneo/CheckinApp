@@ -16,17 +16,19 @@ using CheckinShared.Models;
 
 namespace CheckinAppAndroid
 {
-	public class MoviesAdapter : BaseAdapter
+	public class MovieCatalogAdapter : BaseAdapter
 	{
-		private ObservableCollection<Movie> moviesList;
+		private CheckinShared.MovieDB movies;
+		private ObservableCollection<MoviexCatalog> moviesList;
 		private Activity activity;
 
 		// private readonly object locker = new object();
 
-		public MoviesAdapter (Activity activity)
+		public MovieCatalogAdapter (Activity activity)
 		{
 			this.activity = activity;
-			this.moviesList = new ObservableCollection<Movie> ();
+			this.movies = new CheckinShared.MovieDB ();
+			this.moviesList = new ObservableCollection<MoviexCatalog> ();
 			this.moviesList.CollectionChanged += delegate(object sender, NotifyCollectionChangedEventArgs e) {
 				base.NotifyDataSetChanged ();
 				// NotifyDataSetChanged();
@@ -42,37 +44,37 @@ namespace CheckinAppAndroid
 			moviesList.Clear ();
 		}
 
-		public void Add (Movie movie)
+		public void Add (MoviexCatalog movie)
 		{
 			moviesList.Add (movie);
 		}
 
-		public void AddAll (IList<Movie> movies)
+		public void AddAll (IList<MoviexCatalog> movies)
 		{
 			moviesList.Clear ();
-			foreach (Movie movie in movies) {
+			foreach (MoviexCatalog movie in movies) {
 				moviesList.Add (movie);
 			}
 		}
 
-		public void Insert (Movie movie, int position)
+		public void Insert (MoviexCatalog movie, int position)
 		{
 			moviesList.Insert (position, movie);
 		}
 
-		public void Remove (Movie movie)
+		public void Remove (MoviexCatalog movie)
 		{
 			moviesList.Remove (movie);
 		}
 
 		public override Java.Lang.Object GetItem (int position)
 		{
-			return new JavaObject<CheckinShared.Models.Movie> (moviesList [position]);
+			return new JavaObject<CheckinShared.Models.MoviexCatalog> (moviesList [position]);
 		}
 
-		public Movie GetMovie (int position)
+		public MoviexCatalog GetMovie (int position)
 		{
-			return (Movie)moviesList [position];
+			return (MoviexCatalog)moviesList [position];
 		}
 
 		public override long GetItemId (int position)
@@ -95,20 +97,32 @@ namespace CheckinAppAndroid
 				view.Tag = holder;
 			}
 
-			Movie movie = ((Movie)moviesList [position]);
+			MoviexCatalog moviexCatalog = ((MoviexCatalog)moviesList [position]);
+			if (moviexCatalog.IdMovie != 0) {
+				Movie movie = movies.Get (moviexCatalog.IdMovie);
 
-			if (movie != null) {
-				holder.Title.Text = movie.Title;
+				if (movie != null) {
+					holder.Title.Text = movie.Title;
 
-				if (movie.Year != null) {
-					holder.Title.Text += " (" + movie.Year + ")";
-				}
+					if (movie.Year != null) {
+						holder.Title.Text += " (" + movie.Year + ")";
+					}
 
-				if (movie.Poster != null) {
-					holder.Image.SetImageBitmap ((Android.Graphics.Bitmap)movie.Poster);
-				} else {
-					Koush.UrlImageViewHelper.SetUrlDrawable (holder.Image, movie.PosterPath);
-					movie.Poster = Koush.UrlImageViewHelper.GetCachedBitmap (movie.PosterPath);
+					Console.WriteLine ("PhotoPath: " + moviexCatalog.PhotoPath);
+
+					if (moviexCatalog.Photo != null) {
+						holder.Image.SetImageBitmap ((Android.Graphics.Bitmap)moviexCatalog.Photo);
+					} else {
+						if (moviexCatalog.PhotoPath.StartsWith ("/")) {
+							moviexCatalog.Photo = BitmapHelpers.BitmapHelpers.LoadAndResizeBitmap (moviexCatalog.PhotoPath, 200, 200);
+							holder.Image.SetImageBitmap ((Android.Graphics.Bitmap)moviexCatalog.Photo);
+						} else {
+							Koush.UrlImageViewHelper.SetUrlDrawable (holder.Image, moviexCatalog.PhotoPath);
+							moviexCatalog.Photo = Koush.UrlImageViewHelper.GetCachedBitmap (moviexCatalog.PhotoPath);
+						}
+					}
+
+					Console.WriteLine ("PhotoPath: " + moviexCatalog.Photo + "");
 				}
 			}
 

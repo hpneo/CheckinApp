@@ -14,6 +14,8 @@ namespace CheckinShared.Models
 		[Column("IdCatalog")] 
 		public int IdCatalog { get; set; }
 		public string PhotoPath { get; set; }
+		[Ignore]
+		public object Photo { get; set; }
 
 		public MoviexCatalog ()
 		{

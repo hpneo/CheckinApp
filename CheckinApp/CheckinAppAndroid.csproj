@@ -75,10 +75,11 @@
     <Compile Include="Dialogs\DeleteCatalogDialogFragment.cs" />
     <Compile Include="Dialogs\DeleteMovieDialogFragment.cs" />
     <Compile Include="Utils\AppConstants.cs" />
-    <Compile Include="Dialogs\CatalogActivity.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Utils\BitmapHelpers.cs" />
     <Compile Include="AddMovieToCatalogDetailActivity.cs" />
+    <Compile Include="CatalogActivity.cs" />
+    <Compile Include="Adapters\MovieCatalogAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

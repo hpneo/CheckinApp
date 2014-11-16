@@ -20,12 +20,12 @@ namespace CheckinAppAndroid
 	public class CatalogActivity : Activity
 	{
 		private CheckinShared.MovieDB movies;
-		private CheckinShared.MoviexCatalogDB moviexcatalog;
+		private CheckinShared.MoviexCatalogDB moviexcatalogs;
 		private Catalog catalog;
-		private MoviesAdapter adapter;
+		private MovieCatalogAdapter adapter;
 		private ListView listViewMovies;
 
-		public MoviesAdapter Adapter { get { return adapter; } }
+		public MovieCatalogAdapter Adapter { get { return adapter; } }
 		public ListView ListView { get { return listViewMovies; } }
 
 		protected override void OnCreate (Bundle bundle)
@@ -38,11 +38,14 @@ namespace CheckinAppAndroid
 			SetContentView (Resource.Layout.CheckinsFragment);
 
 			listViewMovies = FindViewById<ListView> (Resource.Id.listViewMovies);
-			adapter = new MoviesAdapter (this);
+			adapter = new MovieCatalogAdapter (this);
 			listViewMovies.Adapter = adapter;
 
+			movies = new CheckinShared.MovieDB ();
+			moviexcatalogs = new CheckinShared.MoviexCatalogDB ();
+
 			listViewMovies.ItemClick += (object sender, AdapterView.ItemClickEventArgs e) => {
-				Movie movie = adapter.GetMovie(e.Position);
+				Movie movie = movies.Get(adapter.GetMovie(e.Position).IdMovie);
 
 				Intent intent = new Intent (this, typeof(MovieActivity));
 				intent.PutExtra("movieId", movie.Id);
@@ -50,9 +53,6 @@ namespace CheckinAppAndroid
 
 				StartActivity(intent);
 			};
-
-			movies = new CheckinShared.MovieDB ();
-			moviexcatalog = new CheckinShared.MoviexCatalogDB ();
 
 			ActualizarLista ();
 
@@ -116,10 +116,10 @@ namespace CheckinAppAndroid
 		public void ActualizarLista()
 		{
 			adapter.Clear ();
-			foreach (MoviexCatalog moviexcatalogtemp in moviexcatalog.All()) {
-				if(moviexcatalogtemp.IdCatalog == catalog.Id)
+			foreach (MoviexCatalog moviexcatalog in moviexcatalogs.All()) {
+				if(moviexcatalog.IdCatalog == catalog.Id)
 				{
-					adapter.Add (movies.Get(moviexcatalogtemp.IdMovie));
+					adapter.Add (moviexcatalog);
 				}
 			}
 		}
@@ -127,10 +127,10 @@ namespace CheckinAppAndroid
 		protected override void OnActivityResult(int requestCode, Result resultCode, Intent intent) {
 			if (requestCode == 16) {
 				if (resultCode == Result.Ok) {
-					int movieId = intent.GetIntExtra ("movieId", 0);
-					var movie = movies.Get (movieId);
+					int moviexCatalogId = intent.GetIntExtra ("moviexCatalogId", 0);
+					var moviexCatalog = moviexcatalogs.Get (moviexCatalogId);
 
-					adapter.Add (movie);
+					adapter.Add (moviexCatalog);
 					// adapter.NotifyDataSetChanged ();
 				}
 			}

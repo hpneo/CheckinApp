@@ -29,12 +29,13 @@ using Android.Content.PM;
 
 namespace CheckinAppAndroid
 {
-	[Activity (Label = "AddMovieToCatalogDetailActivity", Icon = "@drawable/icon", Theme="@android:style/Theme.Holo.Light")]			
+	[Activity (Label = "AddMovieToCatalogDetailActivity", Icon = "@drawable/icon", Theme = "@android:style/Theme.Holo.Light")]			
 	public class AddMovieToCatalogDetailActivity : Activity
 	{
-		public static class Camera{
+		public static class Camera
+		{
 			public static File _file;
-			public static File _dir;     
+			public static File _dir;
 			public static Bitmap bitmap;
 		}
 
@@ -49,8 +50,9 @@ namespace CheckinAppAndroid
 
 		ImageView imgFoto;
 
-		public override void OnAttachedToWindow() { 
-			base.OnAttachedToWindow();
+		public override void OnAttachedToWindow ()
+		{ 
+			base.OnAttachedToWindow ();
 			this.Window.SetTitle ("Agregar Película a Catálogo");
 		}
 
@@ -99,7 +101,7 @@ namespace CheckinAppAndroid
 
 			EditText textFecha = FindViewById<EditText> (Resource.Id.txtAñoEstrenoPelicula);
 			if (movie.Year != null) {
-				textFecha.Text +=  movie.Year;
+				textFecha.Text += movie.Year;
 			}
 
 			EditText textDescripcion = FindViewById<EditText> (Resource.Id.txtDescripcion);
@@ -122,38 +124,49 @@ namespace CheckinAppAndroid
 				Intent intent = new Intent ();
 
 				movie = movies.Insert (movie);
+
 				moviexcatalog.IdMovie = movie.Id;
+
+				if (Camera._file != null) {
+					moviexcatalog.PhotoPath = Camera._file.Path;
+				}
+				else {
+					moviexcatalog.PhotoPath = movie.PosterPath;
+				}
 
 				if (idCatalog != -1) {
 					Catalog catalog = new Catalog ();
 					moviexcatalog.IdCatalog = idCatalog;
-					moviexcatalogs.Insert (moviexcatalog);
 					catalog = catalogs.Get (idCatalog);
 					catalog.Quantity += 1;
 					catalogs.Update (catalog);
 
 					intent.PutExtra ("movieId", movie.Id);
 				}
+
+				moviexcatalogs.Insert (moviexcatalog);
+				System.Console.WriteLine (moviexcatalog.PhotoPath);
+				intent.PutExtra ("moviexCatalogId", moviexcatalog.Id);
+
 				SetResult (Result.Ok, intent);
 				Finish ();
 			};
 
 			btnCancelar.Click += (object sender, EventArgs e) => {
 
-				Intent intent = new Intent();
+				Intent intent = new Intent ();
 
-				SetResult(Result.Canceled, intent);
-				Finish();
+				SetResult (Result.Canceled, intent);
+				Finish ();
 			};
 
 
 			imgFoto.Click += (object sender, EventArgs e) => {
 
-				if (IsThereAnAppToTakePictures())
-				{
-					CreateDirectoryForPictures();
+				if (IsThereAnAppToTakePictures ()) {
+					CreateDirectoryForPictures ();
 
-					TakeAPicture(sender,e);
+					TakeAPicture (sender, e);
 				}
 
 			};
@@ -163,20 +176,15 @@ namespace CheckinAppAndroid
 			ActionBar.SetDisplayShowHomeEnabled (true);
 		}
 
-		protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+		protected override void OnActivityResult (int requestCode, Result resultCode, Intent data)
 		{
-			base.OnActivityResult(requestCode, resultCode, data);
+			base.OnActivityResult (requestCode, resultCode, data);
 
 			if (resultCode == Result.Ok) {
 				Intent mediaScanIntent = new Intent (Intent.ActionMediaScannerScanFile);
 				Uri contentUri = Uri.FromFile (Camera._file);
 				mediaScanIntent.SetData (contentUri);
 				SendBroadcast (mediaScanIntent);
-
-				moviexcatalog.PhotoPath = Camera._file.Path;
-				moviexcatalogs.Update (moviexcatalog);
-
-				Console.WriteLine (moviexcatalog.PhotoPath);
 
 				int height = imgFoto.Height;
 				int width = imgFoto.Width;
@@ -186,34 +194,34 @@ namespace CheckinAppAndroid
 			}
 		}
 
-		private void CreateDirectoryForPictures()
+		private void CreateDirectoryForPictures ()
 		{
-			Camera._dir = new File(Environment.GetExternalStoragePublicDirectory(Environment.DirectoryPictures), "CheckinApp");
-			if (!Camera._dir.Exists())
-			{
-				Camera._dir.Mkdirs();
+			Camera._dir = new File (Environment.GetExternalStoragePublicDirectory (Environment.DirectoryPictures), "CheckinApp");
+			if (!Camera._dir.Exists ()) {
+				Camera._dir.Mkdirs ();
 			}
 		}
 
-		private bool IsThereAnAppToTakePictures()
+		private bool IsThereAnAppToTakePictures ()
 		{
-			Intent intent = new Intent(MediaStore.ActionImageCapture);
-			IList<ResolveInfo> availableActivities = PackageManager.QueryIntentActivities(intent, PackageInfoFlags.MatchDefaultOnly);
+			Intent intent = new Intent (MediaStore.ActionImageCapture);
+			IList<ResolveInfo> availableActivities = PackageManager.QueryIntentActivities (intent, PackageInfoFlags.MatchDefaultOnly);
 			return availableActivities != null && availableActivities.Count > 0;
 		}
 
-		private void TakeAPicture(object sender, EventArgs eventArgs)
+		private void TakeAPicture (object sender, EventArgs eventArgs)
 		{
-			Intent intent = new Intent(MediaStore.ActionImageCapture);
+			Intent intent = new Intent (MediaStore.ActionImageCapture);
 
-			Camera._file = new File(Camera._dir, String.Format("myPhoto_{0}.jpg", Guid.NewGuid()));
+			Camera._file = new File (Camera._dir, String.Format ("myPhoto_{0}.jpg", Guid.NewGuid ()));
 
-			intent.PutExtra(MediaStore.ExtraOutput, Uri.FromFile(Camera._file));
+			intent.PutExtra (MediaStore.ExtraOutput, Uri.FromFile (Camera._file));
 
-			StartActivityForResult(intent, 0);
+			StartActivityForResult (intent, 0);
 		}
 
-		public override bool OnCreateOptionsMenu(IMenu menu) {
+		public override bool OnCreateOptionsMenu (IMenu menu)
+		{
 			MenuInflater.Inflate (Resource.Menu.Main, menu);
 
 			var addMenu = menu.Add (0, 1, 1, "Add");
@@ -223,7 +231,8 @@ namespace CheckinAppAndroid
 			return base.OnCreateOptionsMenu (menu);
 		}
 
-		public override bool OnOptionsItemSelected(IMenuItem item) {
+		public override bool OnOptionsItemSelected (IMenuItem item)
+		{
 			if (item.ItemId == 1) {
 				MoviexCatalog moviexcatalog = new MoviexCatalog ();
 				movies = new CheckinShared.MovieDB ();
