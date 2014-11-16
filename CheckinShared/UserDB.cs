@@ -5,7 +5,7 @@ using CheckinShared.Models;
 
 namespace CheckinShared
 {
-	public class CatalogDB
+	public class UserDB
 	{
 		static object locker = new object ();
 		SQLiteConnection database;
@@ -30,23 +30,23 @@ namespace CheckinShared
 			}
 		}
 
-		public CatalogDB ()
+		public UserDB ()
 		{
 			database = new SQLiteConnection (DatabasePath);
 
-			database.CreateTable<Catalog> ();
+			database.CreateTable<User> ();
 		}
 
-		public Catalog Insert(Catalog catalog) {
+		public User Insert(User user) {
 			lock (locker) {
-				database.Insert (catalog);
-				return catalog;
+				database.Insert (user);
+				return user;
 			}
 		}
 
-		public bool Update(Catalog catalog) {
+		public bool Update(User user) {
 			lock (locker) {
-				int flag = database.Update (catalog);
+				int flag = database.Update (user);
 
 				if (flag == 1) {
 					return true;
@@ -56,9 +56,9 @@ namespace CheckinShared
 			}
 		}
 
-		public bool Delete(Catalog catalog) {
+		public bool Delete(User user) {
 			lock (locker) {
-				int flag = database.Delete<Catalog> (catalog.Id);
+				int flag = database.Delete<User> (user.Id);
 
 				if (flag == 1) {
 					return true;
@@ -68,21 +68,21 @@ namespace CheckinShared
 			}
 		}
 
-		public Catalog Get(int id) {
+		public User Get(int id) {
 			lock (locker) {
-				return database.Get<Catalog> (id);
+				return database.Get<User> (id);
 			}
 		}
 
 		public int Count() {
 			lock (locker) {
-				return database.Table<Catalog> ().Count ();
+				return database.Table<User> ().Count ();
 			}
 		}
 
-		public TableQuery<Catalog> All() {
+		public TableQuery<User> All() {
 			lock (locker) {
-				return database.Table<Catalog> ();
+				return database.Table<User> ();
 			}
 		}
 	}

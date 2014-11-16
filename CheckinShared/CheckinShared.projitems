@@ -21,6 +21,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\MoviexCatalog.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MoviexCatalogDB.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\Twitter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\User.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserDB.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Models\" />
