@@ -78,7 +78,7 @@
     <Compile Include="Dialogs\CatalogActivity.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Utils\BitmapHelpers.cs" />
-    <Compile Include="Dialogs\AddMovieToCatalogDetailActivity.cs" />
+    <Compile Include="AddMovieToCatalogDetailActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

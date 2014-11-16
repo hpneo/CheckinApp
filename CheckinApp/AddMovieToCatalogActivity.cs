@@ -29,16 +29,12 @@ namespace CheckinAppAndroid
 	public class AddMovieToCatalogActivity : Activity
 	{
 
-
-
-		public override void OnAttachedToWindow() { 
-			base.OnAttachedToWindow();
-			this.Window.SetTitle ("Agregar película a " + Intent.GetStringExtra ("Name"));
-		}
-
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
+			CheckinShared.MovieDB movies = new CheckinShared.MovieDB ();
+
+			this.ActionBar.Title = "Agregar película a " + Intent.GetStringExtra ("Name");
 
 			SetContentView (Resource.Layout.AddMovie);
 
@@ -50,57 +46,27 @@ namespace CheckinAppAndroid
 
 			SearchView searchViewMovie = FindViewById<SearchView> (Resource.Id.searchView1);
 
-			ListView listView2 = FindViewById<ListView> (Resource.Id.listView2);
+			ListView listViewMovies = FindViewById<ListView> (Resource.Id.listView2);
 
 			MoviesAdapter adapter = new MoviesAdapter (this);
 
-			listView2.Adapter = adapter;
-			listView2.ItemClick += delegate(object sender, AdapterView.ItemClickEventArgs e) {
-				/*
-				MoviexCatalog moviexcatalog = new MoviexCatalog();
-				movies = new CheckinShared.MovieDB();
-				moviexcatalogs = new CheckinShared.MoviexCatalogDB();
-				catalogs = new CheckinShared.CatalogDB();
-
-				// Intent intent = new Intent (this, typeof(MoviexCatalogActivity));
-
-
-
-				Movie movie = adapter.GetMovie(e.Position);
-				movie = movies.Insert(movie);
-				moviexcatalog.IdMovie = movie.Id;
-				int idCatalog = Intent.GetIntExtra("Id",-1);
-
-				if(idCatalog != -1)
-				{
-					Catalog catalog = new Catalog();
-					moviexcatalog.IdCatalog = idCatalog;
-					moviexcatalogs.Insert(moviexcatalog);
-					catalog = catalogs.Get(idCatalog);
-					catalog.Quantity += 1;
-					catalogs.Update(catalog);
-
-					intent.PutExtra("movieId", movie.Id);
-
-					SetResult(Result.Ok, intent);
-					Finish();
-				}
-				else
-				{
-					SetResult(Result.Canceled, intent);
-					Finish();
-				}
-				*/
-
+			listViewMovies.Adapter = adapter;
+			listViewMovies.ItemClick += delegate(object sender, AdapterView.ItemClickEventArgs e) {
 				Intent intent = new Intent (this, typeof(AddMovieToCatalogDetailActivity));
 				Movie movie = adapter.GetMovie(e.Position);
-				intent.PutExtra ("MovieTitle",movie.Title);
-				intent.PutExtra ("MovieDate",movie.Year);
-				intent.PutExtra ("MovieDirector",movie.Director);
-				intent.PutExtra ("MovieOverview",movie.Overview);
-				intent.PutExtra ("MoviePosterPath",movie.PosterPath);
+
+				int count = movies.All().Where(m => m.ApiId.Equals(movie.ApiId)).Count();
+
+				if (count == 0) {
+					movies.Insert(movie);
+				}
+				else {
+					movie = movies.All().Where(m => m.ApiId.Equals(movie.ApiId)).First();
+				}
 
 				intent.PutExtra ("Name",Intent.GetStringExtra ("Name"));
+				intent.PutExtra ("movieId", movie.Id);
+
 				intent.PutExtra ("Id",Intent.GetIntExtra("Id",-1));
 
 				StartActivityForResult (intent, 30);
@@ -109,6 +75,8 @@ namespace CheckinAppAndroid
 			searchViewMovie.QueryTextSubmit += async delegate(object sender, SearchView.QueryTextSubmitEventArgs e) {
 				Console.WriteLine(searchViewMovie.Query);
 				progressbarSearch.Visibility = ViewStates.Visible;
+
+				Console.WriteLine("searchViewMovie.QueryTextSubmit");
 
 				TMDB api = new TMDB();
 				Task<object> resultsTask = api.SearchMovies(searchViewMovie.Query);
@@ -121,6 +89,16 @@ namespace CheckinAppAndroid
 				adapter.Clear();
 
 				foreach (var movieJSON in moviesArray) {
+					Movie movie = new Movie();
+					movie.Title = movieJSON["title"].ToString();
+					movie.Year = movieJSON["release_date"].ToString().Split(new char[]{ '-' })[0];
+					movie.PosterPath = "http://image.tmdb.org/t/p/w154" + movieJSON["poster_path"].ToString();
+					movie.ApiId = movieJSON["id"].ToString();
+
+					adapter.Add(movie);
+				}
+
+				/*foreach (var movieJSON in moviesArray) {
 					Movie movie = new Movie();
 					movie.Title = movieJSON["title"].ToString();
 					movie.Year = movieJSON["release_date"].ToString().Split(new char[]{ '-' })[0];
@@ -144,7 +122,7 @@ namespace CheckinAppAndroid
 					}
 
 					adapter.Add(movie);
-				}
+				}*/
 
 				progressbarSearch.Visibility = ViewStates.Gone;
 			};

@@ -8,16 +8,6 @@
     android:scrollbars="vertical"
     android:scrollbarStyle="insideOverlay"
     android:verticalScrollbarPosition="defaultPosition">
-    <TextView
-        android:text="Test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/txtTituloAgregarPelicula"
-        android:textSize="20dp"
-        android:textColor="#ff05a9ec"
-        android:layout_margin="20dp"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center" />
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
@@ -28,7 +18,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/textView1"
             android:textSize="20dp"
-            android:textColor="#ff05a9ec" />
+            android:textColor="#ff05a9ec"
+            android:layout_marginLeft="5dp" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,7 +37,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/textView1"
             android:textSize="20dp"
-            android:textColor="#ff05a9ec" />
+            android:textColor="#ff05a9ec"
+            android:layout_marginLeft="5dp" />
         <EditText
             android:inputType="date"
             android:layout_width="match_parent"
@@ -65,7 +57,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/textView1"
             android:textSize="20dp"
-            android:textColor="#ff05a9ec" />
+            android:textColor="#ff05a9ec"
+            android:layout_marginLeft="5dp" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -80,14 +73,18 @@
         android:id="@+id/textView1"
         android:textSize="20dp"
         android:textColor="#ff05a9ec"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp" />
     <EditText
         android:inputType="textMultiLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Descripción general"
         android:id="@+id/txtDescripcion"
-        android:layout_margin="5dp" />
+        android:layout_margin="5dp"
+        android:maxWidth="150dp"
+        android:height="80dp" />
     <ImageView
         android:src="@android:drawable/ic_menu_gallery"
         android:layout_width="match_parent"
