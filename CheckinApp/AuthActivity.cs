@@ -37,7 +37,7 @@ namespace CheckinAppAndroid
 
 			webView.RequestFocus (FocusSearchDirection.Down);
 
-			webView.LoadUrl ("http://checkinapp-auth.herokuapp.com/auth/" + AuthService.ToLower());
+			webView.LoadUrl ("http://canchitapp.herokuapp.com/auth/" + AuthService.ToLower());
 
 			webView.SetWebViewClient (new AuthWebViewClient (this));
 		}

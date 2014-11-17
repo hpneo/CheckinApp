@@ -25,7 +25,7 @@ namespace CheckinAppAndroid
 
 		public override void OnPageFinished (WebView webView, string url)
 		{
-			if (url.Contains ("http://checkinapp-auth.herokuapp.com/info")) {
+			if (url.Contains ("http://canchitapp.herokuapp.com/info")) {
 				Android.Net.Uri uri = Android.Net.Uri.Parse (url);
 				Console.WriteLine (uri.GetQueryParameter ("token"));
 
