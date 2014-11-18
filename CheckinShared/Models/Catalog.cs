@@ -16,7 +16,7 @@ namespace CheckinShared.Models
 		public string Name { get; set; }
 
 		[Column ("UserId")] 
-		public string UserId { get; set; }
+		public int UserId { get; set; }
 
 		[Column ("Quantity")] 
 		public int Quantity { get; set; }
