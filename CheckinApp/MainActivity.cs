@@ -36,36 +36,46 @@ namespace CheckinAppAndroid
 		{
 			base.OnCreate (bundle);
 
-			SetContentView (Resource.Layout.Main);
+			var sharedPreferences = GetSharedPreferences ("CheckinAppPreferences", FileCreationMode.WorldWriteable);
 
-			appViewPager = FindViewById<ViewPager> (Resource.Id.appViewPager);
+			int user_id = sharedPreferences.GetInt ("user_id", 0);
 
-			ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
+			if (user_id == 0) {
+				StartActivity (typeof(LoginActivity));
+				Finish ();
+			} else {
+				Console.WriteLine (AppHelper.GetCurrentUser (this));
+				SetContentView (Resource.Layout.Main);
 
-			appPagerAdapter = new AppPagerAdapter (SupportFragmentManager);
+				appViewPager = FindViewById<ViewPager> (Resource.Id.appViewPager);
 
-			appViewPager.Adapter = appPagerAdapter;
-			appViewPager.SetOnPageChangeListener (new ViewPageListenerForActionBar(ActionBar));
+				ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
 
-			var tabMovies = ActionBar.NewTab();
-			tabMovies.SetText ("Películas");
-			tabMovies.TabSelected += (object sender, ActionBar.TabEventArgs e) => {
-				appViewPager.CurrentItem = ActionBar.SelectedNavigationIndex;
-			};
+				appPagerAdapter = new AppPagerAdapter (SupportFragmentManager);
 
-			ActionBar.AddTab (tabMovies);
+				appViewPager.Adapter = appPagerAdapter;
+				appViewPager.SetOnPageChangeListener (new ViewPageListenerForActionBar (ActionBar));
 
-			var tabPopular = ActionBar.NewTab();
-			tabPopular.SetText ("Catálogo");
-			tabPopular.TabSelected += (object sender, ActionBar.TabEventArgs e) => {
-				appViewPager.CurrentItem = ActionBar.SelectedNavigationIndex;
-			};
+				var tabMovies = ActionBar.NewTab ();
+				tabMovies.SetText ("Películas");
+				tabMovies.TabSelected += (object sender, ActionBar.TabEventArgs e) => {
+					appViewPager.CurrentItem = ActionBar.SelectedNavigationIndex;
+				};
 
-			ActionBar.AddTab (tabPopular);
+				ActionBar.AddTab (tabMovies);
 
-			if (bundle != null) {
-				category = bundle.GetInt ("Películas");
-				ActionBar.SelectTab (ActionBar.GetTabAt (category));
+				var tabPopular = ActionBar.NewTab ();
+				tabPopular.SetText ("Catálogo");
+				tabPopular.TabSelected += (object sender, ActionBar.TabEventArgs e) => {
+					appViewPager.CurrentItem = ActionBar.SelectedNavigationIndex;
+				};
+
+				ActionBar.AddTab (tabPopular);
+
+				if (bundle != null) {
+					category = bundle.GetInt ("Películas");
+					ActionBar.SelectTab (ActionBar.GetTabAt (category));
+				}
 			}
 		}
 

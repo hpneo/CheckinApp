@@ -70,16 +70,19 @@ namespace CheckinAppAndroid
 			public const int Icon = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public const int Refresh = 2130837507;
+			public const int IconBig = 2130837507;
 			
 			// aapt resource value: 0x7f020004
-			public const int Search = 2130837508;
+			public const int Refresh = 2130837508;
 			
 			// aapt resource value: 0x7f020005
-			public const int the_dark_knight_poster = 2130837509;
+			public const int Search = 2130837509;
 			
 			// aapt resource value: 0x7f020006
-			public const int Twitter = 2130837510;
+			public const int the_dark_knight_poster = 2130837510;
+			
+			// aapt resource value: 0x7f020007
+			public const int Twitter = 2130837511;
 			
 			static Drawable()
 			{
@@ -103,8 +106,8 @@ namespace CheckinAppAndroid
 			// aapt resource value: 0x7f070010
 			public const int CatalogListsearchView1 = 2131165200;
 			
-			// aapt resource value: 0x7f07001b
-			public const int appViewPager = 2131165211;
+			// aapt resource value: 0x7f07001e
+			public const int appViewPager = 2131165214;
 			
 			// aapt resource value: 0x7f07000d
 			public const int btnCancelarPelicula = 2131165197;
@@ -112,14 +115,20 @@ namespace CheckinAppAndroid
 			// aapt resource value: 0x7f07000c
 			public const int btnGuardarPelicula = 2131165196;
 			
-			// aapt resource value: 0x7f070029
-			public const int buttonCheckin = 2131165225;
+			// aapt resource value: 0x7f07002c
+			public const int buttonCheckin = 2131165228;
 			
-			// aapt resource value: 0x7f07002a
-			public const int buttonShareFacebook = 2131165226;
+			// aapt resource value: 0x7f07001d
+			public const int buttonLoginWithFacebook = 2131165213;
 			
-			// aapt resource value: 0x7f07002b
-			public const int buttonShareTwitter = 2131165227;
+			// aapt resource value: 0x7f07001c
+			public const int buttonLoginWithTwitter = 2131165212;
+			
+			// aapt resource value: 0x7f07002d
+			public const int buttonShareFacebook = 2131165229;
+			
+			// aapt resource value: 0x7f07002e
+			public const int buttonShareTwitter = 2131165230;
 			
 			// aapt resource value: 0x7f070016
 			public const int imageViewDeleteMoviePicture = 2131165206;
@@ -127,8 +136,11 @@ namespace CheckinAppAndroid
 			// aapt resource value: 0x7f070019
 			public const int imageViewItemMoviePicture = 2131165209;
 			
-			// aapt resource value: 0x7f07001d
-			public const int imageViewMoviePoster = 2131165213;
+			// aapt resource value: 0x7f07001b
+			public const int imageViewLogo = 2131165211;
+			
+			// aapt resource value: 0x7f070020
+			public const int imageViewMoviePoster = 2131165216;
 			
 			// aapt resource value: 0x7f07000b
 			public const int imgFoto = 2131165195;
@@ -136,8 +148,8 @@ namespace CheckinAppAndroid
 			// aapt resource value: 0x7f070000
 			public const int linearLayout1 = 2131165184;
 			
-			// aapt resource value: 0x7f07001e
-			public const int linearLayout2 = 2131165214;
+			// aapt resource value: 0x7f070021
+			public const int linearLayout2 = 2131165217;
 			
 			// aapt resource value: 0x7f070004
 			public const int listView2 = 2131165188;
@@ -148,8 +160,8 @@ namespace CheckinAppAndroid
 			// aapt resource value: 0x7f070002
 			public const int progressBar1 = 2131165186;
 			
-			// aapt resource value: 0x7f07001c
-			public const int relativeLayout1 = 2131165212;
+			// aapt resource value: 0x7f07001f
+			public const int relativeLayout1 = 2131165215;
 			
 			// aapt resource value: 0x7f070005
 			public const int scrollView1 = 2131165189;
@@ -157,23 +169,23 @@ namespace CheckinAppAndroid
 			// aapt resource value: 0x7f070003
 			public const int searchView1 = 2131165187;
 			
-			// aapt resource value: 0x7f070021
-			public const int tableLayout1 = 2131165217;
-			
-			// aapt resource value: 0x7f070022
-			public const int tableRow1 = 2131165218;
+			// aapt resource value: 0x7f070024
+			public const int tableLayout1 = 2131165220;
 			
 			// aapt resource value: 0x7f070025
-			public const int tableRow2 = 2131165221;
+			public const int tableRow1 = 2131165221;
 			
-			// aapt resource value: 0x7f070027
-			public const int tableRow3 = 2131165223;
+			// aapt resource value: 0x7f070028
+			public const int tableRow2 = 2131165224;
+			
+			// aapt resource value: 0x7f07002a
+			public const int tableRow3 = 2131165226;
 			
 			// aapt resource value: 0x7f070006
 			public const int textView1 = 2131165190;
 			
-			// aapt resource value: 0x7f070023
-			public const int textView10 = 2131165219;
+			// aapt resource value: 0x7f070026
+			public const int textView10 = 2131165222;
 			
 			// aapt resource value: 0x7f070013
 			public const int textViewDeleteCatalogName = 2131165203;
@@ -193,20 +205,20 @@ namespace CheckinAppAndroid
 			// aapt resource value: 0x7f070018
 			public const int textViewItemNumber = 2131165208;
 			
-			// aapt resource value: 0x7f070028
-			public const int textViewMovieCast = 2131165224;
+			// aapt resource value: 0x7f07002b
+			public const int textViewMovieCast = 2131165227;
 			
-			// aapt resource value: 0x7f070020
-			public const int textViewMovieDescription = 2131165216;
+			// aapt resource value: 0x7f070023
+			public const int textViewMovieDescription = 2131165219;
 			
-			// aapt resource value: 0x7f070024
-			public const int textViewMovieDirector = 2131165220;
+			// aapt resource value: 0x7f070027
+			public const int textViewMovieDirector = 2131165223;
 			
-			// aapt resource value: 0x7f07001f
-			public const int textViewMovieTitle = 2131165215;
+			// aapt resource value: 0x7f070022
+			public const int textViewMovieTitle = 2131165218;
 			
-			// aapt resource value: 0x7f070026
-			public const int textViewMovieYear = 2131165222;
+			// aapt resource value: 0x7f070029
+			public const int textViewMovieYear = 2131165225;
 			
 			// aapt resource value: 0x7f070001
 			public const int txtAgregarCatalogo = 2131165185;
@@ -270,13 +282,16 @@ namespace CheckinAppAndroid
 			public const int ItemMovie = 2130903049;
 			
 			// aapt resource value: 0x7f03000a
-			public const int Main = 2130903050;
+			public const int Login = 2130903050;
 			
 			// aapt resource value: 0x7f03000b
-			public const int Movie = 2130903051;
+			public const int Main = 2130903051;
 			
 			// aapt resource value: 0x7f03000c
-			public const int RefreshImageView = 2130903052;
+			public const int Movie = 2130903052;
+			
+			// aapt resource value: 0x7f03000d
+			public const int RefreshImageView = 2130903053;
 			
 			static Layout()
 			{

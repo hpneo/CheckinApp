@@ -80,6 +80,8 @@
     <Compile Include="AddMovieToCatalogDetailActivity.cs" />
     <Compile Include="CatalogActivity.cs" />
     <Compile Include="Adapters\MovieCatalogAdapter.cs" />
+    <Compile Include="LoginActivity.cs" />
+    <Compile Include="Utils\AppHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -129,6 +131,8 @@
     <AndroidResource Include="Resources\layout\CheckinsFragment.axml" />
     <AndroidResource Include="Resources\layout\CatalogsFragment.axml" />
     <AndroidResource Include="Resources\layout\AddMovieToCatalog.axml" />
+    <AndroidResource Include="Resources\layout\Login.axml" />
+    <AndroidResource Include="Resources\drawable\IconBig.png" />
   </ItemGroup>
   <Import Project="..\CheckinShared\CheckinShared.projitems" Label="Shared" Condition="Exists('..\CheckinShared\CheckinShared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

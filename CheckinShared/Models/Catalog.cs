@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using SQLite;
 
@@ -42,9 +43,17 @@ namespace CheckinShared.Models
 		async public void SaveToParse ()
 		{
 			if (this.ParseId + "" == "") {
+				IList<string> movies = new List<string> ();
+				MoviexCatalogDB moviexCatalogDB = new MoviexCatalogDB ();
+				foreach (MoviexCatalog moviexCatalog in moviexCatalogDB.All ().Where (mxc => mxc.IdCatalog.Equals (this.Id))) {
+					moviexCatalog.SaveToParse ();
+					movies.Add (moviexCatalog.ParseId);
+				}
+
 				ParseObject catalog = new ParseObject ("Catalogo");
 
 				catalog ["Usuario"] = this.User.ParseId;
+				catalog ["Peliculas"] = movies;
 
 				await catalog.SaveAsync ();
 
