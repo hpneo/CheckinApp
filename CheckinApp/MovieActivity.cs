@@ -15,8 +15,12 @@ using System.Threading.Tasks;
 
 using Newtonsoft.Json.Linq;
 
+using Android.Gms.Maps;
+using Android.Gms.Maps.Model;
+
 using CheckinShared.Models;
 using CheckinShared.Services;
+
 
 namespace CheckinAppAndroid
 {
@@ -26,9 +30,17 @@ namespace CheckinAppAndroid
 		private CheckinShared.MovieDB movies;
 		private CheckinShared.CheckinDB checkins;
 
+		private GoogleMap _map;
+		private MapFragment _mapFragment;
+		private static readonly LatLng UPC = new LatLng(-12.103951800, -76.963278100);
+
 		async protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
+			//Inicialización del mapa
+
+			InitMapFragment ();
+
 			movies = new CheckinShared.MovieDB ();
 			checkins = new CheckinShared.CheckinDB ();
 
@@ -184,6 +196,53 @@ namespace CheckinAppAndroid
 			Window.SetTitle (movie.Title);
 		}
 
+		private void InitMapFragment()
+		{
+			_mapFragment = FragmentManager.FindFragmentByTag("map") as MapFragment;
+			if (_mapFragment == null)
+			{
+				GoogleMapOptions mapOptions = new GoogleMapOptions()
+					.InvokeCamera(CameraPosition.FromLatLngZoom(new LatLng(-12.103951800, -76.963278100), 16))
+					.InvokeScrollGesturesEnabled(true)
+					.InvokeMapType(GoogleMap.MapTypeNormal)
+					.InvokeZoomControlsEnabled(true)
+					.InvokeCompassEnabled(true);
+				//	-12.103951800, -76.963278100
+
+				FragmentTransaction fragTx = FragmentManager.BeginTransaction();
+				_mapFragment = MapFragment.NewInstance(mapOptions);
+				fragTx.Add(Resource.Id.map, _mapFragment, "map");
+				fragTx.Commit();
+			}
+		}
+
+		protected override void OnResume()
+		{
+			base.OnResume();
+			SetupMapIfNeeded();
+		}
+
+		private void SetupMapIfNeeded()
+		{
+			if (_map == null)
+			{
+				_map = _mapFragment.Map;
+				if (_map != null)
+				{
+						_map = _mapFragment.Map;
+
+						if (_map != null) {
+							MarkerOptions markerOpt1 = new MarkerOptions();
+							markerOpt1.SetPosition(UPC);
+							markerOpt1.SetTitle("CheckinApp");
+							_map.AddMarker(markerOpt1);
+						}
+
+				}
+			}
+		}
+
+
 		public override bool OnOptionsItemSelected (IMenuItem item)
 		{
 			if (item.ItemId == Android.Resource.Id.Home) {
@@ -220,6 +279,8 @@ namespace CheckinAppAndroid
 				}
 			}
 		}
+
+	
 	}
 }
 
