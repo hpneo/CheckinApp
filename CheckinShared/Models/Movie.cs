@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using SQLite;
 
@@ -43,24 +44,31 @@ namespace CheckinShared.Models
 		{
 		}
 
-		async public void SaveToParse ()
+		async public Task SaveToParse ()
 		{
-			if (this.ParseId + "" == "") {
-				ParseObject movie = new ParseObject ("Pelicula");
-
-				movie ["Nombre"] = this.Title;
-				movie ["Nombre_Original"] = this.Title;
-				movie ["Anio"] = int.Parse (this.Year);
-				movie ["Director"] = this.Director;
-				movie ["ID_TMDB"] = this.ApiId;
-				movie ["Descripcion"] = this.Overview;
-
-				await movie.SaveAsync ();
-
-				this.ParseId = movie.ObjectId;
-				MovieDB movieDB = new MovieDB ();
-				movieDB.Update (this);
+			Task task;
+			ParseObject movie;
+			if (this.ParseId == null || this.ParseId == "") {
+				movie = new ParseObject ("Pelicula");
+			} else {
+				ParseQuery<ParseObject> query = ParseObject.GetQuery ("Pelicula");
+				movie = await query.GetAsync (this.ParseId);
 			}
+
+			movie ["Nombre"] = this.Title;
+			movie ["Nombre_Original"] = this.Title;
+			movie ["Anio"] = int.Parse (this.Year);
+			movie ["Director"] = this.Director;
+			movie ["ID_TMDB"] = this.ApiId;
+			movie ["Descripcion"] = this.Overview;
+
+			task = await movie.SaveAsync ();
+
+			this.ParseId = movie.ObjectId;
+			MovieDB movieDB = new MovieDB ();
+			movieDB.Update (this);
+
+			return task;
 		}
 	}
 }

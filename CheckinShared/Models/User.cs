@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using SQLite;
 
@@ -25,18 +26,27 @@ namespace CheckinShared.Models
 		{
 		}
 
-		async public void SaveToParse ()
+		async public Task SaveToParse ()
 		{
-			ParseObject user = new ParseObject ("Usuario");
+			Task task;
+			ParseObject user;
+			if (this.ParseId == null || this.ParseId == "") {
+				user = new ParseObject ("Usuario");
+			} else {
+				ParseQuery<ParseObject> query = ParseObject.GetQuery ("Usuario");
+				user = await query.GetAsync (this.ParseId);
+			}
 
 			user ["Usuario_facebook"] = this.Facebook;
 			user ["Usuario_twitter"] = this.Twitter;
 
-			await user.SaveAsync ();
+			task = await user.SaveAsync ();
 
 			this.ParseId = user.ObjectId;
 			UserDB userDB = new UserDB ();
 			userDB.Update (this);
+
+			return task;
 		}
 	}
 }
