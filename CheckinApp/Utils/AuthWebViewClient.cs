@@ -26,7 +26,7 @@ namespace CheckinAppAndroid
 			return true;
 		}
 
-		async public override void OnPageFinished (WebView webView, string url)
+		public override void OnPageFinished (WebView webView, string url)
 		{
 			if (url.Contains ("http://canchitapp.herokuapp.com/info")) {
 				Android.Net.Uri uri = Android.Net.Uri.Parse (url);
@@ -76,7 +76,7 @@ namespace CheckinAppAndroid
 
 				editor.PutInt ("user_id", user.Id);
 
-				await user.SaveToParse ();
+				user.SaveToParse ();
 
 				editor.PutString (this.activity.AuthService + ":token", token);
 				editor.PutString (this.activity.AuthService + ":secret", secret);
