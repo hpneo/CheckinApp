@@ -44,7 +44,7 @@ namespace CheckinShared.Models
 		{
 		}
 
-		async public Task SaveToParse ()
+		async public void SaveToParse ()
 		{
 			Task task;
 			ParseObject movie;
@@ -62,13 +62,11 @@ namespace CheckinShared.Models
 			movie ["ID_TMDB"] = this.ApiId;
 			movie ["Descripcion"] = this.Overview;
 
-			task = await movie.SaveAsync ();
+			await movie.SaveAsync ();
 
 			this.ParseId = movie.ObjectId;
 			MovieDB movieDB = new MovieDB ();
 			movieDB.Update (this);
-
-			return task;
 		}
 	}
 }

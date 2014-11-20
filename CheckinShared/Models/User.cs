@@ -26,7 +26,7 @@ namespace CheckinShared.Models
 		{
 		}
 
-		async public Task SaveToParse ()
+		async public void SaveToParse ()
 		{
 			Task task;
 			ParseObject user;
@@ -40,13 +40,11 @@ namespace CheckinShared.Models
 			user ["Usuario_facebook"] = this.Facebook;
 			user ["Usuario_twitter"] = this.Twitter;
 
-			task = await user.SaveAsync ();
+			await user.SaveAsync ();
 
 			this.ParseId = user.ObjectId;
 			UserDB userDB = new UserDB ();
 			userDB.Update (this);
-
-			return task;
 		}
 	}
 }
