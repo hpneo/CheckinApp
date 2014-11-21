@@ -14,7 +14,8 @@ namespace CheckinAppAndroid
 	{
 		AddMovieRequest = 1,
 		AuthRequest = 2,
-		MovieInfoRequest = 3
+		MovieInfoRequest = 3,
+		LoginRequest = 4
 	}
 }
 

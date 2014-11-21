@@ -21,7 +21,7 @@ namespace CheckinAppAndroid
 
 		public static User GetCurrentUser (Activity activity)
 		{
-			var sharedPreferences = activity.GetSharedPreferences ("CheckinAppPreferences", FileCreationMode.WorldWriteable);
+			var sharedPreferences = activity.BaseContext.GetSharedPreferences ("CheckinAppPreferences", FileCreationMode.WorldWriteable);
 
 			int user_id = sharedPreferences.GetInt ("user_id", 0);
 

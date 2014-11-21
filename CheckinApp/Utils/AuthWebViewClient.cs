@@ -5,6 +5,8 @@ using Android.App;
 using Android.OS;
 using Android.Views;
 using Android.Webkit;
+using Android.Runtime;
+using Android.Widget;
 
 using CheckinShared;
 using CheckinShared.Models;
@@ -23,16 +25,22 @@ namespace CheckinAppAndroid
 		public override bool ShouldOverrideUrlLoading (WebView view, string url)
 		{
 			view.LoadUrl (url);
+
 			return true;
 		}
 
 		public override void OnPageFinished (WebView webView, string url)
 		{
-			if (url.Contains ("http://canchitapp.herokuapp.com/info")) {
-				Android.Net.Uri uri = Android.Net.Uri.Parse (url);
+			base.OnPageFinished (webView, url);
+
+			Android.Net.Uri uri = Android.Net.Uri.Parse (url);
+
+			Console.WriteLine ("uri.Path: " + uri.Path);
+
+			if (uri.Path.StartsWith("/info")) {
 				Console.WriteLine (uri.GetQueryParameter ("token"));
 
-				var sharedPreferences = activity.GetSharedPreferences ("CheckinAppPreferences", FileCreationMode.WorldWriteable);
+				var sharedPreferences = activity.BaseContext.GetSharedPreferences ("CheckinAppPreferences", FileCreationMode.WorldWriteable);
 				var editor = sharedPreferences.Edit ();
 		
 				string uid = uri.GetQueryParameter ("uid");
@@ -47,6 +55,7 @@ namespace CheckinAppAndroid
 				int user_id = sharedPreferences.GetInt ("user_id", 0);
 
 				if (user_id == 0) {
+					Console.WriteLine ("user_id == 0");
 					if (this.activity.AuthService == "facebook") {
 						count = userDB.All ().Where (u => u.Facebook.Equals (uid)).Count ();
 
@@ -63,6 +72,7 @@ namespace CheckinAppAndroid
 
 					userDB.Insert (user);
 				} else {
+					Console.WriteLine ("user_id != 0");
 					user = userDB.Get (user_id);
 
 					if (this.activity.AuthService == "facebook") {
@@ -76,24 +86,25 @@ namespace CheckinAppAndroid
 
 				editor.PutInt ("user_id", user.Id);
 
-				user.SaveToParse ();
-
 				editor.PutString (this.activity.AuthService + ":token", token);
 				editor.PutString (this.activity.AuthService + ":secret", secret);
+				Console.WriteLine ("AuthWebViewClient:user_id: " + user.Id);
 
 				editor.Commit ();
 
-				Intent intent = new Intent ();
+				Toast.MakeText (activity, "AuthWebViewClient:user_id: " + user_id, ToastLength.Short).Show ();
 
-				intent.PutExtra ("authService", this.activity.AuthService);
-				intent.PutExtra ("token", token);
-				intent.PutExtra ("secret", secret);
+				Intent intentToLogin = new Intent ();
 
-				activity.SetResult (Result.Ok, intent);
+				intentToLogin.PutExtra ("authService", activity.AuthService);
+				intentToLogin.PutExtra ("token", token);
+				intentToLogin.PutExtra ("secret", secret);
+
+				activity.SetResult (Result.Ok, intentToLogin);
 				activity.Finish ();
-			}
 
-			base.OnPageFinished (webView, url);
+				Console.WriteLine ("Finishing: " + activity.Intent.GetStringExtra("callerActivity"));
+			}
 		}
 	}
 }

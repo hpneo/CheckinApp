@@ -16,7 +16,7 @@ using Android.Views.Animations;
 
 namespace CheckinAppAndroid
 {
-	[Activity (Label = "Catálogo", Icon = "@drawable/icon", Theme="@android:style/Theme.Holo.Light")]			
+	[Activity (Label = "Catálogo", Icon = "@drawable/icon", Theme = "@android:style/Theme.Holo.Light")]			
 	public class CatalogActivity : Activity
 	{
 		private CheckinShared.MovieDB movies;
@@ -26,6 +26,7 @@ namespace CheckinAppAndroid
 		private ListView listViewMovies;
 
 		public MovieCatalogAdapter Adapter { get { return adapter; } }
+
 		public ListView ListView { get { return listViewMovies; } }
 
 		protected override void OnCreate (Bundle bundle)
@@ -45,13 +46,13 @@ namespace CheckinAppAndroid
 			moviexcatalogs = new CheckinShared.MoviexCatalogDB ();
 
 			listViewMovies.ItemClick += (object sender, AdapterView.ItemClickEventArgs e) => {
-				Movie movie = movies.Get(adapter.GetMovie(e.Position).IdMovie);
+				Movie movie = movies.Get (adapter.GetMovie (e.Position).IdMovie);
 
 				Intent intent = new Intent (this, typeof(MovieActivity));
-				intent.PutExtra("movieId", movie.Id);
-				intent.PutExtra("mode", "info");
+				intent.PutExtra ("movieId", movie.Id);
+				intent.PutExtra ("mode", "info");
 
-				StartActivity(intent);
+				StartActivity (intent);
 			};
 
 			ActualizarLista ();
@@ -61,12 +62,14 @@ namespace CheckinAppAndroid
 			ActionBar.SetDisplayShowHomeEnabled (true);
 		}
 
-		public override void OnAttachedToWindow() { 
-			base.OnAttachedToWindow();
+		public override void OnAttachedToWindow ()
+		{ 
+			base.OnAttachedToWindow ();
 			Window.SetTitle (catalog.Name); 
 		}
-			
-		public override bool OnCreateOptionsMenu(IMenu menu) {
+
+		public override bool OnCreateOptionsMenu (IMenu menu)
+		{
 			MenuInflater.Inflate (Resource.Menu.Main, menu);
 
 			var addMenu = menu.Add (0, 1, 1, "Add");
@@ -81,7 +84,8 @@ namespace CheckinAppAndroid
 		}
 
 
-		public override bool OnOptionsItemSelected(IMenuItem item) {
+		public override bool OnOptionsItemSelected (IMenuItem item)
+		{
 			if (item.ItemId == 1) {
 				Intent intent = new Intent (this, typeof(AddMovieToCatalogActivity));
 				intent.PutExtra ("Name", catalog.Name);
@@ -113,24 +117,25 @@ namespace CheckinAppAndroid
 			return base.OnOptionsItemSelected (item);
 		}
 
-		public void ActualizarLista()
+		public void ActualizarLista ()
 		{
 			adapter.Clear ();
 			foreach (MoviexCatalog moviexcatalog in moviexcatalogs.All()) {
-				if(moviexcatalog.IdCatalog == catalog.Id)
-				{
+				if (moviexcatalog.IdCatalog == catalog.Id) {
 					adapter.Add (moviexcatalog);
 				}
 			}
 		}
 
-		protected override void OnActivityResult(int requestCode, Result resultCode, Intent intent) {
+		protected override void OnActivityResult (int requestCode, Result resultCode, Intent intent)
+		{
 			if (requestCode == 16) {
 				if (resultCode == Result.Ok) {
 					int moviexCatalogId = intent.GetIntExtra ("moviexCatalogId", 0);
-					var moviexCatalog = moviexcatalogs.Get (moviexCatalogId);
-
-					adapter.Add (moviexCatalog);
+					if (moviexCatalogId > 0) {
+						var moviexCatalog = moviexcatalogs.Get (moviexCatalogId);
+						adapter.Add (moviexCatalog);
+					}
 					// adapter.NotifyDataSetChanged ();
 				}
 			}

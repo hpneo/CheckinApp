@@ -37,15 +37,15 @@ namespace CheckinAppAndroid
 
 			webView.RequestFocus (FocusSearchDirection.Down);
 
-			webView.LoadUrl ("http://canchitapp.herokuapp.com/auth/" + AuthService.ToLower());
-
 			webView.SetWebViewClient (new AuthWebViewClient (this));
+
+			webView.LoadUrl ("http://canchitapp.herokuapp.com/auth/" + AuthService.ToLower());
 		}
 
 		public override bool OnKeyDown (Android.Views.Keycode keyCode, Android.Views.KeyEvent e)
 		{
 			if (keyCode == Keycode.Back && webView != null && webView.CanGoBack ()) {
-				webView.GoBack ();
+				// webView.GoBack ();
 				return true;
 			}
 
