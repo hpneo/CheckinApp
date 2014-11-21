@@ -36,8 +36,8 @@
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <ConsolePause>false</ConsolePause>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -63,11 +63,11 @@
       <HintPath>..\packages\Splat.1.5.1\lib\monoandroid\Splat.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Android.GoogleMaps" />
-    <Reference Include="GooglePlayServicesLib">
-      <HintPath>..\Components\googleplayservices-19.0.0.2\lib\android\GooglePlayServicesLib.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.Android.Support.v4">
       <HintPath>..\Components\xamandroidsupportv4-18-20.0.0.4\lib\android\Xamarin.Android.Support.v4.dll</HintPath>
+    </Reference>
+    <Reference Include="GooglePlayServicesLib">
+      <HintPath>..\Components\googleplayservices-19.0.0.2\lib\android\GooglePlayServicesLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
