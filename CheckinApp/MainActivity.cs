@@ -115,13 +115,13 @@ namespace CheckinAppAndroid
 			refreshMenu.SetIcon (Resource.Drawable.Refresh);
 			refreshMenu.SetShowAsAction (ShowAsAction.IfRoom);
 
-			var facebookMenu = menu.Add (2, (int)MenuConstants.MainFacebook, 3, "Authorize Facebook");
+			/*var facebookMenu = menu.Add (2, (int)MenuConstants.MainFacebook, 3, "Authorize Facebook");
 			facebookMenu.SetIcon (Resource.Drawable.Facebook);
 			facebookMenu.SetShowAsAction (ShowAsAction.IfRoom);
 
 			var twitterMenu = menu.Add (2, (int)MenuConstants.MainTwitter, 4, "Authorize Twitter");
 			twitterMenu.SetIcon (Resource.Drawable.Twitter);
-			twitterMenu.SetShowAsAction (ShowAsAction.IfRoom);
+			twitterMenu.SetShowAsAction (ShowAsAction.IfRoom);*/
 
 			return base.OnCreateOptionsMenu (menu);
 		}
