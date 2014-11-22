@@ -25,7 +25,6 @@ namespace CheckinAppAndroid
 			int user_id = sharedPreferences.GetInt ("user_id", 0);
 
 			Console.WriteLine ("LoginActivity:user_id: " + user_id);
-			Toast.MakeText (this, "LoginActivity:user_id: " + user_id, ToastLength.Long).Show ();
 
 			SetContentView (Resource.Layout.Login);
 
@@ -57,7 +56,12 @@ namespace CheckinAppAndroid
 			int user_id = sharedPreferences.GetInt ("user_id", 0);
 
 			Console.WriteLine ("LoginActivity:user_id: " + user_id);
-			Toast.MakeText (this, "LoginActivity:user_id: " + user_id, ToastLength.Long).Show ();
+
+			CheckinShared.Models.User user = AppHelper.GetCurrentUser (this);
+
+			if (user != null) {
+				user.SaveToParse ();
+			}
 
 			if (requestCode == (int)RequestsConstants.AuthRequest) {
 				if (resultCode == Result.Ok && user_id != 0) {

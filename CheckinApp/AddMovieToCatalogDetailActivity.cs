@@ -69,27 +69,31 @@ namespace CheckinAppAndroid
 
 			movie = movies.Get (movieId);
 
-			EditText textNombre = FindViewById<EditText> (Resource.Id.txtNombrePelicula);
-			textNombre.Text += movie.Title;
-
-			EditText textDirector = FindViewById<EditText> (Resource.Id.txtDirectorPelicula);
-			textDirector.Text += movie.Director;
-
 			TMDB api = new TMDB ();
 			if (movie.Overview == null) {
 				JObject movieJSON = await api.Find (movie.ApiId) as JObject;
 				movie.Overview = movieJSON ["overview"].ToString ();
 
 				movies.Update (movie);
-			} 	
+			}
 
-			if (movie.Director == null) {
-				JObject movieCreditsJSON = await api.GetCredits (movie.ApiId) as JObject;
+			JObject movieCreditsJSON = await api.GetCredits (movie.ApiId) as JObject;
 
+			if (movie.Director == "" || movie.Director == null) {
 				if (movieCreditsJSON ["crew"].Count () > 0) {
-					movie.Director = movieCreditsJSON ["crew"] [0] ["name"].ToString ();
+					for (var i = 0; i < movieCreditsJSON ["crew"].Count (); i++) {
+						var credit = movieCreditsJSON ["crew"] [i];
+						if (credit ["job"].ToString () == "Director") {
+							movie.Director = credit ["name"].ToString ();
+							break;
+						}
+					}
 				}
 
+				movies.Update (movie);
+			}
+
+			if (movie.Cast == "" || movie.Cast == null) {
 				movie.Cast = "";
 
 				for (var i = 0; i < movieCreditsJSON ["cast"].Count (); i++) {
@@ -98,6 +102,14 @@ namespace CheckinAppAndroid
 
 				movies.Update (movie);
 			}
+
+			movie.SaveToParse ();
+
+			EditText textNombre = FindViewById<EditText> (Resource.Id.txtNombrePelicula);
+			textNombre.Text += movie.Title;
+
+			EditText textDirector = FindViewById<EditText> (Resource.Id.txtDirectorPelicula);
+			textDirector.Text += movie.Director;
 
 			EditText textFecha = FindViewById<EditText> (Resource.Id.txtAñoEstrenoPelicula);
 			if (movie.Year != null) {
@@ -111,6 +123,8 @@ namespace CheckinAppAndroid
 			if (movie.PosterPath != null) {
 				Koush.UrlImageViewHelper.SetUrlDrawable (imgFoto, movie.PosterPath);
 			}
+
+			Spinner spinnerMovieType = FindViewById<Spinner> (Resource.Id.spinnerMovieType);
 
 			Button btnGuardar = FindViewById<Button> (Resource.Id.btnGuardarPelicula);
 			Button btnCancelar = FindViewById<Button> (Resource.Id.btnCancelarPelicula);
@@ -127,10 +141,15 @@ namespace CheckinAppAndroid
 
 				moviexcatalog.IdMovie = movie.Id;
 
+				if (spinnerMovieType.SelectedItemPosition == 0) {
+					moviexcatalog.MovieType = "Physical";
+				} else {
+					moviexcatalog.MovieType = "Digital";
+				}
+
 				if (Camera._file != null) {
 					moviexcatalog.PhotoPath = Camera._file.Path;
-				}
-				else {
+				} else {
 					moviexcatalog.PhotoPath = movie.PosterPath;
 				}
 
@@ -145,6 +164,11 @@ namespace CheckinAppAndroid
 				}
 
 				moviexcatalogs.Insert (moviexcatalog);
+				moviexcatalog.SaveToParse ();
+				if (idCatalog != -1) {
+					catalogs.Get (idCatalog).SaveToParse ();
+				}
+
 				System.Console.WriteLine (moviexcatalog.PhotoPath);
 				intent.PutExtra ("moviexCatalogId", moviexcatalog.Id);
 
@@ -224,9 +248,9 @@ namespace CheckinAppAndroid
 		{
 			MenuInflater.Inflate (Resource.Menu.Main, menu);
 
-			var addMenu = menu.Add (0, 1, 1, "Add");
+			/*var addMenu = menu.Add (0, 1, 1, "Add");
 			addMenu.SetIcon (Resource.Drawable.Add);
-			addMenu.SetShowAsAction (ShowAsAction.IfRoom);
+			addMenu.SetShowAsAction (ShowAsAction.IfRoom);*/
 
 			return base.OnCreateOptionsMenu (menu);
 		}

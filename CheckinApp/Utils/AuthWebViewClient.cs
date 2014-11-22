@@ -92,8 +92,6 @@ namespace CheckinAppAndroid
 
 				editor.Commit ();
 
-				Toast.MakeText (activity, "AuthWebViewClient:user_id: " + user_id, ToastLength.Short).Show ();
-
 				Intent intentToLogin = new Intent ();
 
 				intentToLogin.PutExtra ("authService", activity.AuthService);

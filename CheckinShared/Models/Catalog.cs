@@ -42,25 +42,32 @@ namespace CheckinShared.Models
 
 		async public void SaveToParse ()
 		{
-			if (this.ParseId + "" == "") {
-				IList<string> movies = new List<string> ();
-				MoviexCatalogDB moviexCatalogDB = new MoviexCatalogDB ();
-				foreach (MoviexCatalog moviexCatalog in moviexCatalogDB.All ().Where (mxc => mxc.IdCatalog.Equals (this.Id))) {
-					moviexCatalog.SaveToParse ();
-					movies.Add (moviexCatalog.ParseId);
-				}
+			ParseObject catalog;
+			if (this.ParseId == null || this.ParseId == "") {
+				catalog = new ParseObject ("Catalogo");
+			} else {
+				ParseQuery<ParseObject> query = ParseObject.GetQuery ("Catalogo");
+				catalog = await query.GetAsync (this.ParseId);
+			}
 
-				ParseObject catalog = new ParseObject ("Catalogo");
+			IList<string> movies = new List<string> ();
+			MoviexCatalogDB moviexCatalogDB = new MoviexCatalogDB ();
+			foreach (MoviexCatalog moviexCatalog in moviexCatalogDB.All ().Where (mxc => mxc.IdCatalog.Equals (this.Id))) {
+				moviexCatalog.SaveToParse ();
+				movies.Add (moviexCatalog.ParseId);
+			}
 
+			if (this.User != null) {
 				catalog ["Usuario"] = this.User.ParseId;
-				catalog ["Peliculas"] = movies;
+			}
+			catalog ["Peliculas"] = movies;
 
-				await catalog.SaveAsync ();
-
+			await catalog.SaveAsync ().ContinueWith (t => {
 				this.ParseId = catalog.ObjectId;
+				Console.WriteLine("Saved Catalog in Parse: " + this.ParseId);
 				CatalogDB catalogDB = new CatalogDB ();
 				catalogDB.Update (this);
-			}
+			});
 		}
 	}
 }

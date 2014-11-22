@@ -13,74 +13,34 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:padding="10dp">
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:text="Nombre:"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView1"
-                    android:textSize="20dp"
-                    android:textColor="#ff05a9ec"
-                    android:layout_marginLeft="5dp" />
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Nombre de la Película"
-                    android:id="@+id/txtNombrePelicula"
-                    android:layout_marginLeft="30dp" />
-            </LinearLayout>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:text="Año:"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView1"
-                    android:textSize="20dp"
-                    android:textColor="#ff05a9ec"
-                    android:layout_marginLeft="5dp" />
-                <EditText
-                    android:inputType="date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Fecha de Estreno"
-                    android:layout_marginLeft="65dp"
-                    android:id="@+id/txtAñoEstrenoPelicula" />
-            </LinearLayout>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:text="Director:"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/textView1"
-                    android:textSize="20dp"
-                    android:textColor="#ff05a9ec"
-                    android:layout_marginLeft="5dp" />
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Director de la Película"
-                    android:layout_marginLeft="30dp"
-                    android:id="@+id/txtDirectorPelicula" />
-            </LinearLayout>
-            <TextView
-                android:text="Descripción:"
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView1"
-                android:textSize="20dp"
-                android:textColor="#ff05a9ec"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp" />
+                android:hint="Nombre "
+                android:id="@+id/txtNombrePelicula"
+                android:layout_marginBottom="10dp"
+                android:inputType="textCapWords" />
+            <EditText
+                android:inputType="date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Año de Estreno"
+                android:id="@+id/txtAñoEstrenoPelicula"
+                android:layout_marginBottom="10dp" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Director"
+                android:id="@+id/txtDirectorPelicula"
+                android:layout_marginBottom="10dp"
+                android:inputType="textCapWords" />
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinnerMovieType"
+                android:spinnerMode="dropdown"
+                android:entries="@array/movie_types"
+                android:layout_marginBottom="10dp" />
             <EditText
                 android:inputType="textMultiLine"
                 android:layout_width="match_parent"
@@ -89,7 +49,8 @@
                 android:id="@+id/txtDescripcion"
                 android:layout_margin="5dp"
                 android:maxWidth="150dp"
-                android:height="80dp" />
+                android:height="100dp"
+                android:gravity="left" />
             <ImageView
                 android:src="@android:drawable/ic_menu_gallery"
                 android:layout_width="match_parent"
@@ -107,5 +68,6 @@
         android:text="Cancelar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnCancelarPelicula" />
+        android:id="@+id/btnCancelarPelicula"
+        android:visibility="gone" />
 </LinearLayout>

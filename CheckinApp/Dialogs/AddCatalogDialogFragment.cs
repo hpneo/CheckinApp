@@ -45,7 +45,10 @@ namespace CheckinAppAndroid
 				{
 					catalog.Name = textName.Text;
 					catalog.Quantity = 0;
+					catalog.UserId = AppHelper.GetCurrentUser(Activity).Id;
 					catalogs.Insert(catalog);
+
+					catalog.SaveToParse();
 
 					Console.WriteLine("ParentFragment: " + ParentFragment);
 

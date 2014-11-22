@@ -63,6 +63,22 @@ namespace CheckinAppAndroid
 			}
 		}
 		
+		public partial class Array
+		{
+			
+			// aapt resource value: 0x7f0c0000
+			public const int movie_types = 2131492864;
+			
+			static Array()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Array()
+			{
+			}
+		}
+		
 		public partial class Attribute
 		{
 			
@@ -1235,8 +1251,8 @@ namespace CheckinAppAndroid
 			// aapt resource value: 0x7f08005a
 			public const int btnGuardarPelicula = 2131230810;
 			
-			// aapt resource value: 0x7f08007b
-			public const int buttonCheckin = 2131230843;
+			// aapt resource value: 0x7f08007c
+			public const int buttonCheckin = 2131230844;
 			
 			// aapt resource value: 0x7f08006b
 			public const int buttonLoginWithFacebook = 2131230827;
@@ -1244,11 +1260,11 @@ namespace CheckinAppAndroid
 			// aapt resource value: 0x7f08006a
 			public const int buttonLoginWithTwitter = 2131230826;
 			
-			// aapt resource value: 0x7f08007c
-			public const int buttonShareFacebook = 2131230844;
-			
 			// aapt resource value: 0x7f08007d
-			public const int buttonShareTwitter = 2131230845;
+			public const int buttonShareFacebook = 2131230845;
+			
+			// aapt resource value: 0x7f08007e
+			public const int buttonShareTwitter = 2131230846;
 			
 			// aapt resource value: 0x7f08000a
 			public const int buyButton = 2131230730;
@@ -1358,20 +1374,20 @@ namespace CheckinAppAndroid
 			// aapt resource value: 0x7f08000c
 			public const int match_parent = 2131230732;
 			
-			// aapt resource value: 0x7f080081
-			public const int media_route_control_frame = 2131230849;
-			
 			// aapt resource value: 0x7f080082
-			public const int media_route_disconnect_button = 2131230850;
+			public const int media_route_control_frame = 2131230850;
 			
-			// aapt resource value: 0x7f08007e
-			public const int media_route_list = 2131230846;
+			// aapt resource value: 0x7f080083
+			public const int media_route_disconnect_button = 2131230851;
 			
 			// aapt resource value: 0x7f08007f
-			public const int media_route_volume_layout = 2131230847;
+			public const int media_route_list = 2131230847;
 			
 			// aapt resource value: 0x7f080080
-			public const int media_route_volume_slider = 2131230848;
+			public const int media_route_volume_layout = 2131230848;
+			
+			// aapt resource value: 0x7f080081
+			public const int media_route_volume_slider = 2131230849;
 			
 			// aapt resource value: 0x7f080024
 			public const int middle = 2131230756;
@@ -1463,6 +1479,9 @@ namespace CheckinAppAndroid
 			// aapt resource value: 0x7f080019
 			public const int showTitle = 2131230745;
 			
+			// aapt resource value: 0x7f080057
+			public const int spinnerMovieType = 2131230807;
+			
 			// aapt resource value: 0x7f080030
 			public const int split_action_bar = 2131230768;
 			
@@ -1489,9 +1508,6 @@ namespace CheckinAppAndroid
 			
 			// aapt resource value: 0x7f080003
 			public const int terrain = 2131230723;
-			
-			// aapt resource value: 0x7f080054
-			public const int textView1 = 2131230804;
 			
 			// aapt resource value: 0x7f080074
 			public const int textView10 = 2131230836;
@@ -1538,23 +1554,26 @@ namespace CheckinAppAndroid
 			// aapt resource value: 0x7f08004f
 			public const int txtAgregarCatalogo = 2131230799;
 			
-			// aapt resource value: 0x7f080056
-			public const int txtAñoEstrenoPelicula = 2131230806;
+			// aapt resource value: 0x7f080055
+			public const int txtAñoEstrenoPelicula = 2131230805;
 			
 			// aapt resource value: 0x7f080058
 			public const int txtDescripcion = 2131230808;
 			
-			// aapt resource value: 0x7f080057
-			public const int txtDirectorPelicula = 2131230807;
+			// aapt resource value: 0x7f080056
+			public const int txtDirectorPelicula = 2131230806;
 			
-			// aapt resource value: 0x7f080055
-			public const int txtNombrePelicula = 2131230805;
+			// aapt resource value: 0x7f080054
+			public const int txtNombrePelicula = 2131230804;
 			
 			// aapt resource value: 0x7f080033
 			public const int up = 2131230771;
 			
 			// aapt resource value: 0x7f080016
 			public const int useLogo = 2131230742;
+			
+			// aapt resource value: 0x7f08007b
+			public const int webViewMovieLocation = 2131230843;
 			
 			// aapt resource value: 0x7f08005c
 			public const int webviewDialog = 2131230812;
@@ -1736,8 +1755,8 @@ namespace CheckinAppAndroid
 		public partial class Menu
 		{
 			
-			// aapt resource value: 0x7f0c0000
-			public const int Main = 2131492864;
+			// aapt resource value: 0x7f0d0000
+			public const int Main = 2131558400;
 			
 			static Menu()
 			{
@@ -2077,6 +2096,9 @@ namespace CheckinAppAndroid
 			// aapt resource value: 0x7f05008e
 			public const int Theme_Base_AppCompat_DialogWhenLarge = 2131034254;
 			
+			// aapt resource value: 0x7f050092
+			public const int Theme_Base_AppCompat_DialogWhenLarge_Base = 2131034258;
+			
 			// aapt resource value: 0x7f05008a
 			public const int Theme_Base_AppCompat_Light = 2131034250;
 			
@@ -2085,6 +2107,9 @@ namespace CheckinAppAndroid
 			
 			// aapt resource value: 0x7f05008f
 			public const int Theme_Base_AppCompat_Light_DialogWhenLarge = 2131034255;
+			
+			// aapt resource value: 0x7f050093
+			public const int Theme_Base_AppCompat_Light_DialogWhenLarge_Base = 2131034259;
 			
 			// aapt resource value: 0x7f050088
 			public const int Theme_Base_Light = 2131034248;
@@ -2741,7 +2766,7 @@ namespace CheckinAppAndroid
 					16843055,
 					16843056,
 					16843057,
-					16843665};
+					16843754};
 			
 			// aapt resource value: 4
 			public const int MenuView_android_headerBackground = 4;

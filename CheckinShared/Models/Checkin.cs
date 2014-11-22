@@ -21,6 +21,12 @@ namespace CheckinShared.Models
 		[Column ("CreatedAt")] 
 		public DateTime CreatedAt { get; set; }
 
+		[Column ("Latitude")] 
+		public double Latitude { get; set; }
+
+		[Column ("Longitude")] 
+		public double Longitude { get; set; }
+
 		[Column ("ParseId")] 
 		public string ParseId { get; set; }
 
@@ -52,16 +58,28 @@ namespace CheckinShared.Models
 
 		async public void SaveToParse ()
 		{
-			ParseObject checkin = new ParseObject ("Checkin");
+			ParseObject checkin;
+			if (this.ParseId == null || this.ParseId == "") {
+				checkin = new ParseObject ("Checkin");
+			} else {
+				ParseQuery<ParseObject> query = ParseObject.GetQuery ("Checkin");
+				checkin = await query.GetAsync (this.ParseId);
+			}
 
-			checkin ["Pelicula"] = this.Movie.ParseId;
-			checkin ["Usuario"] = this.User.ParseId;
+			if (this.Movie != null) {
+				checkin ["Pelicula"] = this.Movie.ParseId;
+			}
+			if (this.User != null) {
+				checkin ["Usuario"] = this.User.ParseId;
+			}
+			checkin ["Coordenadas"] = new Parse.ParseGeoPoint (this.Latitude, this.Longitude);
 
-			await checkin.SaveAsync ();
-
-			this.ParseId = checkin.ObjectId;
-			CheckinDB checkinDB = new CheckinDB ();
-			checkinDB.Update (this);
+			await checkin.SaveAsync ().ContinueWith (t => {
+				this.ParseId = checkin.ObjectId;
+				Console.WriteLine("Saved Checkin in Parse: " + this.ParseId);
+				CheckinDB checkinDB = new CheckinDB ();
+				checkinDB.Update (this);
+			});
 		}
 	}
 }

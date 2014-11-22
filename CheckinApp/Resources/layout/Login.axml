@@ -9,8 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:id="@+id/imageViewLogo"
-        android:layout_marginBottom="20dp"
-        android:scaleType="fitCenter" />
+        android:layout_marginBottom="40dp"
+        android:scaleType="fitCenter"
+        android:layout_marginTop="50dp" />
     <Button
         android:text="Ingresa con Twitter"
         android:layout_width="match_parent"

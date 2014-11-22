@@ -19,7 +19,7 @@
                 android:layout_height="210dp"
                 android:id="@+id/linearLayout1">
                 <ImageView
-                    android:src="@drawable/the_dark_knight_poster"
+                    android:src="@drawable/Icon"
                     android:layout_width="140dp"
                     android:layout_height="fill_parent"
                     android:id="@+id/imageViewMoviePoster"
@@ -32,13 +32,11 @@
                     android:layout_toRightOf="@id/imageViewMoviePoster"
                     android:paddingLeft="10dp">
                     <TextView
-                        android:text="The Dark Knight"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/textViewMovieTitle" />
                     <TextView
-                        android:text="Batman raises the stakes in his war on crime. With the help of Lt. Jim Gordon and District Attorney Harvey Dent, Batman sets out to dismantle the remaining criminal organizations that plague the streets. The partnership proves to be effective, but they soon find themselves prey to a reign of chaos unleashed by a rising criminal mastermind known to the terrified citizens of Gotham as the Joker."
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/textViewMovieDescription"
@@ -120,11 +118,17 @@
                         android:paddingLeft="5dp" />
                 </TableRow>
             </TableLayout>
-            <FrameLayout
+        <!--<FrameLayout android:id="@+id/map" android:layout_width="match_parent" android:layout_height="300dp" android:layout_gravity="center_horizontal" />-->
+            <fragment
                 android:id="@+id/map"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_gravity="center_horizontal" />
+                class="com.google.android.gms.maps.MapFragment" />
+            <WebView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:id="@+id/webViewMovieLocation"
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
     <Button

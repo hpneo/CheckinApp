@@ -18,6 +18,9 @@ namespace CheckinShared.Models
 		[Column ("IdCatalog")] 
 		public int IdCatalog { get; set; }
 
+		[Column ("MovieType")] 
+		public string MovieType { get; set; }
+
 		public string PhotoPath { get; set; }
 
 		[Ignore]
@@ -43,17 +46,22 @@ namespace CheckinShared.Models
 
 		async public void SaveToParse ()
 		{
-			if (this.ParseId + "" == "") {
-				ParseObject moviexCatalog = new ParseObject ("Catalogo_detalle");
+			ParseObject moviexCatalog;
+			if (this.ParseId == null || this.ParseId == "") {
+				moviexCatalog = new ParseObject ("Catalogo_detalle");
+			} else {
+				ParseQuery<ParseObject> query = ParseObject.GetQuery ("Catalogo_detalle");
+				moviexCatalog = await query.GetAsync (this.ParseId);
+			}
 
-				moviexCatalog ["Pelicula"] = this.Movie.ParseId;
+			moviexCatalog ["Pelicula"] = this.Movie.ParseId;
 
-				await moviexCatalog.SaveAsync ();
-
+			await moviexCatalog.SaveAsync ().ContinueWith (t => {
 				this.ParseId = moviexCatalog.ObjectId;
+				Console.WriteLine("Saved MoviexCatalog in Parse: " + this.ParseId);
 				MoviexCatalogDB moviexCatalogDB = new MoviexCatalogDB ();
 				moviexCatalogDB.Update (this);
-			}
+			});
 		}
 	}
 }

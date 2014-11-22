@@ -41,43 +41,11 @@ namespace CheckinAppAndroid
 			int user_id = sharedPreferences.GetInt ("user_id", 0);
 
 			Console.WriteLine ("MainActivity:user_id: " + user_id);
-			Toast.MakeText (this, "MainActivity:user_id: " + user_id, ToastLength.Long).Show ();
 
 			if (user_id == 0) {
-				StartActivityForResult (typeof(LoginActivity), (int) RequestsConstants.LoginRequest);
+				StartActivityForResult (typeof(LoginActivity), (int)RequestsConstants.LoginRequest);
 			} else {
-				Console.WriteLine (AppHelper.GetCurrentUser (this));
-				SetContentView (Resource.Layout.Main);
-
-				appViewPager = FindViewById<ViewPager> (Resource.Id.appViewPager);
-
-				ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
-
-				appPagerAdapter = new AppPagerAdapter (SupportFragmentManager);
-
-				appViewPager.Adapter = appPagerAdapter;
-				appViewPager.SetOnPageChangeListener (new ViewPageListenerForActionBar (ActionBar));
-
-				var tabMovies = ActionBar.NewTab ();
-				tabMovies.SetText ("Películas");
-				tabMovies.TabSelected += (object sender, ActionBar.TabEventArgs e) => {
-					appViewPager.CurrentItem = ActionBar.SelectedNavigationIndex;
-				};
-
-				ActionBar.AddTab (tabMovies);
-
-				var tabPopular = ActionBar.NewTab ();
-				tabPopular.SetText ("Catálogo");
-				tabPopular.TabSelected += (object sender, ActionBar.TabEventArgs e) => {
-					appViewPager.CurrentItem = ActionBar.SelectedNavigationIndex;
-				};
-
-				ActionBar.AddTab (tabPopular);
-
-				if (bundle != null) {
-					category = bundle.GetInt ("Películas");
-					ActionBar.SelectTab (ActionBar.GetTabAt (category));
-				}
+				LoadMainActivity (bundle);
 			}
 		}
 
@@ -85,7 +53,7 @@ namespace CheckinAppAndroid
 		{
 			if (requestCode == (int)RequestsConstants.LoginRequest) {
 				if (resultCode == Result.Ok) {
-
+					LoadMainActivity (null);
 				}
 			} else {
 				if (appViewPager.CurrentItem == 0) {
@@ -151,6 +119,51 @@ namespace CheckinAppAndroid
 			return base.OnOptionsItemSelected (item);
 		}
 
+		protected override void OnResume ()
+		{
+			base.OnResume ();
+
+			if (appViewPager != null && appViewPager.CurrentItem == 1) {
+				appPagerAdapter.RefreshList (appViewPager.CurrentItem);
+			}
+		}
+
+		void LoadMainActivity (Bundle bundle)
+		{
+			Console.WriteLine (AppHelper.GetCurrentUser (this));
+			SetContentView (Resource.Layout.Main);
+
+			appViewPager = FindViewById<ViewPager> (Resource.Id.appViewPager);
+
+			ActionBar.NavigationMode = ActionBarNavigationMode.Tabs;
+
+			appPagerAdapter = new AppPagerAdapter (SupportFragmentManager);
+
+			appViewPager.Adapter = appPagerAdapter;
+			appViewPager.SetOnPageChangeListener (new ViewPageListenerForActionBar (ActionBar));
+
+			var tabMovies = ActionBar.NewTab ();
+			tabMovies.SetText ("Películas");
+			tabMovies.TabSelected += (object sender, ActionBar.TabEventArgs e) => {
+				appViewPager.CurrentItem = ActionBar.SelectedNavigationIndex;
+			};
+
+			ActionBar.AddTab (tabMovies);
+
+			var tabPopular = ActionBar.NewTab ();
+			tabPopular.SetText ("Catálogo");
+			tabPopular.TabSelected += (object sender, ActionBar.TabEventArgs e) => {
+				appViewPager.CurrentItem = ActionBar.SelectedNavigationIndex;
+			};
+
+			ActionBar.AddTab (tabPopular);
+
+			if (bundle != null) {
+				category = bundle.GetInt ("Películas");
+				ActionBar.SelectTab (ActionBar.GetTabAt (category));
+			}
+		}
+
 		void AddItem (IMenuItem item)
 		{
 			switch (appViewPager.CurrentItem) {
@@ -167,21 +180,26 @@ namespace CheckinAppAndroid
 
 		void RefreshItems (IMenuItem item)
 		{
+			ImageView imageView;
+			
 			Animation rotation = AnimationUtils.LoadAnimation (this, Resource.Animation.Rotate);
 			rotation.RepeatCount = Animation.Infinite;
 
-			ImageView imageView = (ImageView)LayoutInflater.Inflate (Resource.Layout.RefreshImageView, null);
+			imageView = (ImageView)LayoutInflater.Inflate (Resource.Layout.RefreshImageView, null);
 			imageView.StartAnimation (rotation);
 
 			item.SetActionView (imageView);
+			
 
 			appPagerAdapter.RefreshList (appViewPager.CurrentItem);
 
+			
 			Handler handler = new Handler ();
 			handler.PostDelayed (() => {
 				imageView.ClearAnimation ();
 				item.SetActionView (null);
 			}, 1000);
+			
 		}
 
 		public Android.Support.V4.App.Fragment CurrentFragment ()

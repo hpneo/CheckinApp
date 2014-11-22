@@ -46,7 +46,6 @@ namespace CheckinShared.Models
 
 		async public void SaveToParse ()
 		{
-			Task task;
 			ParseObject movie;
 			if (this.ParseId == null || this.ParseId == "") {
 				movie = new ParseObject ("Pelicula");
@@ -62,11 +61,12 @@ namespace CheckinShared.Models
 			movie ["ID_TMDB"] = this.ApiId;
 			movie ["Descripcion"] = this.Overview;
 
-			await movie.SaveAsync ();
-
-			this.ParseId = movie.ObjectId;
-			MovieDB movieDB = new MovieDB ();
-			movieDB.Update (this);
+			await movie.SaveAsync ().ContinueWith (t => {
+				this.ParseId = movie.ObjectId;
+				Console.WriteLine ("Saved Movie in Parse: " + this.ParseId);
+				MovieDB movieDB = new MovieDB ();
+				movieDB.Update (this);
+			});
 		}
 	}
 }
