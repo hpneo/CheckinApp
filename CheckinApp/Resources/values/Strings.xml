@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="hello">Hello World, Click Me!</string>
-	<string name="app_name">CheckinApp</string>
+	<string name="app_name">CanchitApp</string>
 	<string name="movie_cast">Christian Bale\nMaggie Gyllenhaal\nHeath Ledger\nMichael Caine\nAaron Eckhart</string>
 	<string-array name="movie_types">
 		<item>Película en físico</item>

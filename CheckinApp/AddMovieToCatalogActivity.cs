@@ -147,7 +147,6 @@ namespace CheckinAppAndroid
 		protected override void OnActivityResult(int requestCode, Result resultCode, Intent intent) {
 			if (requestCode == 30) {
 				if (resultCode == Result.Ok) {
-					int movieId = intent.GetIntExtra ("movieId", 0);
 					SetResult(Result.Ok, intent);
 					Finish();
 				}

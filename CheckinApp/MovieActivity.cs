@@ -258,7 +258,7 @@ namespace CheckinAppAndroid
 
 				MarkerOptions markerOptions = new MarkerOptions ();
 				markerOptions.SetPosition (UPC);
-				markerOptions.SetTitle ("CheckinApp");
+				markerOptions.SetTitle ("CanchitApp");
 				map.AddMarker (markerOptions);
 			}
 			/*_mapFragment = FragmentManager.FindFragmentByTag ("map") as MapFragment;
@@ -325,8 +325,20 @@ namespace CheckinAppAndroid
 
 			MarkerOptions markerOptions = new MarkerOptions ();
 			markerOptions.SetPosition (new LatLng(location.Latitude, location.Longitude));
-			markerOptions.SetTitle ("CheckinApp");
+			markerOptions.SetTitle ("CanchitApp");
 			map.AddMarker (markerOptions);
+
+			GoogleMapOptions mapOptions = new GoogleMapOptions ()
+				.InvokeCamera (CameraPosition.FromLatLngZoom (new LatLng(location.Latitude, location.Longitude), 16))
+				.InvokeScrollGesturesEnabled (true)
+				.InvokeMapType (GoogleMap.MapTypeNormal)
+				.InvokeZoomControlsEnabled (true)
+				.InvokeCompassEnabled (true);
+
+			FragmentTransaction fragTx = FragmentManager.BeginTransaction ();
+			mapFragment = MapFragment.NewInstance (mapOptions);
+			fragTx.Add (Resource.Id.map, mapFragment, "map");
+			fragTx.Commit ();
 		}
 
 		public void OnProviderDisabled (string provider)
@@ -335,7 +347,7 @@ namespace CheckinAppAndroid
 
 			MarkerOptions markerOptions = new MarkerOptions ();
 			markerOptions.SetPosition (UPC);
-			markerOptions.SetTitle ("CheckinApp");
+			markerOptions.SetTitle ("CanchitApp");
 			map.AddMarker (markerOptions);
 		}
 
@@ -386,37 +398,6 @@ namespace CheckinAppAndroid
 
 			return base.OnOptionsItemSelected (item);
 		}
-
-		async protected override void OnActivityResult (int requestCode, Result resultCode, Intent intent)
-		{
-			if (requestCode == (int)RequestsConstants.AuthRequest) {
-				if (resultCode == Result.Ok) {
-					string result;
-					/*if (intent.GetStringExtra ("authService") == "Facebook") {
-						var facebookClient = new CheckinShared.Facebook ("1492339931014967", "7ae094df0f071a1972ed7c7354943f9a");
-
-						facebookClient.UserToken = intent.GetStringExtra ("token");
-						result = await facebookClient.PublishFeed (new {
-							message = "En CanchitApp!"
-						}) as string;
-					} else {
-						var twitterClient = new CheckinShared.Twitter ("IO0mSObd1KnbSOkZXBvGchomD", "JiCrmSCOp0AR2m0zIjoY8Cq1STTbcjEPupMdpOkEihmHViQ5Lh");
-						twitterClient.UserToken = intent.GetStringExtra ("token");
-						twitterClient.UserSecret = intent.GetStringExtra ("secret");
-
-						Console.WriteLine ("Token: " + twitterClient.UserToken);
-						Console.WriteLine ("Secret: " + twitterClient.UserSecret);
-
-						result = await twitterClient.UpdateStatus (new {
-							status = "En CanchitApp!"
-						}) as string;
-					}
-					Console.WriteLine (result);*/
-				}
-			}
-		}
-
-	
 	}
 }
 

@@ -24,7 +24,7 @@ using System.Collections.Generic;
 
 namespace CheckinAppAndroid
 {
-	[Activity (Label = "CheckinApp", MainLauncher = true, Icon = "@drawable/icon", Theme = "@android:style/Theme.Holo.Light")]
+	[Activity (Label = "CanchitApp", MainLauncher = true, Icon = "@drawable/icon", Theme = "@android:style/Theme.Holo.Light")]
 	public class MainActivity : Android.Support.V4.App.FragmentActivity
 	{
 		private ViewPager appViewPager;

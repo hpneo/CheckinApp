@@ -220,7 +220,7 @@ namespace CheckinAppAndroid
 
 		private void CreateDirectoryForPictures ()
 		{
-			Camera._dir = new File (Environment.GetExternalStoragePublicDirectory (Environment.DirectoryPictures), "CheckinApp");
+			Camera._dir = new File (Environment.GetExternalStoragePublicDirectory (Environment.DirectoryPictures), "CanchitApp");
 			if (!Camera._dir.Exists ()) {
 				Camera._dir.Mkdirs ();
 			}
