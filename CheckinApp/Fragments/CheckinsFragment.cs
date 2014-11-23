@@ -52,7 +52,7 @@ namespace CheckinAppAndroid
 			movies = new CheckinShared.MovieDB ();
 			checkins = new CheckinShared.CheckinDB ();
 
-			Toast.MakeText(Activity, movies.Count() + " películas en tu colección", ToastLength.Long).Show();
+			// Toast.MakeText(Activity, movies.Count() + " películas en tu colección", ToastLength.Long).Show();
 
 			RefreshList ();
 
@@ -62,6 +62,8 @@ namespace CheckinAppAndroid
 		public void RefreshList()
 		{
 			adapter.Clear ();
+
+			Toast.MakeText(Activity, checkins.Count() + " películas en tu colección", ToastLength.Long).Show();
 
 			foreach (Checkin checkin in checkins.All()) {
 				if (checkin.Movie != null) {

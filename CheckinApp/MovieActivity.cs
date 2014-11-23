@@ -37,6 +37,7 @@ namespace CheckinAppAndroid
 		private static readonly LatLng UPC = new LatLng (-12.103951800, -76.963278100);
 		LocationManager locMgr;
 		string mode;
+		CheckinShared.Models.Movie movie;
 
 		Android.Locations.Location currentLocation;
 
@@ -51,7 +52,7 @@ namespace CheckinAppAndroid
 
 			int movieId = this.Intent.GetIntExtra ("movieId", 0);
 			mode = this.Intent.GetStringExtra ("mode");
-			var movie = movies.Get (movieId);
+			movie = movies.Get (movieId);
 
 			TMDB api = new TMDB ();
 
@@ -319,36 +320,40 @@ namespace CheckinAppAndroid
 		public void OnLocationChanged (Android.Locations.Location location)
 		{
 			currentLocation = location;
-			Console.WriteLine ("Latitude: " + location.Latitude.ToString ());
-			Console.WriteLine ("Longitude: " + location.Longitude.ToString ());
-			Console.WriteLine ("Provider: " + location.Provider.ToString ());
+			if (map != null) {
+				Console.WriteLine ("Latitude: " + location.Latitude.ToString ());
+				Console.WriteLine ("Longitude: " + location.Longitude.ToString ());
+				Console.WriteLine ("Provider: " + location.Provider.ToString ());
 
-			MarkerOptions markerOptions = new MarkerOptions ();
-			markerOptions.SetPosition (new LatLng(location.Latitude, location.Longitude));
-			markerOptions.SetTitle ("CanchitApp");
-			map.AddMarker (markerOptions);
+				MarkerOptions markerOptions = new MarkerOptions ();
+				markerOptions.SetPosition (new LatLng (location.Latitude, location.Longitude));
+				markerOptions.SetTitle ("CanchitApp");
+				map.AddMarker (markerOptions);
 
-			GoogleMapOptions mapOptions = new GoogleMapOptions ()
-				.InvokeCamera (CameraPosition.FromLatLngZoom (new LatLng(location.Latitude, location.Longitude), 16))
+				GoogleMapOptions mapOptions = new GoogleMapOptions ()
+				.InvokeCamera (CameraPosition.FromLatLngZoom (new LatLng (location.Latitude, location.Longitude), 16))
 				.InvokeScrollGesturesEnabled (true)
 				.InvokeMapType (GoogleMap.MapTypeNormal)
 				.InvokeZoomControlsEnabled (true)
 				.InvokeCompassEnabled (true);
 
-			FragmentTransaction fragTx = FragmentManager.BeginTransaction ();
-			mapFragment = MapFragment.NewInstance (mapOptions);
-			fragTx.Add (Resource.Id.map, mapFragment, "map");
-			fragTx.Commit ();
+				FragmentTransaction fragTx = FragmentManager.BeginTransaction ();
+				mapFragment = MapFragment.NewInstance (mapOptions);
+				fragTx.Add (Resource.Id.map, mapFragment, "map");
+				fragTx.Commit ();
+			}
 		}
 
 		public void OnProviderDisabled (string provider)
 		{
 			Console.WriteLine (provider + " disabled by user");
 
-			MarkerOptions markerOptions = new MarkerOptions ();
-			markerOptions.SetPosition (UPC);
-			markerOptions.SetTitle ("CanchitApp");
-			map.AddMarker (markerOptions);
+			if (map != null) {
+				MarkerOptions markerOptions = new MarkerOptions ();
+				markerOptions.SetPosition (UPC);
+				markerOptions.SetTitle ("CanchitApp");
+				map.AddMarker (markerOptions);
+			}
 		}
 
 		public void OnProviderEnabled (string provider)
@@ -397,6 +402,66 @@ namespace CheckinAppAndroid
 			}
 
 			return base.OnOptionsItemSelected (item);
+		}
+
+		async protected override void OnActivityResult (int requestCode, Result resultCode, Intent intent)
+		{
+			var self = this;
+			var sharedPreferences = GetSharedPreferences ("CheckinAppPreferences", FileCreationMode.WorldWriteable);
+
+			if (requestCode == (int)RequestsConstants.AuthRequest) {
+				if (resultCode == Result.Ok) {
+					var authService = intent.GetStringExtra ("authService");
+
+					if (authService == "Twitter") {
+						var twitterClient = new CheckinShared.Twitter ("IO0mSObd1KnbSOkZXBvGchomD", "JiCrmSCOp0AR2m0zIjoY8Cq1STTbcjEPupMdpOkEihmHViQ5Lh");
+						twitterClient.UserToken = sharedPreferences.GetString ("Twitter:token", "");
+						twitterClient.UserSecret = sharedPreferences.GetString ("Twitter:secret", "");
+
+						if (twitterClient.UserToken != "" && twitterClient.UserSecret != "") {
+							try {
+								string result = await twitterClient.UpdateStatus (new {
+									status = "Estoy viendo " + movie.Title + " (" + "https://www.themoviedb.org/movie/" + movie.ApiId + ")"
+								}) as string;
+
+								Console.WriteLine ("result: " + result);
+
+								Toast.MakeText (self, "Película compartida en Twitter", ToastLength.Short).Show ();
+							} catch (Exception ex) {
+								Console.WriteLine ("ex.Message");
+								Console.WriteLine (ex.Message);
+								Console.WriteLine ("ex.Message");
+								Toast.MakeText (self, "Hubo un error al compartir la película: " + ex.Source, ToastLength.Long).Show ();
+							}
+						}
+					} else if (authService == "Facebook") {
+						var facebookClient = new CheckinShared.Facebook ("1492339931014967", "7ae094df0f071a1972ed7c7354943f9a");
+						facebookClient.UserToken = sharedPreferences.GetString ("Facebook:token", "");
+
+						if (facebookClient.UserToken != "") {
+							try {
+								string result = await facebookClient.PublishFeed (new {
+									message = "Estoy viendo " + movie.Title,
+									link = "https://www.themoviedb.org/movie/" + movie.ApiId,
+									picture = movie.PosterPath,
+									name = movie.Title,
+									caption = movie.Year,
+									description = movie.Overview
+								}) as string;
+
+								Console.WriteLine ("result: " + result);
+
+								Toast.MakeText (self, "Película compartida en Facebook", ToastLength.Short).Show ();
+							} catch (Exception ex) {
+								Console.WriteLine ("ex.StackTrace");
+								Console.WriteLine (ex.StackTrace);
+								Console.WriteLine ("ex.StackTrace");
+								Toast.MakeText (self, "Hubo un error al compartir la película: " + ex.Source, ToastLength.Long).Show ();
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }
